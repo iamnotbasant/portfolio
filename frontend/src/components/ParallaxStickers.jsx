@@ -1,7 +1,7 @@
 import { useState, useEffect, memo } from "react";
 import bat from "../assets/images/batrang.png";
-
 import "../styles/ParallaxStickers.css";
+
 const ParallaxStickers = memo(() => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -40,7 +40,7 @@ const ParallaxStickers = memo(() => {
         alt="sticker"
         className="parallax-sticker sticker-3"
         style={{
-          transform: `translate(${position.x * 3}px, ${position.y * 3}px)`,
+          transform: `translate(${position.x * 3}px, ${position.y * -3}px)`,
         }}
       />
     </div>
