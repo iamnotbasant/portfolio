@@ -126,5 +126,14 @@ export const logout = async (req, res) => {
 };
 
 export const me = async (req, res) => {
-
+  try {
+    res.status(200).json({
+      success: true,
+      message: "User authenticated successfully",
+      user: req.loggedInUser,
+    });
+  } catch (error) {
+    console.error("Error getting user:", error);
+    res.status(500).json({ message: "Error getting user" });
+  }
 };
