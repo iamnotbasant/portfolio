@@ -1,59 +1,12 @@
 import React from "react";
 import bg from "../assets/images/arkham.png";
 import ParallaxStickers from "../components/ParallaxStickers";
+import { Navbar } from "../components/Navbar";
+
 export const FirstPage = () => {
   return (
     <div className="first-page min-h-screen w-full  relative">
-      {/* Navbar  */}
-      <div className="navbar">
-        <div className="flex justify-between items-center px-4 py-2 rounded-full w-[98vw] mx-auto">
-          <div className="logo text-4xl font-bold text-[#333] sepulture">
-            Arkham
-          </div>
-          <div>
-          <ul className="neue-montreal">
-              <li className="inline-block px-4 py-2">
-                <div className="nav-link-container">
-                  <span className="nav-link-text">How it works</span>
-                  <span className="nav-link-text-clone">How it works</span>
-                </div>
-              </li>
-              <li className="inline-block px-4 py-2">
-                <div className="nav-link-container">
-                  <span className="nav-link-text">Testimonials</span>
-                  <span className="nav-link-text-clone">Testimonials</span>
-                </div>
-              </li>
-              <li className="inline-block px-4 py-2">
-                <div className="nav-link-container">
-                  <span className="nav-link-text">Pricing</span>
-                  <span className="nav-link-text-clone">Pricing</span>
-                </div>
-              </li>
-              <li className="inline-block px-4 py-2">
-                <div className="nav-link-container">
-                  <span className="nav-link-text">Features</span>
-                  <span className="nav-link-text-clone">Features</span>
-                </div>
-              </li>
-              <li className="inline-block px-4 py-2">
-                <div className="nav-link-container">
-                  <span className="nav-link-text">FAQs</span>
-                  <span className="nav-link-text-clone">FAQs</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div className="flex gap-4">
-            <button className="text-[#00105f] sign-in-btn hover:text-[#000] neue-montreal transition duration-300 ease-in-out">
-              Login
-            </button>
-            <button className=" text-[#00105f] px-4 py-2 neue-montreal rounded-full hover:bg-[#555] transition duration-300 ease-in-out sign-up-btn">
-              Sign Up <span>✦</span>
-            </button>
-          </div>
-        </div>
-      </div>
+      <Navbar />
 
       <div className="flex flex-col justify-center items-center absolute z-[1] w-full">
         <div className=" h-[90vh] w-[98vw] relative overflow-hidden rounded-4xl">

@@ -97,6 +97,15 @@
   font-weight: 500;
 }
 
+@media (max-width: 768px) {
+  .sign-in-btn {
+    font-size: 1.25rem;
+  }
+  .sign-up-btn {
+    font-size: 1.25rem;
+  }
+}
+
 .sign-up-btn {
   box-shadow: inset 0 -8px 5px rgba(34, 0, 255, 0.5);
   transition: all 0.3s ease;
@@ -141,37 +150,4 @@
 
 .bg {
   filter: brightness(1.5) contrast(1.2);
-}
-
-.nav-link-container {
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-  cursor: pointer;
-  height: 1.5rem;
-}
-
-.nav-link-text,
-.nav-link-text-clone {
-  display: block;
-  position: relative;
-  color: #333;
-  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
-  font-weight: 500;
-}
-
-.nav-link-text-clone {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  color: #000;
-}
-
-.nav-link-container:hover .nav-link-text {
-  transform: translateY(-100%);
-}
-
-.nav-link-container:hover .nav-link-text-clone {
-  transform: translateY(-100%);
 }
