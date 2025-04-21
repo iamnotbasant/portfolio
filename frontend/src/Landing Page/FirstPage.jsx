@@ -23,7 +23,7 @@ export const FirstPage = () => {
           <div className="flex items-center justify-center gap-2 text-white px-3 py-1 rounded-full  uppercase shadow-lg batman-badge mb-4">
             <div className="dot"></div>Early Access
           </div>
-          <p className="text-sm text-white mb-4 opacity-70 tracking-wide neue-montreal">
+          <p className="text-sm text-white mb-4 opacity-70 tracking-wide neue-reg">
             Trusted by developers from top tech companies
           </p>
           <h1 className="text-5xl font-bold text-center hero-text ">

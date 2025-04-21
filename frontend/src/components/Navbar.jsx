@@ -30,7 +30,7 @@ export const Navbar = () => {
 
         {/* Desktop menu */}
         <div className="hidden lg:block">
-          <ul className="neue-montreal">
+          <ul className="neue-med">
             <li className="inline-block px-4 py-2">
               <div className="nav-link-container">
                 <span className="nav-link-text">How it works</span>
@@ -66,10 +66,10 @@ export const Navbar = () => {
 
         {/* Desktop buttons */}
         <div className="hidden lg:flex gap-4">
-          <button className="text-[#00105f] sign-in-btn hover:text-[#000] neue-montreal ease-in-out">
+          <button className="text-[#00105f] sign-in-btn hover:text-[#000] neue-med ease-in-out">
             Login
           </button>
-          <button className="text-[#00105f] px-4 py-2 neue-montreal rounded-full sign-up-btn">
+          <button className="text-[#00105f] px-4 py-2 neue-med rounded-full sign-up-btn">
             Sign Up <span>✦</span>
           </button>
         </div>
@@ -77,7 +77,7 @@ export const Navbar = () => {
 
       {/* Mobile menu */}
       <div className={`mobile-menu lg:hidden ${isOpen ? "open" : ""}`}>
-        <ul className="pt-6 pb-8 flex flex-col items-center neue-montreal">
+        <ul className="pt-12 pb-8 flex flex-col items-center neue-med">
           <li className="py-4">
             <div className="mobile-nav-link">
               <span>How it works</span>
@@ -104,10 +104,10 @@ export const Navbar = () => {
             </div>
           </li>
           <div className="flex flex-col gap-4 mt-4 items-center w-full">
-            <button className="text-[#00105f] sign-in-btn hover:text-[#000] neue-montreal transition duration-300 ease-in-out w-[80%]">
+            <button className="text-[#00105f] sign-in-btn hover:text-[#000] neue-med transition duration-300 ease-in-out w-[80%]">
               Login
             </button>
-            <button className="text-[#00105f] px-4 py-2 neue-montreal rounded-full hover:bg-[#555] transition duration-300 ease-in-out sign-up-btn">
+            <button className="text-[#00105f] px-4 py-2 neue-med rounded-full hover:bg-[#555] transition duration-300 ease-in-out sign-up-btn">
               Sign Up <span>✦</span>
             </button>
           </div>

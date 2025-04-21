@@ -9,9 +9,27 @@
   font-family: sepulture;
   src: url(./assets/fonts/Sepulture.ttf);
 }
+@font-face {
+  font-family: Neue-Med;
+  src: url(./assets/fonts/NeueMontreal-Medium.otf);
+}
 
-.neue-montreal {
-  font-family: Neue Montreal;
+@font-face {
+  font-family: Neue-Reg;
+  src: url(./assets/fonts/NeueMontreal-Regular.otf);
+}
+
+@font-face {
+  font-family: Libre Baskerville;
+  src: url(./assets/fonts/LibreBaskerville-Italic.ttf);
+}
+
+.neue-med {
+  font-family: Neue-Med;
+}
+
+.neue-reg {
+  font-family: Neue-Reg;
 }
 
 .sepulture {
