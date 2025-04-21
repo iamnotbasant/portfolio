@@ -17,3 +17,24 @@
 .sepulture {
   font-family: sepulture;
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: #797eff;
+}
+::-webkit-scrollbar-track {
+  background: #797eff;
+}
+::-webkit-scrollbar-thumb {
+  background: #4146d8;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1f23ae;
+}
+::-webkit-scrollbar-corner {
+  background: #797eff;
+}
+
+::-webkit-scrollbar-button {
+  background: #1f23ae;
+}

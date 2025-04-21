@@ -46,13 +46,15 @@ export const FirstPage = () => {
             alt="Arkham background"
           />
           <ParallaxStickers />
+          {/* <div className="spotlight-1"></div>
+          <div className="spotlight-2"></div> */}
         </div>
         <div className="z-[2] absolute top-0 left-0 w-full h-screen flex flex-col justify-center items-center">
           <div className="flex items-center justify-center gap-2 text-white px-3 py-1 rounded-full  uppercase shadow-lg batman-badge mb-4">
             <div className="dot"></div>Early Access
           </div>
 
-          <h1 className="text-5xl font-bold text-center hero-text text-white">
+          <h1 className="text-5xl font-bold text-center hero-text ">
             WELCOME TO <br />
             <span className="text-7xl">ARKHAM LABS</span>
           </h1>
