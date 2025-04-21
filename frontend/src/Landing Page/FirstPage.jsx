@@ -4,27 +4,43 @@ import ParallaxStickers from "../components/ParallaxStickers";
 export const FirstPage = () => {
   return (
     <div className="first-page min-h-screen w-full  relative">
-      <div className="navbar mb-2">
+      {/* Navbar  */}
+      <div className="navbar">
         <div className="flex justify-between items-center px-4 py-2 rounded-full w-[98vw] mx-auto">
           <div className="logo text-4xl font-bold text-[#333] sepulture">
             Arkham
           </div>
           <div>
-            <ul className="neue-montreal">
-              <li className="inline-block px-4 py-2 text-[#333] hover:text-[#000] transition duration-300 ease-in-out">
-                How it works
+          <ul className="neue-montreal">
+              <li className="inline-block px-4 py-2">
+                <div className="nav-link-container">
+                  <span className="nav-link-text">How it works</span>
+                  <span className="nav-link-text-clone">How it works</span>
+                </div>
               </li>
-              <li className="inline-block px-4 py-2 text-[#333] hover:text-[#000] transition duration-300 ease-in-out">
-                Testimonials
+              <li className="inline-block px-4 py-2">
+                <div className="nav-link-container">
+                  <span className="nav-link-text">Testimonials</span>
+                  <span className="nav-link-text-clone">Testimonials</span>
+                </div>
               </li>
-              <li className="inline-block px-4 py-2 text-[#333] hover:text-[#000] transition duration-300 ease-in-out">
-                Pricing
+              <li className="inline-block px-4 py-2">
+                <div className="nav-link-container">
+                  <span className="nav-link-text">Pricing</span>
+                  <span className="nav-link-text-clone">Pricing</span>
+                </div>
               </li>
-              <li className="inline-block px-4 py-2 text-[#333] hover:text-[#000] transition duration-300 ease-in-out">
-                Features
+              <li className="inline-block px-4 py-2">
+                <div className="nav-link-container">
+                  <span className="nav-link-text">Features</span>
+                  <span className="nav-link-text-clone">Features</span>
+                </div>
               </li>
-              <li className="inline-block px-4 py-2 text-[#333] hover:text-[#000] transition duration-300 ease-in-out">
-                FAQs
+              <li className="inline-block px-4 py-2">
+                <div className="nav-link-container">
+                  <span className="nav-link-text">FAQs</span>
+                  <span className="nav-link-text-clone">FAQs</span>
+                </div>
               </li>
             </ul>
           </div>
@@ -38,11 +54,12 @@ export const FirstPage = () => {
           </div>
         </div>
       </div>
+
       <div className="flex flex-col justify-center items-center absolute z-[1] w-full">
         <div className=" h-[90vh] w-[98vw] relative overflow-hidden rounded-4xl">
           <img
             src={bg}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover bg"
             alt="Arkham background"
           />
           <ParallaxStickers />
@@ -53,7 +70,9 @@ export const FirstPage = () => {
           <div className="flex items-center justify-center gap-2 text-white px-3 py-1 rounded-full  uppercase shadow-lg batman-badge mb-4">
             <div className="dot"></div>Early Access
           </div>
-
+          <p className="text-sm text-white mb-4 opacity-70 tracking-wide neue-montreal">
+            Trusted by developers from top tech companies
+          </p>
           <h1 className="text-5xl font-bold text-center hero-text ">
             WELCOME TO <br />
             <span className="text-7xl">ARKHAM LABS</span>
@@ -66,10 +85,6 @@ export const FirstPage = () => {
           <button className="mt-10 get-started-btn">
             <span>✦</span> &nbsp; Get Started
           </button>
-
-          <p className="text-sm text-white mt-8 opacity-70 tracking-wide neue-montreal">
-            Trusted by developers from top tech companies
-          </p>
         </div>
       </div>
     </div>

@@ -30,8 +30,8 @@
 }
 
 .dot {
-  width: 0.4em;
-  height: 0.4em;
+  width: 0.5em;
+  height: 0.5em;
   background-color: #0ad000;
   border-radius: 50%;
   display: inline-block;
@@ -109,6 +109,13 @@
   transform: translateY(-2px);
 }
 
+.sign-up-btn span {
+  transition: all 0.3s ease;
+}
+.sign-up-btn:hover span {
+  text-shadow: 0px 0px 10px rgb(34, 0, 255);
+}
+
 .spotlight-1 {
   background: linear-gradient(45deg, #fcffdb9c, #e9dd00);
   position: absolute;
@@ -128,7 +135,43 @@
   height: 40px;
   bottom: 40px;
   left: -140px;
-  rotate: -45deg;
-  transform: perspective(1000px) rotateX(0deg) rotateY(-60deg) rotateZ(0deg);
+  transform: perspective(1000px) rotateX(0deg) rotateY(-60deg) rotateZ(-40deg);
   filter: blur(40px);
+}
+
+.bg {
+  filter: brightness(1.5) contrast(1.2);
+}
+
+.nav-link-container {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
+  height: 1.5rem;
+}
+
+.nav-link-text,
+.nav-link-text-clone {
+  display: block;
+  position: relative;
+  color: #333;
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  font-weight: 500;
+}
+
+.nav-link-text-clone {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  color: #000;
+}
+
+.nav-link-container:hover .nav-link-text {
+  transform: translateY(-100%);
+}
+
+.nav-link-container:hover .nav-link-text-clone {
+  transform: translateY(-100%);
 }

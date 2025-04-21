@@ -32,7 +32,7 @@ const ParallaxStickers = memo(() => {
         alt="sticker"
         className="parallax-sticker sticker-2"
         style={{
-          transform: `translate(${position.x * -3}px, ${position.y * -3}px)`,
+          transform: `translate(${position.x * -2}px, ${position.y * -2}px)`,
         }}
       />
       <img
@@ -40,7 +40,7 @@ const ParallaxStickers = memo(() => {
         alt="sticker"
         className="parallax-sticker sticker-3"
         style={{
-          transform: `translate(${position.x * 3}px, ${position.y * -3}px)`,
+          transform: `translate(${position.x * 2}px, ${position.y * -2}px)`,
         }}
       />
     </div>
