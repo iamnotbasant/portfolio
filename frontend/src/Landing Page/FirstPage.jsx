@@ -19,14 +19,14 @@ export const FirstPage = () => {
           {/* <div className="spotlight-1"></div>
           <div className="spotlight-2"></div> */}
         </div>
-        <div className="z-[2] absolute top-0 left-0 w-full h-screen flex flex-col justify-center items-center">
+        <div className="z-[2] absolute sm:top-0 top-10 left-0 w-full h-screen flex flex-col sm:justify-center items-center">
           <div className="flex items-center justify-center gap-2 text-white px-3 py-1 rounded-full  uppercase shadow-lg batman-badge mb-4">
             <div className="dot"></div>Early Access
           </div>
           <p className="text-sm text-white mb-4 opacity-70 tracking-wide neue-reg">
             Trusted by developers from top tech companies
           </p>
-          <h1 className="text-5xl font-bold text-center hero-text ">
+          <h1 className="text-4xl font-bold text-center hero-text ">
             WELCOME TO <br />
             <span className="text-7xl">ARKHAM LABS</span>
           </h1>
