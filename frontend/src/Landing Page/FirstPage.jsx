@@ -19,7 +19,7 @@ export const FirstPage = () => {
           {/* <div className="spotlight-1"></div>
           <div className="spotlight-2"></div> */}
         </div>
-        <div className="z-[2] absolute sm:top-0 top-10 left-0 w-full h-screen flex flex-col sm:justify-center items-center">
+        <div className="z-[2] absolute sm:top-0 top-24 left-0 w-full h-screen flex flex-col sm:justify-center items-center">
           <div className="flex items-center justify-center gap-2 text-white px-3 py-1 rounded-full  uppercase shadow-lg batman-badge mb-4">
             <div className="dot"></div>Early Access
           </div>

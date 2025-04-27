@@ -37,3 +37,19 @@ export const authMiddleware = async (req, res, next) => {
     return res.status(500).json({ message: "Error authenticating User" });
   }
 };
+
+export const checkAdmin = async (req, res, next) => {
+  try {
+    const user = req.loggedInUser;
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized - No user found" });
+    }
+    if (user.role !== "ADMIN") {
+      return res.status(403).json({ message: "Forbidden - Admins only" });
+    }
+    next();
+  } catch (error) {
+    console.error("Error in checkAdmin middleware:", error);
+    return res.status(500).json({ message: "Error checking admin role" });
+  }
+};
