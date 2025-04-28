@@ -17,7 +17,9 @@ export const submitBatch = async (submissions) => {
         submissions,
       }
     );
-    return data;
+
+    console.log("Batch submission response:", data);
+    return data; // returns the tokens for the submissions
   } catch (error) {
     console.error("Error submitting batch to Judge0:", error.message);
     throw new Error(`Failed to submit code to Judge0: ${error.message}`);
