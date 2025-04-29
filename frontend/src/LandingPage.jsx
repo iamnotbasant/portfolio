@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { FirstPage } from "./Landing Page/FirstPage";
-import { SecondPage } from "./Landing Page/SecondPage";
-import { ThirdPage } from "./Landing Page/ThirdPage";
-import { FourthPage } from "./Landing Page/FourthPage";
+import { Features } from "./Landing Page/Features";
+import { Testimonials } from "./Landing Page/Testimonials";
+import { Pricing } from "./Landing Page/Pricing";
 import { FAQs } from "./Landing Page/FAQs";
 import { Footer } from "./Landing Page/Footer";
 import Lenis from "lenis";
@@ -30,9 +30,9 @@ export const LandingPage = () => {
   return (
     <div className="landing-page  bg-[#f9f9f9]">
       <FirstPage />
-      <SecondPage />
-      <ThirdPage />
-      <FourthPage />
+      <Features />
+      <Testimonials />
+      <Pricing />
       <FAQs />
       <Footer />
     </div>

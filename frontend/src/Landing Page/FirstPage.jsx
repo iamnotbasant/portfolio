@@ -6,7 +6,7 @@ import { Navbar } from "../components/Navbar";
 
 export const FirstPage = () => {
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
+  const isInView = useInView(sectionRef, { once: true });
 
   // Animation variants
   const imageVariants = {

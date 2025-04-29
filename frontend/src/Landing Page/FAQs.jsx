@@ -1,13 +1,12 @@
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import bg from "../assets/images/arkham6.png";
-import "../styles/FourthPage.css";
 import "../styles/FAQs.css";
 
 export const FAQs = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: false, amount: 0.3 });
+  const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
 
   const handleToggle = (index) => {
     setActiveIndex(activeIndex === index ? null : index);

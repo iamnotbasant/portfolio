@@ -1,9 +1,9 @@
 import React from "react";
 import bg from "../assets/images/arkham3.png";
 import batrang from "../assets/images/batrang.png";
-import "../styles/FourthPage.css";
+import "../styles/Pricing.css";
 
-export const FourthPage = () => {
+export const Pricing = () => {
   return (
     <div className="second-page min-h-[95vh] p-4">
       <div className="relative min-h-[95vh] rounded-4xl overflow-hidden sm:pb-0 pb-12">

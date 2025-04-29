@@ -5,7 +5,7 @@ import swords from "../assets/images/swords.svg";
 import bargraph from "../assets/images/bar-graph.svg";
 import "../styles/SecondPage.css";
 
-export const SecondPage = () => {
+export const Features = () => {
   return (
     <div className="second-page min-h-[95vh] p-4">
       <div className="relative min-h-[95vh] rounded-4xl overflow-hidden">

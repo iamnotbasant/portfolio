@@ -2,7 +2,7 @@ import React from "react";
 import bg from "../assets/images/arkham4.png";
 import "../styles/ThirdPage.css";
 
-export const ThirdPage = () => {
+export const Testimonials = () => {
   const testimonials = [
     {
       name: "Alex Chen",
