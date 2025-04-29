@@ -1,4 +1,5 @@
 import { useState, useEffect, memo } from "react";
+import { motion } from "framer-motion";
 import bat from "../assets/images/batrang.png";
 import "../styles/ParallaxStickers.css";
 
@@ -17,32 +18,109 @@ const ParallaxStickers = memo(() => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  const sticker1Variants = {
+    initial: {
+      opacity: 0,
+      scale: 0.5,
+      rotate: -270,
+    },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      rotate: 0,
+      transition: {
+        duration: 1,
+        delay: 0.3,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const sticker2Variants = {
+    initial: {
+      opacity: 0,
+      scale: 0.5,
+      rotate: 360,
+    },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      rotate: 0,
+      transition: {
+        duration: 1,
+        delay: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const sticker3Variants = {
+    initial: {
+      opacity: 0,
+      scale: 0.5,
+      rotate: 720,
+    },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      rotate: 0,
+      transition: {
+        duration: 1,
+        delay: 0.9,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
     <div className="stickers-container">
-      <img
-        src={bat}
-        alt="sticker"
-        className="parallax-sticker sticker-1"
+      <motion.div
+        className="parallax-wrapper "
         style={{
-          transform: `translate(${position.x * 2}px, ${position.y * 2}px)`,
+          transform: `translate(${position.x * 1}px, ${position.y * 1}px)`,
         }}
-      />
-      <img
-        src={bat}
-        alt="sticker"
-        className="parallax-sticker sticker-2"
+      >
+        <motion.img
+          variants={sticker1Variants}
+          initial="initial"
+          animate="animate"
+          src={bat}
+          alt="sticker"
+          className="parallax-sticker sticker-1"
+        />
+      </motion.div>
+
+      <motion.div
+        className="parallax-wrapper "
         style={{
-          transform: `translate(${position.x * -2}px, ${position.y * -2}px)`,
+          transform: `translate(${position.x * -1}px, ${position.y * -0.8}px)`,
         }}
-      />
-      <img
-        src={bat}
-        alt="sticker"
-        className="parallax-sticker sticker-3"
+      >
+        <motion.img
+          variants={sticker2Variants}
+          initial="initial"
+          animate="animate"
+          src={bat}
+          alt="sticker"
+          className="parallax-sticker sticker-2"
+        />
+      </motion.div>
+
+      <motion.div
+        className="parallax-wrapper "
         style={{
-          transform: `translate(${position.x * 2}px, ${position.y * -2}px)`,
+          transform: `translate(${position.x * 1.2}px, ${position.y * -1}px)`,
         }}
-      />
+      >
+        <motion.img
+          variants={sticker3Variants}
+          initial="initial"
+          animate="animate"
+          src={bat}
+          alt="sticker"
+          className="parallax-sticker sticker-3"
+        />
+      </motion.div>
     </div>
   );
 });

@@ -1,43 +1,152 @@
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import bg from "../assets/images/arkham.png";
 import ParallaxStickers from "../components/ParallaxStickers";
 import { Navbar } from "../components/Navbar";
 
 export const FirstPage = () => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
+
+  // Animation variants
+  const imageVariants = {
+    hidden: { scale: 1.1, opacity: 0.8 },
+    visible: { scale: 1, opacity: 1 },
+  };
+
+  const badgeVariants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const trustTextVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: {
+      opacity: 0.7,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: 0.2,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const headingVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        delay: 0.3,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const subheadingVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        delay: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const buttonVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3,
+        delay: 0.9,
+        ease: "easeOut",
+      },
+    },
+
+    tap: {
+      scale: 0.98,
+    },
+  };
+
   return (
-    <div className="first-page min-h-screen w-full relative">
+    <div className="first-page min-h-screen w-full relative" ref={sectionRef}>
       <Navbar />
 
       <div className="flex flex-col justify-center items-center absolute z-[1] w-full">
-        <div className=" h-[90vh] w-[98vw] relative overflow-hidden rounded-4xl">
-          <img
+        <div className="h-[90vh] w-[98vw] relative overflow-hidden rounded-4xl">
+          <motion.img
             src={bg}
             className="h-full w-full object-cover bg"
             alt="Arkham background"
+            variants={imageVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            transition={{ duration: 1.5 }}
           />
           <ParallaxStickers />
-          {/* <div className="spotlight-1"></div>
-          <div className="spotlight-2"></div> */}
         </div>
         <div className="z-[2] absolute sm:top-0 top-24 left-0 w-full h-screen flex flex-col sm:justify-center items-center">
-          <div className="flex items-center justify-center gap-2 text-white px-3 py-1 rounded-full  uppercase shadow-lg batman-badge mb-4">
+          <motion.div
+            className="flex items-center justify-center gap-2 text-white px-3 py-1 rounded-full uppercase shadow-lg batman-badge mb-4"
+            variants={badgeVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
             <div className="dot"></div>Early Access
-          </div>
-          <p className="text-sm text-white mb-4 opacity-70 tracking-wide neue-reg">
+          </motion.div>
+
+          <motion.p
+            className="text-sm text-white mb-4 opacity-70 tracking-wide neue-reg"
+            variants={trustTextVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
             Trusted by developers from top tech companies
-          </p>
-          <h1 className="text-4xl font-bold text-center hero-text text-white">
+          </motion.p>
+
+          <motion.h1
+            className="text-4xl font-bold text-center hero-text text-white"
+            variants={headingVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
             WELCOME TO <br />
             <span className="sm:text-9xl text-7xl">ARKHAM LABS</span>
-          </h1>
-          <p className="subhero-text text-xl text-center text-[#f9f9f9] mt-4">
+          </motion.h1>
+
+          <motion.p
+            className="subhero-text text-xl text-center text-[#f9f9f9] mt-4"
+            variants={subheadingVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
             Where <span className="italic">elite</span> minds sharpen <br />{" "}
             their <span className="italic">coding powers.</span>
-          </p>
+          </motion.p>
 
-          <button className="mt-10 get-started-btn">
+          <motion.button
+            className="mt-10 get-started-btn"
+            variants={buttonVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            whileTap="tap"
+          >
             <span>✦</span> &nbsp; Get Started
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>

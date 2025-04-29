@@ -3,6 +3,7 @@ import { FirstPage } from "./Landing Page/FirstPage";
 import { SecondPage } from "./Landing Page/SecondPage";
 import { ThirdPage } from "./Landing Page/ThirdPage";
 import { FourthPage } from "./Landing Page/FourthPage";
+import { FAQs } from "./Landing Page/FAQs";
 import { Footer } from "./Landing Page/Footer";
 import Lenis from "lenis";
 import "./styles/LandingPage.css";
@@ -32,7 +33,8 @@ export const LandingPage = () => {
       <SecondPage />
       <ThirdPage />
       <FourthPage />
-      {/* <Footer /> */}
+      <FAQs />
+      <Footer />
     </div>
   );
 };

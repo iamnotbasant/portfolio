@@ -20,7 +20,7 @@
   right: 40vw;
   scale: 0.5;
   rotate: -20deg;
-  filter: blur(12px);
+  filter: blur(20px);
 }
 
 .sticker-2 {
@@ -28,15 +28,15 @@
   left: 40vw;
   scale: 0.3;
   rotate: 20deg;
-  filter: blur(8px);
+  filter: blur(12px);
 }
 
 .sticker-3 {
   top: -20vw;
   left: -44vw;
-  scale: 0.14;
-  rotate: 20deg;
-  filter: blur(26px);
+  scale: 0.24;
+  rotate: 0deg;
+  filter: blur(8px);
 }
 
 /* Add more sticker positions as needed */
