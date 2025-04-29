@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { FirstPage } from "./Landing Page/FirstPage";
 import { SecondPage } from "./Landing Page/SecondPage";
+import { ThirdPage } from "./Landing Page/ThirdPage";
 import { Footer } from "./Landing Page/Footer";
 import Lenis from "lenis";
 import "./styles/LandingPage.css";
@@ -28,6 +29,7 @@ export const LandingPage = () => {
     <div className="landing-page  bg-[#f9f9f9]">
       <FirstPage />
       <SecondPage />
+      <ThirdPage />
       {/* <Footer /> */}
     </div>
   );

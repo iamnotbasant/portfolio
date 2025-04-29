@@ -26,9 +26,9 @@ export const FirstPage = () => {
           <p className="text-sm text-white mb-4 opacity-70 tracking-wide neue-reg">
             Trusted by developers from top tech companies
           </p>
-          <h1 className="text-4xl font-bold text-center hero-text ">
+          <h1 className="text-4xl font-bold text-center hero-text text-white">
             WELCOME TO <br />
-            <span className="text-7xl">ARKHAM LABS</span>
+            <span className="sm:text-9xl text-7xl">ARKHAM LABS</span>
           </h1>
           <p className="subhero-text text-xl text-center text-[#f9f9f9] mt-4">
             Where <span className="italic">elite</span> minds sharpen <br />{" "}

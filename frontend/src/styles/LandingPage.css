@@ -1,24 +1,11 @@
 .hero-text {
   font-family: sepulture;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  background-image: radial-gradient(
-    circle at 50% 50%,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 1) 20%,
-    rgba(255, 255, 255, 1) 40%,
-    rgba(255, 255, 255, 1) 60%,
-    rgba(228, 228, 228, 0.8) 80%,
-    rgb(75, 75, 75) 100%
-  );
+  color: rgb(249, 249, 249);
 }
 .subhero-text {
   font-family: Neue-med;
   font-weight: 500;
 }
-
-
 
 .batman-badge {
   font-family: Neue-reg;
