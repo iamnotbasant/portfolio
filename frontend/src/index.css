@@ -36,6 +36,10 @@
   font-family: sepulture;
 }
 
+.italic {
+  font-family: Libre Baskerville;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   background-color: #1b1b1b;

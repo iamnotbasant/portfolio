@@ -5,7 +5,7 @@ import { Navbar } from "../components/Navbar";
 
 export const FirstPage = () => {
   return (
-    <div className="first-page min-h-screen w-full  relative">
+    <div className="first-page min-h-screen w-full relative">
       <Navbar />
 
       <div className="flex flex-col justify-center items-center absolute z-[1] w-full">
