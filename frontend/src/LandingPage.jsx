@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { FirstPage } from "./Landing Page/FirstPage";
 import { SecondPage } from "./Landing Page/SecondPage";
 import { ThirdPage } from "./Landing Page/ThirdPage";
+import { FourthPage } from "./Landing Page/FourthPage";
 import { Footer } from "./Landing Page/Footer";
 import Lenis from "lenis";
 import "./styles/LandingPage.css";
@@ -30,6 +31,7 @@ export const LandingPage = () => {
       <FirstPage />
       <SecondPage />
       <ThirdPage />
+      <FourthPage />
       {/* <Footer /> */}
     </div>
   );

@@ -31,12 +31,12 @@ export const Navbar = () => {
         {/* Desktop menu */}
         <div className="hidden lg:block">
           <ul className="neue-med">
-            <li className="inline-block px-4 py-2">
+            {/* <li className="inline-block px-4 py-2">
               <div className="nav-link-container">
-                <span className="nav-link-text">How it works</span>
-                <span className="nav-link-text-clone">How it works</span>
+                <span className="nav-link-text">Home</span>
+                <span className="nav-link-text-clone">Home</span>
               </div>
-            </li>
+            </li> */}
             <li className="inline-block px-4 py-2">
               <div className="nav-link-container">
                 <span className="nav-link-text">Testimonials</span>
