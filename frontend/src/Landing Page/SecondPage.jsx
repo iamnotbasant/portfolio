@@ -1,7 +1,7 @@
 import React from "react";
 import bg from "../assets/images/arkham3.png";
 import batrang from "../assets/images/batrang.png";
-import brain from "../assets/images/brain.svg";
+import swords from "../assets/images/swords.svg";
 import bargraph from "../assets/images/bar-graph.svg";
 import "../styles/SecondPage.css";
 
@@ -12,32 +12,30 @@ export const SecondPage = () => {
         {/* Background Image */}
         <img
           src={bg}
-          className="absolute w-full h-full object-cover object-center bg"
+          className="absolute w-full h-full sm:object-cover object-fill bg"
           alt="Arkham background"
         />
 
         {/* Content Layer */}
         <div className="relative z-10 h-full w-full flex flex-col items-center">
-          <h1 className="text-6xl text-center mt-16 neue-montreal text-white/90 tracking-tighter neue-med">
+          <h1 className="sm:text-5xl text-4xl text-center mt-16 neue-montreal text-white/90 tracking-tighter neue-med">
             Features{" "}
-            <span className="italic tracking-normal text-5xl">
+            <span className="italic tracking-normal sm:text-5xl text-4xl">
               (you'll love)
             </span>
           </h1>
-          <p className="text-xl text-center mt-4 neue-montreal text-transparent bg-gradient-to-r from-white to-[#949494] bg-clip-text neue-med">
+          <p className="sm:text-lg text-base text-center mt-4 neue-montreal text-transparent bg-gradient-to-r from-white to-[#949494] bg-clip-text neue-med">
             Your very own Alfred — here to prep, guide, and power you through
             every challenge.
           </p>
 
           {/* cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 px-24">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:px-24">
             <div className="card">
-              <img
-                src={brain}
-                alt="Card 1"
-                className="card-image w-16 rounded-full"
-              />
-              <h2 className="card-title neue-med">Curated Challenges</h2>
+              <img src={swords} alt="Card 1" className="card-image w-16 " />
+              <h2 className="card-title neue-med">
+                Curated Challenges, Always One Step Ahead
+              </h2>
               <p className="card-description">
                 Alfred wouldn’t send you into the field without preparation and
                 neither do we. <br /> At Arkham Labs, every coding challenge is
@@ -75,11 +73,7 @@ export const SecondPage = () => {
             </div>
 
             <div className="card">
-              <img
-                src={bargraph}
-                alt="Card 3"
-                className="card-image w-16 rounded-full"
-              />
+              <img src={bargraph} alt="Card 3" className="card-image w-16 " />
               <h2 className="card-title neue-med">
                 Track Progress with Precision
               </h2>
