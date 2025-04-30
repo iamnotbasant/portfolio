@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import "../styles/Login.css";
-import bg from "../assets/images/arkham6.png";
-import batLogo from "../assets/images/batrang.png";
+import "../styles/SignUp.css";
+import bg from "../assets/images/arkham9.png";
+import batLogo from "../assets/images/batrang2.png";
 
 export const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -43,6 +43,37 @@ export const SignUp = () => {
     },
   };
 
+  const ButtonVariants = {
+    initial: { y: 20, opacity: 0 },
+    animate: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        visualDuration: 0.2,
+        bounce: 0.15,
+        mass: 0.2,
+        stiffness: 300,
+      },
+    },
+    hover: {
+      scale: 1.05,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 20,
+      },
+    },
+    tap: {
+      scale: 0.95,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 20,
+      },
+    },
+  };
+
   const logoVariants = {
     initial: { scale: 0.8, opacity: 0, rotate: -180 },
     animate: {
@@ -59,44 +90,67 @@ export const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex justify-center items-center login-container">
+    <div className="min-h-screen bg-black w-full flex justify-center items-center login-container">
       {/* Background */}
       <motion.div
         className="absolute inset-0 z-0"
         initial={{ scale: 1.1, opacity: 0.4 }}
-        animate={{ scale: 1, opacity: 0.8 }}
+        animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 1.8 }}
       >
         <img
           src={bg}
           alt="Arkham background"
-          className="w-full h-full object-cover bg filter blur-sm"
+          className="w-full h-full object-cover"
         />
-
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0d0d0d80] to-[#0d0d0d] opacity-90"></div>
       </motion.div>
 
       {/* Spotlight effects */}
       <motion.div
-        className="spotlight-1"
+        className="spotlight-1 signup-spotlight"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.3 }}
         transition={{ delay: 0.5, duration: 1.5 }}
       />
       <motion.div
-        className="spotlight-2"
+        className="spotlight-2 signup-spotlight"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.2 }}
+        animate={{ opacity: 0.3 }}
         transition={{ delay: 0.8, duration: 1.5 }}
       />
 
       <motion.div
-        className="z-10 login-form-container backdrop-blur-md"
+        className="signup-spotlight-3"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.3 }}
+        transition={{ delay: 0.8, duration: 1.5 }}
+      />
+
+      <motion.img
+        className="absolute w-[75%] mix-blend-color-dodge"
+        src={batLogo}
+        alt=""
+      />
+
+      {/* Back to home button */}
+      <motion.div
+        className="absolute top-5 left-5 text-white/70 transition-all duration-300 hover:text-white ease-linear"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.5 }}
+      >
+        <Link to="/" className="back-to-home neue-med">
+          ← Back to Home
+        </Link>
+      </motion.div>
+
+      <motion.div
+        className="z-10 signup-form-container backdrop-blur-md"
         variants={containerVariants}
         initial="initial"
         animate="animate"
       >
+        <div className="blue-glow"></div>
         {/* Logo */}
         <motion.div className="login-logo-container" variants={logoVariants}>
           <img src={batLogo} alt="Arkham Labs" className="login-logo" />
@@ -121,7 +175,7 @@ export const SignUp = () => {
           className="login-form"
           variants={containerVariants}
         >
-          <motion.div className="form-group" variants={itemVariants}>
+          <motion.div className="signup-form-group" variants={itemVariants}>
             <label htmlFor="name" className="form-label neue-med">
               Full Name
             </label>
@@ -130,13 +184,13 @@ export const SignUp = () => {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="form-input"
+              className="form-input signup-form-input"
               placeholder="Bruce Wayne"
               required
             />
           </motion.div>
 
-          <motion.div className="form-group" variants={itemVariants}>
+          <motion.div className="signup-form-group" variants={itemVariants}>
             <label htmlFor="email" className="form-label neue-med">
               Email
             </label>
@@ -145,13 +199,13 @@ export const SignUp = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="form-input"
+              className="form-input signup-form-input"
               placeholder="your.email@example.com"
               required
             />
           </motion.div>
 
-          <motion.div className="form-group" variants={itemVariants}>
+          <motion.div className="signup-form-group" variants={itemVariants}>
             <label htmlFor="password" className="form-label neue-med">
               Password
             </label>
@@ -160,13 +214,13 @@ export const SignUp = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="form-input"
+              className="form-input signup-form-input"
               placeholder="••••••••••••"
               required
             />
           </motion.div>
 
-          <motion.div className="form-group" variants={itemVariants}>
+          <motion.div className="signup-form-group" variants={itemVariants}>
             <label htmlFor="confirmPassword" className="form-label neue-med">
               Confirm Password
             </label>
@@ -175,7 +229,7 @@ export const SignUp = () => {
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="form-input"
+              className="form-input signup-form-input"
               placeholder="••••••••••••"
               required
             />
@@ -183,19 +237,18 @@ export const SignUp = () => {
 
           <motion.button
             type="submit"
-            className="login-button"
+            className="signup-button"
             whileHover={{
-              scale: 1.03,
-              boxShadow: "0 0 15px rgba(255, 255, 255, 0.2)",
+              scale: 1,
             }}
             whileTap={{ scale: 0.98 }}
-            variants={itemVariants}
+            variants={ButtonVariants}
           >
             <span className="login-btn-star">✦</span> Sign Up
           </motion.button>
 
           <motion.div
-            className="text-center mt-6 neue-reg"
+            className="text-center mt-6 neue-reg text-[#adadad]"
             variants={itemVariants}
           >
             Already have an account?{" "}

@@ -117,10 +117,10 @@ export const Navbar = () => {
       <motion.div
         className={`mobile-menu lg:hidden ${isOpen ? "open" : ""}`}
         initial={false}
-        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+        animate={{ height: isOpen ? "100vh" : 0, opacity: isOpen ? 1 : 1 }}
         transition={{
-          duration: 0.3,
-          ease: "easeInOut",
+          duration: 0.2,
+          ease: "anticipate",
         }}
       >
         <ul className="pt-12 pb-8 flex flex-col items-center neue-med">
@@ -140,16 +140,20 @@ export const Navbar = () => {
             </motion.li>
           ))}
           <div className="flex flex-col gap-4 mt-4 items-center w-full">
-            <motion.button
-              className="text-[#00105f] sign-in-btn hover:text-[#000] neue-med transition duration-300 ease-in-out w-[80%]"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Login
-            </motion.button>
-            <motion.button className="text-[#00105f] px-4 py-2 neue-med rounded-full transition duration-300 ease-in-out sign-up-btn">
-              Sign Up <span className="inline-block ml-1">✦</span>
-            </motion.button>
+            <Link to="/login">
+              <motion.button
+                className="text-[#00105f] sign-in-btn hover:text-[#000] neue-med transition duration-300 ease-in-out w-[80%]"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Login
+              </motion.button>
+            </Link>
+            <Link to="/sign-up">
+              <motion.button className="text-[#00105f] px-4 py-2 neue-med rounded-full transition duration-300 ease-in-out sign-up-btn">
+                Sign Up <span className="inline-block ml-1">✦</span>
+              </motion.button>
+            </Link>
           </div>
         </ul>
       </motion.div>

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import "../styles/Login.css";
 import bg from "../assets/images/arkham6.png";
-import batLogo from "../assets/images/batrang.png";
+import batLogo from "../assets/images/batrang2.png";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -43,6 +43,35 @@ export const Login = () => {
     },
   };
 
+  const loginButtonVariants = {
+    initial: { y: 20, opacity: 0 },
+    animate: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 50,
+        damping: 5,
+      },
+    },
+    hover: {
+      scale: 1.05,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 20,
+      },
+    },
+    tap: {
+      scale: 0.95,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 20,
+      },
+    },
+  };
+
   const logoVariants = {
     initial: { scale: 0.8, opacity: 0, rotate: -180 },
     animate: {
@@ -70,7 +99,7 @@ export const Login = () => {
         <img
           src={bg}
           alt="Arkham background"
-          className="w-full h-full object-cover "
+          className="w-full h-full object-cover"
         />
       </motion.div>
 
@@ -82,13 +111,35 @@ export const Login = () => {
         transition={{ delay: 0.5, duration: 1.5 }}
       />
       <motion.div
+        className="spotlight-3"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.26 }}
+        transition={{ delay: 0.8, duration: 1.5 }}
+      />
+      <motion.div
         className="spotlight-2"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.2 }}
+        animate={{ opacity: 0.3 }}
         transition={{ delay: 0.8, duration: 1.5 }}
       />
 
-      <img className="absolute w-[70%] mix-blend-color-dodge" src={batLogo} alt="" />
+      <motion.img
+        className="absolute w-[75%] mix-blend-color-dodge "
+        src={batLogo}
+        alt=""
+      />
+
+      {/* Back to home button */}
+      <motion.div
+        className="absolute top-5 left-5 text-white/70 transition-all duration-300 hover:text-white ease-linear"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.5 }}
+      >
+        <Link to="/" className="back-to-home neue-med">
+          ← Back to Home
+        </Link>
+      </motion.div>
 
       <motion.div
         className="z-10 login-form-container backdrop-blur-md"
@@ -96,6 +147,8 @@ export const Login = () => {
         initial="initial"
         animate="animate"
       >
+        <div className="green-glow"></div>
+
         {/* Logo */}
         <motion.div className="login-logo-container" variants={logoVariants}>
           <img src={batLogo} alt="Arkham Labs" className="login-logo" />
@@ -164,7 +217,7 @@ export const Login = () => {
               scale: 1,
             }}
             whileTap={{ scale: 0.98 }}
-            variants={itemVariants}
+            variants={loginButtonVariants}
           >
             <span className="login-btn-star">✦</span> Login
           </motion.button>

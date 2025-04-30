@@ -239,11 +239,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://kapil:kapil@localhost:5433/db"
+        "value": null
       }
     }
   },
