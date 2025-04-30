@@ -1,8 +1,12 @@
-import React from "react";
-import bg from "../assets/images/arkham7.png";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import bg from "../assets/images/arkham4.png";
 import "../styles/ThirdPage.css";
 
 export const Testimonials = () => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+
   const testimonials = [
     {
       name: "Alex Chen",
@@ -69,11 +73,31 @@ export const Testimonials = () => {
       company: "Anthropic",
     },
   ];
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 50,
+        damping: 10,
+        duration: 0.5,
+      },
+    },
+  };
+
   return (
-    <div id="testimonials" className="min-h-[95vh] p-4">
+    <div id="testimonials" className="min-h-[95vh] p-4" ref={sectionRef}>
       <div className="relative min-h-[95vh] rounded-4xl overflow-hidden">
-        {/* Background Image */}
-        <img
+        {/* Background Image with animation */}
+        <motion.img
+          initial={{ scale: 1.1, opacity: 0.8 }}
+          animate={
+            isInView ? { scale: 1, opacity: 1 } : { scale: 1.1, opacity: 0.8 }
+          }
+          transition={{ duration: 1.5 }}
           src={bg}
           className="absolute w-full h-full object-cover bg"
           alt="Arkham background"
@@ -81,49 +105,97 @@ export const Testimonials = () => {
 
         {/* Content Layer */}
         <div className="relative z-10 h-full w-full flex flex-col items-center">
-          <h1 className="sm:text-5xl text-4xl text-center mt-8 neue-montreal text-white/90 tracking-tighter neue-med">
+          <motion.h1
+            initial={{ y: -20, opacity: 0 }}
+            animate={isInView ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="sm:text-5xl text-4xl text-center mt-8 neue-montreal text-white/90 tracking-tighter neue-med"
+          >
             Testimonials{" "}
             {/* <span className="italic tracking-normal sm:text-5xl text-4xl">
               (you'll love)
             </span> */}
-          </h1>
-          <p className="sm:text-lg text-base text-center mt-2 neue-montreal text-transparent bg-gradient-to-r from-white to-[#949494] bg-clip-text neue-med">
+          </motion.h1>
+          <motion.p
+            initial={{ y: -15, opacity: 0 }}
+            animate={isInView ? { y: 0, opacity: 1 } : { y: -15, opacity: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            className="sm:text-lg text-base text-center mt-2 neue-montreal text-transparent bg-gradient-to-r from-white to-[#949494] bg-clip-text neue-med"
+          >
             Trained in Silence. Praised in Interviews.
-          </p>
+          </motion.p>
         </div>
 
-        {/* Testimonial cards */}
-        <div className="mt-8 mb-4 w-full overflow-hidden">
+        {/* Testimonial cards with animation */}
+        <motion.div
+          className="mt-8 mb-4 w-full overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+        >
           <div className="testimonial-track">
             {[...testimonials, ...testimonials].map((testimonial, index) => (
-              <div className="testimonial-card" key={`row1-${index}`}>
-                <div className="quote-icon">❝</div>
+              <motion.div
+                className="testimonial-card"
+                key={`row1-${index}`}
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: index * 0.1 }}
+              >
+                <motion.div
+                  className="quote-icon"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.3, delay: 0.1 + index * 0.1 }}
+                >
+                  ❝
+                </motion.div>
                 <p className="testimonial-text">{testimonial.text}</p>
                 <div className="testimonial-author">
                   <div className="author-name">{testimonial.name}</div>
                   <div className="author-role">{testimonial.role}</div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="mb-8 w-full overflow-hidden">
+        <motion.div
+          className="mb-8 w-full overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.7, delay: 0.6 }}
+        >
           <div className="testimonial-track-reverse">
             {[...moreTestimonials, ...moreTestimonials].map(
               (testimonial, index) => (
-                <div className="testimonial-card" key={`row2-${index}`}>
-                  <div className="quote-icon">❝</div>
+                <motion.div
+                  className="testimonial-card"
+                  key={`row2-${index}`}
+                  variants={cardVariants}
+                  initial="hidden"
+                  animate="visible"
+                  transition={{ delay: 0.2 + index * 0.1 }}
+                >
+                  <motion.div
+                    className="quote-icon"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
+                  >
+                    ❝
+                  </motion.div>
                   <p className="testimonial-text">{testimonial.text}</p>
                   <div className="testimonial-author">
                     <div className="author-name">{testimonial.name}</div>
                     <div className="author-role">{testimonial.role}</div>
                   </div>
-                </div>
+                </motion.div>
               )
             )}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

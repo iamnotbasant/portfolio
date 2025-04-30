@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import bg from "../assets/images/arkham3.png";
 import batrang from "../assets/images/batrang.png";
 import swords from "../assets/images/swords.svg";
@@ -6,11 +7,46 @@ import bargraph from "../assets/images/bar-graph.svg";
 import "../styles/SecondPage.css";
 
 export const Features = () => {
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
+
+  const iconVariants = {
+    hidden: { scale: 0.6, opacity: 0, rotate: -20 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      rotate: 0,
+      transition: {
+        type: "spring",
+        stiffness: 200,
+        damping: 15,
+      },
+    },
+    hover: {
+      scale: 1.1,
+      rotate: 10,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 10,
+      },
+    },
+  };
+
   return (
-    <div id="features" className="second-page min-h-[95vh] p-4">
+    <div
+      id="features"
+      className="second-page min-h-[95vh] p-4"
+      ref={sectionRef}
+    >
       <div className="relative min-h-[95vh] rounded-4xl overflow-hidden">
-        {/* Background Image */}
-        <img
+        {/* Background Image with animation */}
+        <motion.img
+          initial={{ scale: 1.1, opacity: 0.8 }}
+          animate={
+            isInView ? { scale: 1, opacity: 1 } : { scale: 1.1, opacity: 0.8 }
+          }
+          transition={{ duration: 1.5 }}
           src={bg}
           className="absolute w-full h-full sm:object-cover object-fill bg"
           alt="Arkham background"
@@ -18,26 +54,45 @@ export const Features = () => {
 
         {/* Content Layer */}
         <div className="relative z-10 h-full w-full flex flex-col items-center">
-          <h1 className="sm:text-5xl text-4xl text-center mt-16 neue-montreal text-white/90 tracking-tighter neue-med">
+          <motion.h1
+            initial={{ y: -20, opacity: 0 }}
+            animate={isInView ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="sm:text-5xl text-4xl text-center mt-16 neue-montreal text-white/90 tracking-tighter neue-med"
+          >
             Features{" "}
             <span className="italic tracking-normal sm:text-5xl text-4xl">
               (you'll love)
             </span>
-          </h1>
-          <p className="sm:text-lg text-base text-center mt-4 neue-montreal text-transparent bg-gradient-to-r from-white to-[#949494] bg-clip-text neue-med">
+          </motion.h1>
+          <motion.p
+            initial={{ y: -15, opacity: 0 }}
+            animate={isInView ? { y: 0, opacity: 1 } : { y: -15, opacity: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            className="sm:text-lg text-base text-center mt-4 neue-montreal text-transparent bg-gradient-to-r from-white to-[#949494] bg-clip-text neue-med"
+          >
             Your very own Alfred — here to prep, guide, and power you through
             every challenge.
-          </p>
+          </motion.p>
 
-          {/* cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:px-24">
-            <div className="card">
-              <img src={swords} alt="Card 1" className="card-image w-16 " />
+          {/* cards with animation */}
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:px-24"
+            initial="hidden"
+          >
+            <motion.div className="card" whileHover="hover">
+              <motion.img
+                variants={iconVariants}
+                whileHover="hover"
+                src={swords}
+                alt="Card 1"
+                className="card-image w-16"
+              />
               <h2 className="card-title neue-med">
                 Curated Challenges, Always One Step Ahead
               </h2>
               <p className="card-description">
-                Alfred wouldn’t send you into the field without preparation and
+                Alfred wouldn't send you into the field without preparation and
                 neither do we. <br /> At Arkham Labs, every coding challenge is
                 selected and{" "}
                 <span className="bright-text">
@@ -49,10 +104,12 @@ export const Features = () => {
                   Just a sharp climb to mastery.
                 </span>
               </p>
-            </div>
+            </motion.div>
 
-            <div className="card">
-              <img
+            <motion.div className="card" whileHover="hover">
+              <motion.img
+                variants={iconVariants}
+                whileHover="hover"
                 src={batrang}
                 alt="Card 2"
                 className="card-image w-24 rounded-full"
@@ -65,15 +122,21 @@ export const Features = () => {
                 <span className="bright-text">real-world conditions</span> with
                 timed challenges, limited hints, and dark-themed sessions built
                 to mimic interview pressure. With every session, you'll be one
-                step closer to walking into your interview like it’s{" "}
+                step closer to walking into your interview like it's{" "}
                 <span className="bright-text">
                   Gotham and you own the night.
                 </span>
               </p>
-            </div>
+            </motion.div>
 
-            <div className="card">
-              <img src={bargraph} alt="Card 3" className="card-image w-16 " />
+            <motion.div className="card" whileHover="hover">
+              <motion.img
+                variants={iconVariants}
+                whileHover="hover"
+                src={bargraph}
+                alt="Card 3"
+                className="card-image w-16"
+              />
               <h2 className="card-title neue-med">
                 Track Progress with Precision
               </h2>
@@ -87,8 +150,8 @@ export const Features = () => {
                 No guesswork — just clear metrics and intelligent suggestions on
                 what to do next.
               </p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </div>

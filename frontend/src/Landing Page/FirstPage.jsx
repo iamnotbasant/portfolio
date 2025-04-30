@@ -83,7 +83,11 @@ export const FirstPage = () => {
   };
 
   return (
-    <div className="first-page min-h-screen w-full relative" ref={sectionRef}>
+    <div
+      id="home"
+      className="first-page min-h-screen w-full relative"
+      ref={sectionRef}
+    >
       <Navbar />
 
       <div className="flex flex-col justify-center items-center absolute z-[1] w-full">
