@@ -1,19 +1,64 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import "../styles/SignUp.css";
 import bg from "../assets/images/arkham9.png";
 import batLogo from "../assets/images/batrang2.png";
+
+const BACKEND_URL = import.meta.env.VITE_API_URL;
 
 export const SignUp = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // SignUp logic would go here
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/auth/register`,
+        {
+          name,
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.data.success) {
+        // Store user info in localStorage for persistence
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        // Redirect based on user role
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.error("Sign up failed:", error);
+      if (error.response) {
+        // Server responded with an error
+        if (error.response.status === 400) {
+          setError("Invalid input. Please check your details.");
+        } else if (error.response.data.message) {
+          setError(error.response.data.message);
+        } else {
+          setError("Sign up failed. Please try again.");
+        }
+      } else if (error.request) {
+        // Request was made but no response
+        setError("Server not responding. Please try again later.");
+      } else {
+        // Something else happened
+        setError("An unexpected error occurred. Please try again.");
+      }
+    }
     console.log("Sign up attempt with:", { name, email, password });
   };
 
@@ -108,21 +153,21 @@ export const SignUp = () => {
       {/* Spotlight effects */}
       <motion.div
         className="spotlight-1 signup-spotlight"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
+        initial={{ opacity: 0, rotate: "270deg" }}
+        animate={{ opacity: 0.3, rotate: "310deg" }}
         transition={{ delay: 0.5, duration: 1.5 }}
       />
       <motion.div
         className="spotlight-2 signup-spotlight"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
+        initial={{ opacity: 0, rotate: "235deg" }}
+        animate={{ opacity: 0.26, rotate: "235deg" }}
         transition={{ delay: 0.8, duration: 1.5 }}
       />
 
       <motion.div
         className="signup-spotlight-3"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
+        initial={{ opacity: 0, rotate: "275deg" }}
+        animate={{ opacity: 0.26, rotate: "235deg" }}
         transition={{ delay: 0.8, duration: 1.5 }}
       />
 

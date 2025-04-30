@@ -150,7 +150,7 @@ export const Footer = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.2 }}
         >
           <motion.div
             className="footer-grid max-w-5xl"
@@ -162,7 +162,7 @@ export const Footer = () => {
                 initial={{ x: -20, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
               >
                 Explore
               </motion.h3>
@@ -174,7 +174,7 @@ export const Footer = () => {
                     custom={link.id}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: false }}
+                    viewport={{ once: true }}
                   >
                     <motion.a
                       whileHover={{ x: 5, color: "#ffffff" }}
@@ -208,7 +208,7 @@ export const Footer = () => {
                       custom={i}
                       initial="hidden"
                       whileInView="visible"
-                      viewport={{ once: false }}
+                      viewport={{ once: true }}
                     >
                       <motion.a
                         href={`#${item.toLowerCase().replace(/\s/g, "-")}`}
@@ -241,7 +241,7 @@ export const Footer = () => {
                     custom={item.name}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: false }}
+                    viewport={{ once: true }}
                   >
                     <motion.a
                       href={item.href}
@@ -276,7 +276,7 @@ export const Footer = () => {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
               >
                 Get early access and training tips delivered to your inbox
               </motion.p>
@@ -285,7 +285,7 @@ export const Footer = () => {
                 initial={{ y: 10, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 70, delay: 0.5 }}
-                viewport={{ once: false }}
+                viewport={{ once: true }}
               >
                 <motion.input
                   type="email"
@@ -328,7 +328,7 @@ export const Footer = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            viewport={{ once: false }}
+            viewport={{ once: true }}
           >
             <p>
               &copy; {new Date().getFullYear()} Arkham Labs. All rights

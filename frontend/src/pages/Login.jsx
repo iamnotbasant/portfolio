@@ -1,20 +1,68 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import "../styles/Login.css";
 import bg from "../assets/images/arkham6.png";
 import batLogo from "../assets/images/batrang2.png";
 
+const BACKEND_URL = import.meta.env.VITE_API_URL;
+
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Login logic would go here
-    console.log("Login attempt with:", { email, password });
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/auth/login`,
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.data.success) {
+        // Store user info in localStorage for persistence
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+
+        // Redirect based on user role
+        if (response.data.user.role === "ADMIN") {
+          navigate("/admin-dashboard");
+        } else {
+          navigate("/dashboard");
+        }
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      if (error.response) {
+        // Server responded with an error
+        if (error.response.status === 401) {
+          setError("Invalid email or password");
+        } else if (error.response.data.message) {
+          setError(error.response.data.message);
+        } else {
+          setError("Login failed. Please try again.");
+        }
+      } else if (error.request) {
+        // Request was made but no response
+        setError("Server not responding. Please try again later.");
+      } else {
+        setError("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Animation variants
@@ -106,20 +154,20 @@ export const Login = () => {
       {/* Spotlight effects */}
       <motion.div
         className="spotlight-1"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
+        initial={{ opacity: 0, rotate: "270deg" }}
+        animate={{ opacity: 0.3, rotate: "310deg" }}
         transition={{ delay: 0.5, duration: 1.5 }}
       />
       <motion.div
         className="spotlight-3"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.26 }}
+        initial={{ opacity: 0, rotate: "240deg" }}
+        animate={{ opacity: 0.26, rotate: "208deg" }}
         transition={{ delay: 0.8, duration: 1.5 }}
       />
       <motion.div
         className="spotlight-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.3 }}
+        initial={{ opacity: 0, rotate: "240deg" }}
+        animate={{ opacity: 0.3, rotate: "208deg" }}
         transition={{ delay: 0.8, duration: 1.5 }}
       />
 

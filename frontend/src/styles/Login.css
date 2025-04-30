@@ -231,20 +231,18 @@
   height: 70px;
   top: 50px;
   right: -300px;
-  rotate: 310deg;
   transform: perspective(1000px) rotateX(0deg) rotateY(60deg) rotateZ(0deg);
   filter: blur(30px);
   pointer-events: none;
 }
 
 .spotlight-2 {
-  background: linear-gradient(45deg, #fcffdb43 0%, #bcff37 40%);
+  background: linear-gradient(-45deg, #fcffdb43 0%, #bcff37 40%);
   position: absolute;
   width: 1200px;
   height: 70px;
   top: 290px;
   left: -300px;
-  rotate: 208deg;
   transform: perspective(1000px) rotateX(0deg) rotateY(60deg) rotateZ(0deg);
   filter: blur(50px);
   pointer-events: none;
@@ -260,7 +258,6 @@
   height: 100px;
   top: 180px;
   left: -600px;
-  rotate: 208deg;
   transform: perspective(1000px) rotateX(0deg) rotateY(60deg) rotateZ(0deg);
   filter: blur(30px);
   pointer-events: none;

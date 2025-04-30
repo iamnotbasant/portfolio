@@ -1,5 +1,5 @@
 import React from "react";
-import bg from "../assets/images/arkham4.png";
+import bg from "../assets/images/arkham7.png";
 import "../styles/ThirdPage.css";
 
 export const Testimonials = () => {
