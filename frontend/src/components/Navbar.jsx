@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import "../styles/Navbar.css";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,15 +10,52 @@ export const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  // Handle smooth scrolling to sections
+  const scrollToSection = (sectionId) => {
+    // Close mobile menu if open
+    if (isOpen) setIsOpen(false);
+
+    const element = document.getElementById(sectionId);
+    if (element) {
+      // Use smooth scrolling behavior
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
+  // Define navigation links
+  const navLinks = [
+    { name: "Features", id: "features" },
+    { name: "Testimonials", id: "testimonials" },
+    { name: "Pricing", id: "pricing" },
+    { name: "FAQs", id: "faqs" },
+  ];
+
   return (
-    <div className="navbar">
+    <motion.div
+      className="navbar"
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{
+        type: "spring",
+        stiffness: 50,
+        damping: 14,
+        delay: 0.2,
+      }}
+    >
       <div className="flex justify-between items-center px-4 py-2 rounded-full w-[95%] mx-auto">
         <div className="logo text-4xl font-bold text-[#333] sepulture z-50">
           Arkham
         </div>
 
         {/* Mobile hamburger button */}
-        <div className="hamburger-menu" onClick={toggleMenu}>
+        <motion.div
+          className="hamburger-menu"
+          onClick={toggleMenu}
+          whileTap={{ scale: 0.95 }}
+        >
           <div
             className={`hamburger-line line1 ${isOpen ? "active" : ""}`}
           ></div>
@@ -26,93 +65,94 @@ export const Navbar = () => {
           <div
             className={`hamburger-line line3 ${isOpen ? "active" : ""}`}
           ></div>
-        </div>
+        </motion.div>
 
         {/* Desktop menu */}
         <div className="hidden lg:block">
           <ul className="neue-med">
-            {/* <li className="inline-block px-4 py-2">
-              <div className="nav-link-container">
-                <span className="nav-link-text">Home</span>
-                <span className="nav-link-text-clone">Home</span>
-              </div>
-            </li> */}
-            <li className="inline-block px-4 py-2">
-              <div className="nav-link-container">
-                <span className="nav-link-text">Testimonials</span>
-                <span className="nav-link-text-clone">Testimonials</span>
-              </div>
-            </li>
-            <li className="inline-block px-4 py-2">
-              <div className="nav-link-container">
-                <span className="nav-link-text">Pricing</span>
-                <span className="nav-link-text-clone">Pricing</span>
-              </div>
-            </li>
-            <li className="inline-block px-4 py-2">
-              <div className="nav-link-container">
-                <span className="nav-link-text">Features</span>
-                <span className="nav-link-text-clone">Features</span>
-              </div>
-            </li>
-            <li className="inline-block px-4 py-2">
-              <div className="nav-link-container">
-                <span className="nav-link-text">FAQs</span>
-                <span className="nav-link-text-clone">FAQs</span>
-              </div>
-            </li>
+            {navLinks.map((link) => (
+              <motion.li
+                key={link.id}
+                className="inline-block px-4 py-2"
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <div
+                  className="nav-link-container cursor-pointer"
+                  onClick={() => scrollToSection(link.id)}
+                >
+                  <span className="nav-link-text">{link.name}</span>
+                  <span className="nav-link-text-clone">{link.name}</span>
+                </div>
+              </motion.li>
+            ))}
           </ul>
         </div>
 
         {/* Desktop buttons */}
         <div className="hidden lg:flex gap-4">
-          <button className="text-[#00105f] sign-in-btn hover:text-[#000] neue-med ease-in-out">
-            Login
-          </button>
-          <button className="text-[#00105f] px-4 py-2 neue-med rounded-full sign-up-btn">
-            Sign Up <span>✦</span>
-          </button>
+          <motion.button
+            className="text-[#00105f] sign-in-btn hover:text-[#000] neue-med ease-in-out"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 1 }}
+          >
+            <Link to="/login">Login</Link>
+          </motion.button>
+
+          <Link to="/sign-up">
+            <motion.button
+              className="text-[#00105f] px-4 py-2 neue-med rounded-full sign-up-btn"
+              whileHover={{
+                scale: 1.02,
+              }}
+              whileTap={{ scale: 1 }}
+            >
+              Sign Up <span className="inline-block ml-1">✦</span>
+            </motion.button>
+          </Link>
         </div>
       </div>
 
       {/* Mobile menu */}
-      <div className={`mobile-menu lg:hidden ${isOpen ? "open" : ""}`}>
+      <motion.div
+        className={`mobile-menu lg:hidden ${isOpen ? "open" : ""}`}
+        initial={false}
+        animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+        transition={{
+          duration: 0.3,
+          ease: "easeInOut",
+        }}
+      >
         <ul className="pt-12 pb-8 flex flex-col items-center neue-med">
-          <li className="py-4">
-            <div className="mobile-nav-link">
-              <span>How it works</span>
-            </div>
-          </li>
-          <li className="py-4">
-            <div className="mobile-nav-link">
-              <span>Testimonials</span>
-            </div>
-          </li>
-          <li className="py-4">
-            <div className="mobile-nav-link">
-              <span>Pricing</span>
-            </div>
-          </li>
-          <li className="py-4">
-            <div className="mobile-nav-link">
-              <span>Features</span>
-            </div>
-          </li>
-          <li className="py-4">
-            <div className="mobile-nav-link">
-              <span>FAQs</span>
-            </div>
-          </li>
+          {navLinks.map((link) => (
+            <motion.li
+              key={link.id}
+              className="py-4"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <div
+                className="mobile-nav-link cursor-pointer"
+                onClick={() => scrollToSection(link.id)}
+              >
+                <span>{link.name}</span>
+              </div>
+            </motion.li>
+          ))}
           <div className="flex flex-col gap-4 mt-4 items-center w-full">
-            <button className="text-[#00105f] sign-in-btn hover:text-[#000] neue-med transition duration-300 ease-in-out w-[80%]">
+            <motion.button
+              className="text-[#00105f] sign-in-btn hover:text-[#000] neue-med transition duration-300 ease-in-out w-[80%]"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
               Login
-            </button>
-            <button className="text-[#00105f] px-4 py-2 neue-med rounded-full hover:bg-[#555] transition duration-300 ease-in-out sign-up-btn">
-              Sign Up <span>✦</span>
-            </button>
+            </motion.button>
+            <motion.button className="text-[#00105f] px-4 py-2 neue-med rounded-full transition duration-300 ease-in-out sign-up-btn">
+              Sign Up <span className="inline-block ml-1">✦</span>
+            </motion.button>
           </div>
         </ul>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

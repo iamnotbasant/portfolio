@@ -5,7 +5,7 @@ import "../styles/Pricing.css";
 
 export const Pricing = () => {
   return (
-    <div className="second-page min-h-[95vh] p-4">
+    <div id="pricing" className="min-h-[95vh] p-4">
       <div className="relative min-h-[95vh] rounded-4xl overflow-hidden sm:pb-0 pb-12">
         {/* Background Image */}
         <img

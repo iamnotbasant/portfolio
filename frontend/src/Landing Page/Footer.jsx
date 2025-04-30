@@ -74,24 +74,44 @@ export const Footer = () => {
     tap: { scale: 0.98 },
   };
 
+  const navLinks = [
+    { name: "Features", id: "features" },
+    { name: "Testimonials", id: "testimonials" },
+    { name: "Pricing", id: "pricing" },
+    { name: "FAQs", id: "faqs" },
+  ];
+
+  const socialLinks = [
+    { name: "LinkedIn", href: "https://www.linkedin.com/in/kapilovsky/" },
+    { name: "Twitter", href: "https://x.com/kapilovsky" },
+    { name: "Github", href: "https://github.com/kapilovsky" },
+    { name: "Youtube", href: "https://www.youtube.com/@kapilovsky" },
+  ];
+
+  // Handle smooth scrolling to sections
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      // Use smooth scrolling behavior
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
-    <motion.div
-      className="min-h-[80vh] w-full flex flex-col justify-end items-center relative px-4"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.8 }}
-    >
+    <motion.div className="min-h-[70vh] w-full flex flex-col justify-end items-center relative px-4">
       <motion.div
         className="relative bg-[#0d0d0d] w-full h-full flex flex-col justify-start items-center rounded-t-4xl overflow-hidden"
-        initial={{ y: 100, opacity: 0 }}
+        initial={{ y: 200, opacity: 1 }}
         whileInView={{ y: 0, opacity: 1 }}
-        viewport={{ once: true, amount: 0.1 }}
+        viewport={{ once: true, amount: 0.2 }}
         transition={{
-          type: "spring",
-          stiffness: 50,
-          damping: 15,
-          mass: 1,
+          type: "tween",
+          duration: 1.5,
+          delay: 0.2,
+          ease: "anticipate",
         }}
       >
         {/* Background Image */}
@@ -99,7 +119,7 @@ export const Footer = () => {
           <motion.img
             initial={{ scale: 1.1, opacity: 0.7 }}
             whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 1.2 }}
             src={footer}
             className="z-[1] absolute pointer-events-none bottom-1 sm:bottom-0 left-0 object-cover w-full h-full"
@@ -112,7 +132,7 @@ export const Footer = () => {
           className="pattern-overlay"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 0.12 }}
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 1.5, delay: 0.3 }}
         />
 
@@ -130,7 +150,7 @@ export const Footer = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: false, amount: 0.2 }}
         >
           <motion.div
             className="footer-grid max-w-5xl"
@@ -141,32 +161,31 @@ export const Footer = () => {
                 className="footer-heading"
                 initial={{ x: -20, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 100 }}
-                viewport={{ once: true }}
+                transition={{ type: "spring", stiffness: 300 }}
+                viewport={{ once: false }}
               >
                 Explore
               </motion.h3>
               <ul className="footer-links">
-                {["Features", "Testimonials", "Pricing", "FAQs"].map(
-                  (item, i) => (
-                    <motion.li
-                      key={item}
-                      variants={itemVariants}
-                      custom={i}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true }}
+                {navLinks.map((link) => (
+                  <motion.li
+                    key={link.id}
+                    variants={itemVariants}
+                    custom={link.id}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: false }}
+                  >
+                    <motion.a
+                      whileHover={{ x: 5, color: "#ffffff" }}
+                      transition={{ type: "tween", duration: 0.2, delay: 0.1 }}
+                      onClick={() => scrollToSection(link.id)}
+                      className="cursor-pointer"
                     >
-                      <motion.a
-                        href={`#${item.toLowerCase()}`}
-                        whileHover={{ x: 5, color: "#ffffff" }}
-                        transition={{ type: "spring", stiffness: 300 }}
-                      >
-                        {item}
-                      </motion.a>
-                    </motion.li>
-                  )
-                )}
+                      {link.name}
+                    </motion.a>
+                  </motion.li>
+                ))}
               </ul>
             </motion.div>
 
@@ -175,7 +194,7 @@ export const Footer = () => {
                 className="footer-heading"
                 initial={{ x: -20, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 100, delay: 0.1 }}
+                transition={{ type: "spring", stiffness: 300, delay: 0.1 }}
                 viewport={{ once: true }}
               >
                 Company
@@ -189,7 +208,7 @@ export const Footer = () => {
                       custom={i}
                       initial="hidden"
                       whileInView="visible"
-                      viewport={{ once: true }}
+                      viewport={{ once: false }}
                     >
                       <motion.a
                         href={`#${item.toLowerCase().replace(/\s/g, "-")}`}
@@ -209,27 +228,30 @@ export const Footer = () => {
                 className="footer-heading"
                 initial={{ x: -20, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
-                transition={{ type: "spring", stiffness: 100, delay: 0.2 }}
+                transition={{ type: "spring", stiffness: 300, delay: 0.2 }}
                 viewport={{ once: true }}
               >
                 Socials
               </motion.h3>
               <ul className="footer-links">
-                {["LinkedIn", "Twitter", "Github", "Youtube"].map((item, i) => (
+                {socialLinks.map((item) => (
                   <motion.li
-                    key={item}
+                    key={item.name}
                     variants={itemVariants}
-                    custom={i}
+                    custom={item.name}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: true }}
+                    viewport={{ once: false }}
                   >
                     <motion.a
-                      href={`#${item.toLowerCase()}`}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cursor-pointer"
                       whileHover={{ x: 5, color: "#ffffff" }}
                       transition={{ type: "spring", stiffness: 300 }}
                     >
-                      {item}
+                      {item.name}
                     </motion.a>
                   </motion.li>
                 ))}
@@ -254,7 +276,7 @@ export const Footer = () => {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
               >
                 Get early access and training tips delivered to your inbox
               </motion.p>
@@ -263,7 +285,7 @@ export const Footer = () => {
                 initial={{ y: 10, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 70, delay: 0.5 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
               >
                 <motion.input
                   type="email"
@@ -305,8 +327,8 @@ export const Footer = () => {
             className="copyright sm:mt-[16em] sm:mb-2"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            viewport={{ once: false }}
           >
             <p>
               &copy; {new Date().getFullYear()} Arkham Labs. All rights
@@ -322,7 +344,7 @@ export const Footer = () => {
                 ],
               }}
               transition={{
-                duration: 4,
+                duration: 3,
                 repeat: Infinity,
                 repeatType: "reverse",
               }}
@@ -338,7 +360,7 @@ export const Footer = () => {
           variants={logoVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0.2 }}
         >
           Arkham
         </motion.h1>

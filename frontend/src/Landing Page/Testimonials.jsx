@@ -70,7 +70,7 @@ export const Testimonials = () => {
     },
   ];
   return (
-    <div className="second-page min-h-[95vh] p-4">
+    <div id="testimonials" className="min-h-[95vh] p-4">
       <div className="relative min-h-[95vh] rounded-4xl overflow-hidden">
         {/* Background Image */}
         <img

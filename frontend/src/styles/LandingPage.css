@@ -101,29 +101,6 @@
   text-shadow: 0px 0px 10px rgb(34, 0, 255);
 }
 
-.spotlight-1 {
-  background: linear-gradient(45deg, #fcffdb9c, #e9dd00);
-  position: absolute;
-  width: 1200px;
-  height: 40px;
-  bottom: 0px;
-  right: -300px;
-  rotate: 45deg;
-  transform: perspective(1000px) rotateX(0deg) rotateY(60deg) rotateZ(0deg);
-  filter: blur(40px);
-}
-
-.spotlight-2 {
-  background: linear-gradient(-45deg, #fcffdb9c, #e9dd00);
-  position: absolute;
-  width: 1000px;
-  height: 40px;
-  bottom: 40px;
-  left: -140px;
-  transform: perspective(1000px) rotateX(0deg) rotateY(-60deg) rotateZ(-40deg);
-  filter: blur(40px);
-}
-
 .bg {
   filter: brightness(0.8) contrast(1.2);
 }
