@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import "../styles/Navbar.css";
 import { Link } from "react-router-dom";
+import logo from "../assets/images/logo2.png";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,8 +47,8 @@ export const Navbar = () => {
       }}
     >
       <div className="flex justify-between items-center px-4 py-2 rounded-full w-[95%] mx-auto">
-        <div className="logo text-4xl font-bold text-[#333] sepulture z-50">
-          Arkham
+        <div className="logo w-[100px] h-auto z-50">
+          <img src={logo} alt="logo" />
         </div>
 
         {/* Mobile hamburger button */}
