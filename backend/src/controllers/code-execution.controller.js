@@ -1,4 +1,9 @@
-import { pollBatchResults, submitBatch } from "../libs/judge0.lib.js";
+import {
+  getLanguageName,
+  pollBatchResults,
+  submitBatch,
+} from "../libs/judge0.lib.js";
+import { db } from "../libs/db.js";
 
 export const executeCode = async (req, res) => {
   try {
@@ -39,15 +44,117 @@ export const executeCode = async (req, res) => {
     console.log("Result ---------");
     console.log(results);
 
-    res.status(200).json({
-      message: "Code executed successfully",
+    // Analyze test case results
+
+    let allPassed = true;
+    const detailedResults = results.map((result, index) => {
+      const expected = expectedOutput[index]?.trim();
+      const actual = result.stdout?.trim();
+
+      const passed = actual === expected;
+      if (!passed) {
+        allPassed = false;
+      }
+
+      console.log(`TestCase #${index + 1} ---------`);
+      console.log("Input:", stdin[index]);
+      console.log("Expected Output:", expected);
+      console.log("Actual Output:", actual);
+      console.log(`Did it pass ? ${passed}`);
+
+      return {
+        testCase: index + 1,
+        passed,
+        stdout: actual,
+        expected,
+        stderr: result.stderr || null,
+        compile_output: result.compile_output || null,
+        status: result.status.description,
+        memory: result.memory ? `${result.memory} KB` : undefined,
+        time: result.time ? `${result.time} seconds` : undefined,
+      };
     });
 
-    // const testResults = results.map((result, index) => ({
-    //   input: stdin[index],
-    //   expectedOutput: expectedOutput[index],
-    //   actualOutput: result.stdout,
-    //   status: result.status.description,
-    // }));
-  } catch (error) {}
+    console.log("Detailed Results", detailedResults);
+
+    const submission = await db.submission.create({
+      data: {
+        userId,
+        problemId,
+        sourceCode: { code: source_code },
+        language: getLanguageName[languageId],
+        stdin: stdin.join("\n"),
+        stdout: JSON.stringify(detailedResults.map((result) => result.stdout)),
+        stderr: detailedResults.some((result) => result.stderr)
+          ? JSON.stringify(detailedResults.map((result) => result.stderr))
+          : null,
+        compileOutput: detailedResults.some((result) => result.compile_output)
+          ? JSON.stringify(
+              detailedResults.map((result) => result.compile_output)
+            )
+          : null,
+        status: allPassed ? "ACCEPTED" : "WRONG_ANSWER",
+        memory: detailedResults.some((result) => result.memory)
+          ? JSON.stringify(detailedResults.map((result) => result.memory))
+          : null,
+        time: detailedResults.some((result) => result.time)
+          ? JSON.stringify(detailedResults.map((result) => result.time))
+          : null,
+      },
+    });
+
+    //If all test cases passed, mark the problem as solved
+    if (allPassed) {
+      await db.problemSolved.upsert({
+        where: {
+          userId_problemId: {
+            userId,
+            problemId,
+          },
+        },
+        create: {
+          userId,
+          problemId,
+        },
+        update: {},
+      });
+    }
+
+    // Save individual test case results using detailedResults
+
+    const testCaseResults = detailedResults.map((result) => ({
+      submissionId: submission.id,
+      testCase: result.testCase,
+      passed: result.passed,
+      stdout: result.stdout,
+      expected: result.expected,
+      stderr: result.stderr,
+      compileOutput: result.compile_output,
+      status: result.status,
+      memory: result.memory,
+      time: result.time,
+    }));
+
+    await db.testCaseResult.createMany({
+      data: testCaseResults,
+    });
+
+    const submissionWithTestCase = await db.submission.findUnique({
+      where: {
+        id: submission.id,
+      },
+      include: {
+        testCases: true,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Code executed successfully",
+      submission: submissionWithTestCase,
+    });
+  } catch (error) {
+    console.error("Error executing code:", error);
+    res.status(500).json({ error: "Error While Executing Code" });
+  }
 };

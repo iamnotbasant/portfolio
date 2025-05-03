@@ -4,6 +4,7 @@ import {
   submitBatch,
   pollBatchResults,
 } from "../libs/judge0.lib.js";
+
 export const createProblem = async (req, res) => {
   //get all the data from the request body
   const {
@@ -91,6 +92,7 @@ export const createProblem = async (req, res) => {
     return res.status(500).json({ error: "Error in creating problem" });
   }
 };
+
 export const getAllProblems = async (req, res) => {
   try {
     const problems = await db.problem.findMany();
@@ -108,6 +110,7 @@ export const getAllProblems = async (req, res) => {
     return res.status(500).json({ error: "Error While Fetching Problems" });
   }
 };
+
 export const getProblemById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -267,4 +270,5 @@ export const deleteProblem = async (req, res) => {
     return res.status(500).json({ error: "Error While Deleting Problem" });
   }
 };
+
 export const getAllProblemsSolvedByUser = async (req, res) => {};

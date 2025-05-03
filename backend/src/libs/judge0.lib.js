@@ -52,3 +52,12 @@ export const pollBatchResults = async (tokens) => {
 };
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export function getLanguageName(languageId) {
+  const languageMap = {
+    71: "Python",
+    63: "JavaScript",
+    62: "Java",
+  };
+  return languageMap[languageId] || "Unknown Language";
+}
