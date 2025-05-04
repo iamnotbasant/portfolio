@@ -84,7 +84,7 @@ const ParallaxStickers = memo(() => {
         <motion.img
           variants={sticker1Variants}
           initial="initial"
-          animate="animate"
+          animate={isInView ? "animate" : "initial"}
           src={bat}
           alt="sticker"
           className="parallax-sticker sticker-1"
@@ -100,7 +100,7 @@ const ParallaxStickers = memo(() => {
         <motion.img
           variants={sticker2Variants}
           initial="initial"
-          animate="animate"
+          animate={isInView ? "animate" : "initial"}
           src={bat}
           alt="sticker"
           className="parallax-sticker sticker-2"
@@ -116,7 +116,7 @@ const ParallaxStickers = memo(() => {
         <motion.img
           variants={sticker3Variants}
           initial="initial"
-          animate="animate"
+          animate={isInView ? "animate" : "initial"}
           src={bat}
           alt="sticker"
           className="parallax-sticker sticker-3"

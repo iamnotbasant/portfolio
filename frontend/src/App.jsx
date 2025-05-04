@@ -6,6 +6,7 @@ import { SignUp } from "./pages/SignUp";
 import { Dashboard } from "./pages/user/Dashboard";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { Analytics } from "@vercel/analytics/react";
+import bg from "./assets/images/arkham.png";
 
 function App() {
   return (
