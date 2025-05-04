@@ -10,7 +10,7 @@ export const FirstPage = () => {
 
   // Animation variants
   const imageVariants = {
-    hidden: { scale: 1.1, opacity: 0.8 },
+    hidden: { scale: 1.1, opacity: 1 },
     visible: { scale: 1, opacity: 1 },
   };
 
@@ -83,8 +83,11 @@ export const FirstPage = () => {
   };
 
   return (
-    <div
+    <motion.div
       id="home"
+      initial={{ backgroundColor: "#000" }}
+      animate={{ backgroundColor: "#f9f9f9" }}
+      transition={{ duration: 1.5, ease: "anticipate", type: "tween" }}
       className="first-page min-h-screen w-full relative"
       ref={sectionRef}
     >
@@ -101,6 +104,8 @@ export const FirstPage = () => {
             animate={isInView ? "visible" : "hidden"}
             transition={{ duration: 1.5 }}
             loading="eager"
+            fetchPriority="high"
+            decoding="async"
           />
           <ParallaxStickers />
         </div>
@@ -154,6 +159,6 @@ export const FirstPage = () => {
           </motion.button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

@@ -111,7 +111,7 @@ export const Features = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.7, delay: 0.4, ease: "easeIn" }}
+              transition={{ duration: 0.7, delay: 0.5, ease: "easeIn" }}
               className="card"
             >
               <motion.img
@@ -139,7 +139,7 @@ export const Features = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.7, delay: 0.6, ease: "easeIn" }}
+              transition={{ duration: 0.7, delay: 0.8, ease: "easeIn" }}
               className="card"
             >
               <motion.img

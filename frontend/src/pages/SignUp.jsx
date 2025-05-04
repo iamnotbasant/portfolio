@@ -148,6 +148,8 @@ export const SignUp = () => {
           alt="Arkham background"
           className="w-full h-full object-cover"
           loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
       </motion.div>
 
@@ -177,6 +179,8 @@ export const SignUp = () => {
         src={batLogo}
         alt=""
         loading="eager"
+        fetchPriority="high"
+        decoding="async"
       />
 
       {/* Back to home button */}
@@ -204,6 +208,8 @@ export const SignUp = () => {
             src={batLogo}
             alt="Arkham Labs"
             loading="eager"
+            fetchPriority="high"
+            decoding="async"
             className="login-logo"
           />
         </motion.div>

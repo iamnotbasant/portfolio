@@ -8,21 +8,6 @@ export const Pricing = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
-  // Animation variants for cards
-  const cardVariants = {
-    hidden: { y: 100, opacity: 0 },
-    visible: (i) => ({
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 12,
-        delay: i * 0.4,
-      },
-    }),
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -138,7 +123,7 @@ export const Pricing = () => {
               custom={1}
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.7, delay: 0.4, ease: "easeIn" }}
+              transition={{ duration: 0.7, delay: 0.5, ease: "easeIn" }}
             >
               <div className="w-full flex items-center justify-center">
                 <motion.div className="badge neue-med" initial="initial">
@@ -176,7 +161,7 @@ export const Pricing = () => {
               custom={2}
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.7, delay: 0.6, ease: "easeIn" }}
+              transition={{ duration: 0.7, delay: 0.8, ease: "easeIn" }}
             >
               <motion.img
                 src={batrang}

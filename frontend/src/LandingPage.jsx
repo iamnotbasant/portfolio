@@ -29,7 +29,7 @@ export const LandingPage = () => {
     };
   }, []);
   return (
-    <div className="landing-page  bg-[#f9f9f9]">
+    <div className="landing-page  bg-[#f9f9f9] ">
       <FirstPage />
       <Features />
       <Testimonials />

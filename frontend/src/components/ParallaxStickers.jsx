@@ -1,11 +1,12 @@
-import { useState, useEffect, memo } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, memo, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import bat from "../assets/images/batrang.png";
 import "../styles/ParallaxStickers.css";
 
 const ParallaxStickers = memo(() => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
-
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true });
   useEffect(() => {
     const handleMouseMove = (e) => {
       // Calculate mouse position relative to center of screen
@@ -73,7 +74,7 @@ const ParallaxStickers = memo(() => {
   };
 
   return (
-    <div className="stickers-container">
+    <div ref={sectionRef} className="stickers-container">
       <motion.div
         className="parallax-wrapper "
         style={{
