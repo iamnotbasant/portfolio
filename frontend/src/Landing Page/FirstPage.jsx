@@ -100,6 +100,7 @@ export const FirstPage = () => {
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             transition={{ duration: 1.5 }}
+            loading="eager"
           />
           <ParallaxStickers />
         </div>

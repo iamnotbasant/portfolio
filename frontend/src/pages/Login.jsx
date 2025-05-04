@@ -148,6 +148,7 @@ export const Login = () => {
           src={bg}
           alt="Arkham background"
           className="w-full h-full object-cover"
+          loading="eager"
         />
       </motion.div>
 
@@ -175,6 +176,7 @@ export const Login = () => {
         className="absolute w-[75%] mix-blend-color-dodge "
         src={batLogo}
         alt=""
+        loading="eager"
       />
 
       {/* Back to home button */}
@@ -199,7 +201,12 @@ export const Login = () => {
 
         {/* Logo */}
         <motion.div className="login-logo-container" variants={logoVariants}>
-          <img src={batLogo} alt="Arkham Labs" className="login-logo" />
+          <img
+            src={batLogo}
+            alt="Arkham Labs"
+            loading="eager"
+            className="login-logo"
+          />
         </motion.div>
 
         <motion.h1

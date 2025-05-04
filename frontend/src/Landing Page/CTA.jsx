@@ -68,6 +68,7 @@ export const CTA = () => {
           src={bg}
           className="absolute w-full h-full object-cover bg"
           alt="Arkham background"
+          loading="eager"
         />
 
         {/* Content Layer */}

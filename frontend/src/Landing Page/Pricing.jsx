@@ -103,9 +103,9 @@ export const Pricing = () => {
             <motion.div
               className="card pricing-card"
               custom={0}
-              variants={cardVariants}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: "easeIn" }}
             >
               <motion.div
                 className="w-24 text-6xl"
@@ -136,9 +136,9 @@ export const Pricing = () => {
             <motion.div
               className="card pricing-card"
               custom={1}
-              variants={cardVariants}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: "easeIn" }}
             >
               <div className="w-full flex items-center justify-center">
                 <motion.div className="badge neue-med" initial="initial">
@@ -174,9 +174,9 @@ export const Pricing = () => {
             <motion.div
               className="card pricing-card"
               custom={2}
-              variants={cardVariants}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.7, delay: 0.6, ease: "easeIn" }}
             >
               <motion.img
                 src={batrang}

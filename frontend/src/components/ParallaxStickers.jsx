@@ -22,7 +22,7 @@ const ParallaxStickers = memo(() => {
     initial: {
       opacity: 0,
       scale: 0.5,
-      rotate: -270,
+      rotate: -120,
     },
     animate: {
       opacity: 1,
@@ -58,7 +58,7 @@ const ParallaxStickers = memo(() => {
     initial: {
       opacity: 0,
       scale: 0.5,
-      rotate: 720,
+      rotate: -180,
     },
     animate: {
       opacity: 1,
@@ -66,7 +66,7 @@ const ParallaxStickers = memo(() => {
       rotate: 0,
       transition: {
         duration: 1,
-        delay: 0.9,
+        delay: 0.7,
         ease: "easeOut",
       },
     },

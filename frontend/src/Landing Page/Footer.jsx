@@ -127,6 +127,7 @@ export const Footer = () => {
             src={footer}
             className="z-[1] absolute pointer-events-none bottom-1 sm:bottom-0 left-0 object-cover w-full h-full"
             alt=""
+            loading="eager"
           />
         </div>
 

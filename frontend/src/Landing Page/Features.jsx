@@ -42,7 +42,6 @@ export const Features = () => {
       <div className="relative min-h-[95vh] rounded-4xl overflow-hidden">
         {/* Background Image with animation */}
         <motion.img
-          initial={{ scale: 1.1, opacity: 0.8 }}
           animate={
             isInView ? { scale: 1, opacity: 1 } : { scale: 1.1, opacity: 0.8 }
           }
@@ -50,6 +49,7 @@ export const Features = () => {
           src={bg}
           className="absolute w-full h-full sm:object-cover object-fill bg"
           alt="Arkham background"
+          loading="eager"
         />
 
         {/* Content Layer */}
@@ -76,11 +76,13 @@ export const Features = () => {
           </motion.p>
 
           {/* cards with animation */}
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:px-24"
-            initial="hidden"
-          >
-            <motion.div className="card" whileHover="hover">
+          <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:px-24">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: "easeIn" }}
+              className="card"
+            >
               <motion.img
                 variants={iconVariants}
                 whileHover="hover"
@@ -88,25 +90,30 @@ export const Features = () => {
                 alt="Card 1"
                 className="card-image w-16"
               />
-              <h2 className="card-title neue-med">
+              <motion.h2 className="card-title neue-med">
                 Curated Challenges, Always One Step Ahead
-              </h2>
-              <p className="card-description">
+              </motion.h2>
+              <motion.p className="card-description">
                 Alfred wouldn't send you into the field without preparation and
                 neither do we. <br /> At Arkham Labs, every coding challenge is
                 selected and{" "}
-                <span className="bright-text">
+                <motion.span className="bright-text">
                   sequenced to push your limits.
-                </span>{" "}
+                </motion.span>{" "}
                 We tailor your journey to gradually build precision, speed, and
                 confidence. No endless scrolling. No tutorial hell.{" "}
-                <span className="bright-text">
+                <motion.span className="bright-text">
                   Just a sharp climb to mastery.
-                </span>
-              </p>
+                </motion.span>
+              </motion.p>
             </motion.div>
 
-            <motion.div className="card" whileHover="hover">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.7, delay: 0.4, ease: "easeIn" }}
+              className="card"
+            >
               <motion.img
                 variants={iconVariants}
                 whileHover="hover"
@@ -129,7 +136,12 @@ export const Features = () => {
               </p>
             </motion.div>
 
-            <motion.div className="card" whileHover="hover">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ duration: 0.7, delay: 0.6, ease: "easeIn" }}
+              className="card"
+            >
               <motion.img
                 variants={iconVariants}
                 whileHover="hover"

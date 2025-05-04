@@ -95,6 +95,7 @@ export const FAQs = () => {
           src={bg}
           className="absolute w-full h-full object-cover bg"
           alt="Arkham background"
+          loading="eager"
         />
 
         <div className="relative z-10 h-full w-full flex flex-col items-center">
