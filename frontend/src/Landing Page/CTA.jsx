@@ -56,8 +56,8 @@ export const CTA = () => {
   };
 
   return (
-    <div id="cta" className="min-h-[80vh] p-4" ref={sectionRef}>
-      <div className="relative min-h-[80vh] rounded-4xl overflow-hidden">
+    <div id="cta" className="min-h-[90vh] p-4" ref={sectionRef}>
+      <div className="relative min-h-[90vh] rounded-4xl overflow-hidden flex items-center justify-center">
         {/* Background with animation */}
         <motion.img
           initial={{ scale: 1.2, opacity: 0.8 }}
@@ -72,7 +72,7 @@ export const CTA = () => {
         />
 
         {/* Content Layer */}
-        <div className="relative cta-box z-10 h-full w-full py-12 mt-26">
+        <div className="relative cta-box z-10 h-full w-full ">
           <motion.div
             className="text-center max-w-4xl mx-auto px-4 flex flex-col items-center justify-center h-full"
             variants={containerVariants}
@@ -116,7 +116,7 @@ export const CTA = () => {
             </motion.div>
 
             <motion.p
-              className="neue-reg text-sm text-[#f1f1f1]/60 mt-6"
+              className="neue-reg text-sm text-[#f1f1f1]/60 "
               variants={itemVariants}
             >
               No credit card required. Cancel anytime.

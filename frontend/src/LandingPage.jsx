@@ -37,6 +37,18 @@ export const LandingPage = () => {
       <FAQs />
       <CTA />
       <Footer />
+      <div className="fixed bottom-0 right-0 left-0 z-10 h-28 pointer-events-none rounded-t-4xl">
+        <div className="relative w-full h-full rounded-t-4xl">
+          <div className="blur-layer-1"></div>
+          <div className="blur-layer-2"></div>
+          <div className="blur-layer-3"></div>
+          <div className="blur-layer-4"></div>
+          <div className="blur-layer-5"></div>
+          <div className="blur-layer-6"></div>
+          <div className="blur-layer-7"></div>
+          <div className="blur-layer-8"></div>
+        </div>
+      </div>
     </div>
   );
 };
