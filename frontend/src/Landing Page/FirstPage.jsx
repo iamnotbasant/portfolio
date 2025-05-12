@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import bg from "../assets/images/arkham.png";
+import bg from "../assets/images/4.webp";
 import ParallaxStickers from "../components/ParallaxStickers";
-import { Navbar } from "../components/Navbar";
+import { LandingPageNavbar } from "../components/LandingPageNavbar";
 
 export const FirstPage = () => {
   const sectionRef = useRef(null);
@@ -29,7 +29,7 @@ export const FirstPage = () => {
   const trustTextVariants = {
     hidden: { opacity: 0, y: -10 },
     visible: {
-      opacity: 0.7,
+      opacity: 0.8,
       y: 0,
       transition: {
         duration: 0.5,
@@ -77,6 +77,15 @@ export const FirstPage = () => {
       },
     },
 
+    hover: {
+      boxShadow:
+        "inset 0 0 30px rgb(0, 0, 0), 0px 10px 10px rgba(0, 0, 0, 0.5)",
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut",
+      },
+    },
+
     tap: {
       scale: 0.98,
     },
@@ -91,9 +100,9 @@ export const FirstPage = () => {
       className="first-page min-h-screen w-full relative"
       ref={sectionRef}
     >
-      <Navbar />
+      <LandingPageNavbar />
 
-      <div className="flex flex-col justify-center items-center absolute z-[1] w-full">
+      <div className="flex flex-col justify-center items-center absolute z-[1] w-full ">
         <div className="h-[90vh] w-[98vw] relative overflow-hidden rounded-4xl">
           <motion.img
             src={bg}
@@ -107,11 +116,12 @@ export const FirstPage = () => {
             fetchPriority="high"
             decoding="async"
           />
+
           <ParallaxStickers />
         </div>
         <div className="z-[2] absolute sm:top-0 top-24 left-0 w-full h-screen flex flex-col sm:justify-center items-center">
           <motion.div
-            className="flex items-center justify-center gap-2 text-white px-3 py-1 rounded-full uppercase shadow-lg batman-badge mb-4"
+            className="flex items-center justify-center gap-2 text-white px-3 py-1 rounded-full uppercase batman-badge mb-4"
             variants={badgeVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -120,7 +130,7 @@ export const FirstPage = () => {
           </motion.div>
 
           <motion.p
-            className="text-sm text-white mb-4 opacity-70 tracking-wide neue-reg"
+            className="text-sm text-white mb-4 tracking-wide neue-reg"
             variants={trustTextVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -129,13 +139,13 @@ export const FirstPage = () => {
           </motion.p>
 
           <motion.h1
-            className="text-4xl font-bold text-center hero-text text-white"
+            className="text-2xl font-bold text-center hero-text text-white"
             variants={headingVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
-            WELCOME TO <br />
-            <span className="sm:text-9xl text-7xl">ARKHAM LABS</span>
+            Welcome to <br />
+            <span className="sm:text-7xl text-7xl">ARKHAM LABS</span>
           </motion.h1>
 
           <motion.p
@@ -154,6 +164,7 @@ export const FirstPage = () => {
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             whileTap="tap"
+            whileHover="hover"
           >
             <span>✦</span> &nbsp; Get Started
           </motion.button>

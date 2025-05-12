@@ -13,11 +13,11 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || "http://localhost:5173", // Vite's default port
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
   credentials: true, // This is important for cookies/auth to work
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-};
+}; 
 
 // Apply CORS middleware before other middleware
 app.use(cors(corsOptions));

@@ -1,12 +1,14 @@
 import React from "react";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export const AdminDashboard = () => {
-  const handleLogout = () => {
-    // Clear user data from localStorage
-    localStorage.removeItem("user");
+  const { authUser, logout } = useAuthStore();
+  const handleLogout = async () => {
+    // Call the logout function from the store
+    await logout();
 
     // Redirect to login page
-    window.location.href = "/login";
+    window.location.href = "/";
   };
   return (
     <div className="dashboard-container bg-black">

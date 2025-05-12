@@ -1,16 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export const Dashboard = () => {
-  const handleLogout = () => {
-    // Clear user data from localStorage
-    localStorage.removeItem("user");
-
-    // Redirect to login page
-    window.location.href = "/login";
+  const navigate = useNavigate();
+  const { authUser, logout } = useAuthStore();
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
   };
   return (
-    <div className="dashboard-container bg-black">
-      <h1 className="text-white neue-med text-5xl text-center mt-12">
+    <div className="dashboard-container min-h-screen bg-[#1f1f1f]">
+      <h1 className="text-white neue-med text-3xl text-center">
         User Dashboard
       </h1>
       <div className="logout">

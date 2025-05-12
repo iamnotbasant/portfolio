@@ -1,67 +1,35 @@
-import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuthStore } from "../store/useAuthStore";
+import { z } from "zod";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import "../styles/Login.css";
 import bg from "../assets/images/arkham6.png";
 import batLogo from "../assets/images/batrang2.png";
+import { Loader } from "../components/Loader";
 
-const BACKEND_URL = import.meta.env.VITE_API_URL;
+const LoginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(2, "Password must be at least 2 characters long"),
+});
 
 export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const { login, isLoggingIn } = useAuthStore();
+
+  const { register, handleSubmit } = useForm({
+    resolver: zodResolver(LoginSchema),
+  });
+
+  const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        `${BACKEND_URL}/auth/login`,
-        {
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (response.data.success) {
-        // Store user info in localStorage for persistence
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-
-        // Redirect based on user role
-        if (response.data.user.role === "ADMIN") {
-          navigate("/admin-dashboard");
-        } else {
-          navigate("/dashboard");
-        }
-      }
+      await login(data);
+      navigate("/dashboard");
     } catch (error) {
-      console.error("Login failed:", error);
-      if (error.response) {
-        // Server responded with an error
-        if (error.response.status === 401) {
-          setError("Invalid email or password");
-        } else if (error.response.data.message) {
-          setError(error.response.data.message);
-        } else {
-          setError("Login failed. Please try again.");
-        }
-      } else if (error.request) {
-        // Request was made but no response
-        setError("Server not responding. Please try again later.");
-      } else {
-        setError("An unexpected error occurred. Please try again.");
-      }
-    } finally {
-      setLoading(false);
+      console.error("Error logging in:", error);
     }
   };
 
@@ -195,6 +163,11 @@ export const Login = () => {
         </Link>
       </motion.div>
 
+      {/* Loader */}
+      {isLoggingIn && <Loader />}
+
+      {/* Login Form */}
+
       <motion.div
         className="z-10 login-form-container backdrop-blur-md"
         variants={containerVariants}
@@ -230,7 +203,7 @@ export const Login = () => {
         </motion.p>
 
         <motion.form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="login-form"
           variants={containerVariants}
         >
@@ -239,11 +212,9 @@ export const Login = () => {
               Email
             </label>
             <input
-              ref={emailRef}
+              {...register("email")}
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="form-input"
               placeholder="your.email@example.com"
               required
@@ -255,11 +226,9 @@ export const Login = () => {
               Password
             </label>
             <input
-              ref={passwordRef}
               type="password"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password")}
               className="form-input"
               placeholder="••••••••••••"
               required
@@ -279,6 +248,7 @@ export const Login = () => {
             }}
             whileTap={{ scale: 0.98 }}
             variants={loginButtonVariants}
+            disabled={isLoggingIn}
           >
             <span className="login-btn-star">✦</span> Login
           </motion.button>

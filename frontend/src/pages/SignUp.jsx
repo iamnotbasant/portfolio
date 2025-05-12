@@ -1,65 +1,55 @@
-import React, { useState, useRef } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useAuthStore } from "../store/useAuthStore";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/SignUp.css";
 import bg from "../assets/images/arkham9.png";
 import batLogo from "../assets/images/batrang2.png";
+import { Loader } from "../components/Loader";
 
-const BACKEND_URL = import.meta.env.VITE_API_URL;
+const SignUpSchema = z
+  .object({
+    name: z.string().min(3, "Name is required"),
+    email: z.string().email("Invalid email address"),
+    // apply regex for password validation
+    password: z.string().min(6, "Password must be at least 6 characters long"),
+    confirmPassword: z.string().min(6, "Confirm Password is required"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 export const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
+  const { signUp, isSigningUp } = useAuthStore();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // SignUp logic would go here
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(SignUpSchema),
+  });
+
+  const password = watch("password");
+  const confirmPassword = watch("confirmPassword");
+
+  const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        `${BACKEND_URL}/auth/register`,
-        {
-          name,
-          email,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
-      if (response.data.success) {
-        // Store user info in localStorage for persistence
-        localStorage.setItem("user", JSON.stringify(response.data.user));
-        // Redirect based on user role
-        navigate("/dashboard");
-      }
+      await signUp(data);
+      navigate("/login");
+      console.log("sign up data", data);
     } catch (error) {
-      console.error("Sign up failed:", error);
-      if (error.response) {
-        // Server responded with an error
-        if (error.response.status === 400) {
-          setError("Invalid input. Please check your details.");
-        } else if (error.response.data.message) {
-          setError(error.response.data.message);
-        } else {
-          setError("Sign up failed. Please try again.");
-        }
-      } else if (error.request) {
-        // Request was made but no response
-        setError("Server not responding. Please try again later.");
-      } else {
-        // Something else happened
-        setError("An unexpected error occurred. Please try again.");
-      }
+      console.error("Error signing up:", error);
     }
-    console.log("Sign up attempt with:", { name, email, password });
   };
 
   // Animation variants (same as login)
@@ -194,6 +184,7 @@ export const SignUp = () => {
           ← Back to Home
         </Link>
       </motion.div>
+      {isSigningUp && <Loader />}
 
       <motion.div
         className="z-10 signup-form-container backdrop-blur-md"
@@ -229,7 +220,7 @@ export const SignUp = () => {
         </motion.p>
 
         <motion.form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="login-form"
           variants={containerVariants}
         >
@@ -240,12 +231,16 @@ export const SignUp = () => {
             <input
               type="text"
               id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              {...register("name")}
               className="form-input signup-form-input"
               placeholder="Bruce Wayne"
               required
             />
+            {errors.name && (
+              <span className="text-red-500/70 neue-reg text-sm">
+                {errors.name.message}
+              </span>
+            )}
           </motion.div>
 
           <motion.div className="signup-form-group" variants={itemVariants}>
@@ -255,12 +250,16 @@ export const SignUp = () => {
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email")}
               className="form-input signup-form-input"
               placeholder="your.email@example.com"
               required
             />
+            {errors.email && (
+              <span className="text-red-500/70 neue-reg text-sm">
+                {errors.email.message}
+              </span>
+            )}
           </motion.div>
 
           <motion.div className="signup-form-group" variants={itemVariants}>
@@ -268,14 +267,25 @@ export const SignUp = () => {
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password")}
               className="form-input signup-form-input"
               placeholder="••••••••••••"
               required
             />
+            <button
+              type="button"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+            {errors.password && (
+              <span className="text-red-500/70 neue-reg text-sm">
+                {errors.password.message}
+              </span>
+            )}
           </motion.div>
 
           <motion.div className="signup-form-group" variants={itemVariants}>
@@ -283,19 +293,31 @@ export const SignUp = () => {
               Confirm Password
             </label>
             <input
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              {...register("confirmPassword")}
               className="form-input signup-form-input"
               placeholder="••••••••••••"
               required
             />
+            <button
+              type="button"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? "Hide" : "Show"}
+            </button>
+            {errors.confirmPassword && (
+              <span className="text-red-500/70 neue-reg text-sm">
+                {errors.confirmPassword.message}
+              </span>
+            )}
           </motion.div>
 
           <motion.button
             type="submit"
             className="signup-button"
+            disabled={isSigningUp}
             whileHover={{
               scale: 1,
             }}
