@@ -36,7 +36,7 @@ export const LandingPageNavbar = () => {
 
   return (
     <motion.div
-      className="navbar"
+      className="landing-page-navbar"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{

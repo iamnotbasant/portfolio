@@ -24,6 +24,11 @@
   src: url(./assets/fonts/LibreBaskerville-Italic.ttf);
 }
 
+@font-face {
+  font-family: Nulshock;
+  src: url(./assets/fonts/nulshock.otf);
+}
+
 .neue-med {
   font-family: Neue-Med;
 }
@@ -34,6 +39,10 @@
 
 .sepulture {
   font-family: sepulture;
+}
+
+.nulshock {
+  font-family: Nulshock;
 }
 
 .italic {

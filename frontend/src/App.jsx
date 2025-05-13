@@ -4,7 +4,7 @@ import Layout from "./layouts/Layout";
 import { LandingPage } from "./LandingPage";
 import { Login } from "./pages/Login";
 import { SignUp } from "./pages/SignUp";
-import { Dashboard } from "./pages/user/Dashboard";
+import { Dashboard } from "./pages/Dashboard";
 import { Analytics } from "@vercel/analytics/react";
 import { useAuthStore } from "./store/useAuthStore";
 import { Loader } from "./components/Loader";
@@ -56,7 +56,6 @@ function App() {
             />
           </Route>
 
-          <Route path="/admin-dashboard" element={<Dashboard />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

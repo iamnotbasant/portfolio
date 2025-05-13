@@ -1,0 +1,89 @@
+.dashboard-container {
+  background: linear-gradient(
+    180deg,
+    #0118d8 0%,
+    #1b56fd 50%,
+    #e9dfc3 92%,
+    #fff8f8 100%
+  );
+
+  padding: 0.5em 1em;
+}
+
+.navbar {
+  background-color: #00000035;
+  border-radius: 8px;
+  box-shadow: inset 0rem 0rem 2em rgba(0, 19, 187, 0.8);
+  backdrop-filter: blur(5px);
+  filter: brightness(1) contrast(1.5);
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #ffffff30;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.dash-card {
+  background-color: #00000035;
+  color: #adadad;
+  border-radius: 8px;
+  box-shadow: inset 0rem 0rem 1em rgba(0, 4, 255, 0.463);
+  padding: 0.5em;
+  backdrop-filter: blur(5px);
+  filter: brightness(1) contrast(1.5);
+  height: full;
+  position: relative;
+  overflow: hidden;
+  border: 5px solid #ffffff30;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.dash-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url(../assets/images/lines.png) center/100px repeat;
+  opacity: 0.1;
+  border-radius: inherit;
+  z-index: -1;
+}
+
+.navbar::after {
+  content: "";
+  position: absolute;
+  top: -30px;
+  left: -100px;
+  transform: rotate(-45deg);
+  filter: blur(15px);
+  width: 580px;
+  height: 100px;
+  background: radial-gradient(
+    circle,
+    rgb(48, 0, 181) 0%,
+    rgba(255, 0, 0, 0) 80%
+  );
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.add-btn {
+  box-shadow: inset 0 -4px 12px rgba(0, 26, 255, 0.5);
+  transition: all 0.3s ease;
+  background: linear-gradient(50deg, #ffffff, #617bff);
+  font-weight: 500;
+}
+
+.add-btn:hover {
+  box-shadow: inset 0 -8px 12px rgba(0, 26, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+.filter-input {
+}
