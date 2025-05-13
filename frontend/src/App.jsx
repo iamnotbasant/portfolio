@@ -5,12 +5,13 @@ import { LandingPage } from "./LandingPage";
 import { Login } from "./pages/Login";
 import { SignUp } from "./pages/SignUp";
 import { Dashboard } from "./pages/user/Dashboard";
-import { AdminDashboard } from "./pages/admin/AdminDashboard";
 import { Analytics } from "@vercel/analytics/react";
 import { useAuthStore } from "./store/useAuthStore";
 import { Loader } from "./components/Loader";
 import ToastContainer from "./components/ToastContainer";
 import "./input.css";
+import AdminRoute from "./components/AdminRoute";
+import AddProblem from "./pages/admin/AddProblem";
 
 function App() {
   const { authUser, isCheckingAuth, checkAuth } = useAuthStore();
@@ -55,7 +56,7 @@ function App() {
             />
           </Route>
 
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/admin-dashboard" element={<Dashboard />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

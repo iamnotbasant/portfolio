@@ -1,5 +1,4 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
 
 export const Dashboard = () => {
@@ -9,15 +8,20 @@ export const Dashboard = () => {
     await logout();
     navigate("/");
   };
+
+  const isAdmin = authUser?.role === "ADMIN";
   return (
     <div className="dashboard-container min-h-screen bg-[#1f1f1f]">
-      <h1 className="text-white neue-med text-3xl text-center">
-        User Dashboard
-      </h1>
+      <h1 className="text-white neue-med text-3xl text-center">Dashboard</h1>
       <div className="logout">
         <button onClick={handleLogout} className="logout-button text-white">
           Logout
         </button>
+        {isAdmin && (
+          <Link className="text-white" to="/add-problem">
+            <button>Add Problem</button>
+          </Link>
+        )}
       </div>
     </div>
   );
