@@ -31,9 +31,9 @@ export const Navbar = () => {
           {isAdmin && (
             <Link
               to="/add-problem"
-              className="add-btn text-[#001caa] px-4 py-2 neue-med rounded-md transition duration-300 ease-in-out text-sm"
+              className="add-btn text-white/90  px-4 py-2 neue-med rounded-md transition duration-300 ease-in-out text-sm"
             >
-              Add Problem
+              [A] &nbsp; Add Problem
             </Link>
           )}
           <button

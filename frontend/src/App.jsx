@@ -20,13 +20,13 @@ function App() {
     checkAuth();
   }, [checkAuth]);
 
-  if (isCheckingAuth && !authUser) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-[#111]">
-        <Loader />
-      </div>
-    );
-  }
+  // if (isCheckingAuth && !authUser) {
+  //   return (
+  //     <div className="flex items-center justify-center h-screen bg-[#111]">
+  //       <Loader />
+  //     </div>
+  //   );
+  // }
   return (
     <>
       <ToastContainer />
