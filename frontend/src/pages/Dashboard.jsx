@@ -84,24 +84,23 @@ export const Dashboard = () => {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="ionicon"
           viewBox="0 0 512 512"
           className="pr-1"
         >
           <path
             fill="none"
             stroke="currentColor"
-            stroke-linecap="square"
-            stroke-miterlimit="10"
-            stroke-width="48"
+            strokeLinecap="square"
+            strokeMiterlimit="10"
+            strokeWidth="48"
             d="M180 112l144 144-144 144"
           />
           <path
             fill="none"
             stroke="currentColor"
-            stroke-linecap="square"
-            stroke-miterlimit="10"
-            stroke-width="48"
+            strokeLinecap="square"
+            strokeMiterlimit="10"
+            strokeWidth="48"
             d="M312 112l144 144-144 144"
           />
         </svg>
@@ -138,16 +137,8 @@ export const Dashboard = () => {
             <p className="text-sm text-white/80 neue-reg">
               k4p1ll.23@gmail.com <br />
             </p>
-            <p className="text-sm text-white/80 bg-[#ffffff38] font-mono tracking-tighter uppercase hover:text-red-500 hover:bg-[#0e0e0e9a] duration-200 ease-out cursor-pointer w-fit">
+            <p className="text-sm text-white/80 bg-[#ffffff2a] font-mono tracking-tighter uppercase hover:text-red-500 hover:bg-[#0e0e0e5e] duration-200 ease-out cursor-pointer w-fit">
               <span>[C]</span> Create Playlist
-            </p>
-
-            <p className="text-sm text-white/80 neue-reg">
-              {!isAdmin && (
-                <span className="neue-reg">
-                  {authUser?.streak || 0} day streak 🔥
-                </span>
-              )}
             </p>
           </div>
         </motion.div>
@@ -337,7 +328,7 @@ export const Dashboard = () => {
                     </button>
                   )}
                 </td>
-              </tr>{" "}
+              </tr>
               <tr className="border-b border-white/30">
                 <td className="py-2">✅</td>
                 <td className="py-2 text-white"> Two Sum Two Sum Two Sum </td>
@@ -360,7 +351,7 @@ export const Dashboard = () => {
                     </button>
                   )}
                 </td>
-              </tr>{" "}
+              </tr>
               <tr className="border-b border-white/30">
                 <td className="py-2">✅</td>
                 <td className="py-2 text-white"> Two Sum Two Sum Two Sum </td>
@@ -383,7 +374,7 @@ export const Dashboard = () => {
                     </button>
                   )}
                 </td>
-              </tr>{" "}
+              </tr>
               <tr className="border-b border-white/30">
                 <td className="py-2">✅</td>
                 <td className="py-2 text-white"> Two Sum Two Sum Two Sum </td>

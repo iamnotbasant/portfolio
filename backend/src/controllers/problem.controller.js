@@ -85,6 +85,7 @@ export const createProblem = async (req, res) => {
     return res.status(201).json({
       message: "Problem created successfully",
       problemId: newProblem.id,
+      problem: newProblem,
     });
   } catch (error) {
     console.error("Error in creating problem:", error);

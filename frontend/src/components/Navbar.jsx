@@ -27,7 +27,13 @@ export const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <div className="flex items-center"></div>
+          <p className="text-sm text-white/80 neue-reg">
+            {!isAdmin && (
+              <span className="neue-reg">
+                {authUser?.streak || 0} day streak 🔥
+              </span>
+            )}
+          </p>
           {isAdmin && (
             <Link
               to="/add-problem"

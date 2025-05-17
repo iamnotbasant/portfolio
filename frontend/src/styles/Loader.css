@@ -27,7 +27,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100px;
-  animation: rotate 0.5s ease-in-out infinite;
+  animation: rotate 0.8s ease-in-out infinite;
 }
 
 @keyframes rotate {
@@ -35,6 +35,6 @@
     transform: translate(-50%, -50%) rotate(0deg);
   }
   100% {
-    transform: translate(-50%, -50%) rotate(360deg);
+    transform: translate(-50%, -50%) rotate(1080deg);
   }
 }
