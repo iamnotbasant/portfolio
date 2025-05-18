@@ -209,8 +209,8 @@ td {
   height: 90vh;
   border-radius: 0px 8px 8px 0px;
   background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  padding: 1em;
+  backdrop-filter: blur(4px);
+  /* padding: 0em; */
   z-index: 90;
   transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
@@ -239,8 +239,8 @@ td {
 }
 
 .sidebar-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  margin-bottom: 1em;
+  padding: 1em 1em;
 }
 
 .sidebar-content {
@@ -254,9 +254,9 @@ td {
 .sidebar-item {
   display: flex;
   align-items: center;
-  padding: 0.5em 1em;
+  padding: 0.2em 0.5em;
   color: white;
-  border-radius: 6px;
+  border-radius: 2px;
   transition: all 0.2s ease;
   cursor: pointer;
 }
@@ -266,13 +266,13 @@ td {
 }
 
 .sidebar-icon {
-  margin-right: 12px;
-  font-size: 1.1rem;
+  margin-right: 5px;
+  font-size: 0.8em;
 }
 
 .sidebar-text {
   font-family: neue-reg;
-  font-size: 0.95rem;
+  font-size: 0.9em;
 }
 
 .sidebar-footer {
@@ -283,10 +283,9 @@ td {
 .sidebar-logout {
   display: flex;
   align-items: center;
-  padding: 0.75rem;
+  padding: 0.5em;
   color: #ff9999;
   width: 100%;
-  border-radius: 6px;
   transition: all 0.2s ease;
   cursor: pointer;
   text-align: left;

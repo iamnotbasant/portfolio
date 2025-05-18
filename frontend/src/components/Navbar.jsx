@@ -8,15 +8,17 @@ export const Navbar = () => {
   const { authUser, logout } = useAuthStore();
   const isAdmin = authUser?.role === "ADMIN";
 
-  const handleLogout = async () => {
+  const handleLogout = async (e) => {
+    e.preventDefault();
     await logout();
-    window.location.href = "/";
+    navigate("/login");
   };
   return (
     <nav>
       <motion.nav
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -60 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "backInOut" }}
         className="navbar flex justify-between items-center px-3 py-2"
       >
         <div className="flex items-center gap-4">

@@ -33,6 +33,10 @@
   font-family: Neue-Med;
 }
 
+.arame{
+  font-family: Arame;
+}
+
 .neue-reg {
   font-family: Neue-Reg;
 }
@@ -55,17 +59,23 @@
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
   background-color: #1b1b1b;
 }
 
 ::-webkit-scrollbar-track {
-  background: #ffffff;
+  background: #1b1b1b;
+}
+
+::-webkit-scrollbar-button {
+  background: #860000;
+  height: 16px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1b1b1b;
+  background: #ae0000;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #000000;
+  background: #860000;
 }

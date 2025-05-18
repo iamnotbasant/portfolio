@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import bg from "../assets/images/arkham11.png";
 import "../styles/CTA.css";
+import { Link } from "react-router-dom";
 
 export const CTA = () => {
   const sectionRef = useRef(null);
@@ -102,7 +103,7 @@ export const CTA = () => {
                 whileHover="hover"
                 whileTap="tap"
               >
-                ✦&nbsp; Start Training
+                <Link to="sign-up"> ✦&nbsp; Start Training</Link>
               </motion.button>
 
               <motion.button

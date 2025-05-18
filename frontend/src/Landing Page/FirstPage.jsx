@@ -3,6 +3,7 @@ import { motion, useInView } from "framer-motion";
 import bg from "../assets/images/4.webp";
 import ParallaxStickers from "../components/ParallaxStickers";
 import { LandingPageNavbar } from "../components/LandingPageNavbar";
+import { Link } from "react-router-dom";
 
 export const FirstPage = () => {
   const sectionRef = useRef(null);
@@ -166,7 +167,9 @@ export const FirstPage = () => {
             whileTap="tap"
             whileHover="hover"
           >
-            <span>✦</span> &nbsp; Get Started
+            <Link to="/sign-up">
+              <span>✦</span> &nbsp; Get Started
+            </Link>
           </motion.button>
         </div>
       </div>

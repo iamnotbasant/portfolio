@@ -206,7 +206,7 @@ export const SignUp = () => {
         </motion.div>
 
         <motion.h1
-          className="sepulture text-4xl text-center mb-2 text-white/80"
+          className="nulshock tracking-[-2px] text-3xl text-center mb-2 text-white/80"
           variants={itemVariants}
         >
           Arkham Labs
