@@ -137,14 +137,14 @@ const ProblemTable = ({ problems }) => {
                     {isSolved ? (
                       <span className="text-green-500">☑️</span>
                     ) : (
-                      <Link to={`/problems/${problem.id}`}>
-                        <span className="text-red-700 text-base ml-1 arame">
-                          X
-                        </span>
-                      </Link>
+                      <span className="text-red-700 text-base ml-1 arame">
+                        X
+                      </span>
                     )}
                   </td>
-                  <td className="py-2 text-white">{problem.title}</td>
+                  <td className="py-2 text-white">
+                    <Link to={`/problems/${problem.id}`}>{problem.title}</Link>
+                  </td>
                   <td className="py-2">
                     {problem.tags?.map((tag) => (
                       <span

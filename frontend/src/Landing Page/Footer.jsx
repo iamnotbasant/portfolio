@@ -104,7 +104,7 @@ export const Footer = () => {
       className="min-h-[80vh] w-full flex flex-col justify-end items-center relative px-4"
     >
       <motion.div
-        className="relative bg-[#0d0d0d] w-full h-[80vh] flex flex-col justify-start items-center rounded-t-4xl overflow-hidden"
+        className="relative bg-[#0d0d0d] w-full min-h-[80vh] flex flex-col justify-start items-center rounded-t-4xl overflow-hidden pb-24"
         initial={{ y: 100, opacity: 1 }}
         whileInView={{ y: 0, opacity: 1 }}
         viewport={{ once: true, amount: 0.2 }}
