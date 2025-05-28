@@ -144,7 +144,7 @@ const ProblemTable = ({ problems }) => {
                     )}
                   </td>
                   <td className="py-2 text-white">
-                    <Link to={`/problems/${problem.id}`}>{problem.title}</Link>
+                    <Link to={`/problem/${problem.id}`}>{problem.title}</Link>
                   </td>
                   <td className="py-2">
                     {problem.tags?.map((tag) => (

@@ -11,6 +11,7 @@ import ToastContainer from "./components/ToastContainer";
 import "./input.css";
 import AdminRoute from "./components/AdminRoute";
 import AddProblem from "./pages/admin/AddProblem";
+import { ProblemPage } from "./pages/ProblemPage";
 
 function App() {
   const { authUser, checkAuth } = useAuthStore();
@@ -46,6 +47,11 @@ function App() {
           <Route
             path="/dashboard"
             element={authUser ? <Dashboard /> : <Navigate to="/login" />}
+          />
+
+          <Route
+            path="/problem/:id"
+            element={authUser ? <ProblemPage /> : <Navigate to="/login" />}
           />
 
           <Route element={<AdminRoute />}>
