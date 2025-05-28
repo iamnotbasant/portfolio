@@ -387,17 +387,17 @@ const sampleStringProblem = {
           pass
   
   # Input parsing
-  if __name__ == "__main__":
-      import sys
-      # Read the input string
-      s = sys.stdin.readline().strip()
-      
-      # Call solution
-      sol = Solution()
-      result = sol.isPalindrome(s)
-      
-      # Output result
-      print(str(result).lower())  # Convert True/False to lowercase true/false`,
+if __name__ == "__main__":
+    import sys
+    # Read the input string
+    s = sys.stdin.readline().strip()
+    
+    # Call solution
+    sol = Solution()
+    result = sol.isPalindrome(s)
+    
+    # Output result
+    print(str(result).lower())  # Convert True/False to lowercase true/false`,
     JAVA: `import java.util.Scanner;
 
 public class Main {
@@ -469,17 +469,17 @@ public class Main {
           return filtered_chars == filtered_chars[::-1]
   
   # Input parsing
-  if __name__ == "__main__":
-      import sys
-      # Read the input string
-      s = sys.stdin.readline().strip()
-      
-      # Call solution
-      sol = Solution()
-      result = sol.isPalindrome(s)
-      
-      # Output result
-      print(str(result).lower())  # Convert True/False to lowercase true/false`,
+if __name__ == "__main__":
+    import sys
+    # Read the input string
+    s = sys.stdin.readline().strip()
+    
+    # Call solution
+    sol = Solution()
+    result = sol.isPalindrome(s)
+    
+    # Output result
+    print(str(result).lower())  # Convert True/False to lowercase true/false`,
     JAVA: `import java.util.Scanner;
 
 public class Main {

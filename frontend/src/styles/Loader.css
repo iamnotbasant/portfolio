@@ -10,7 +10,7 @@
   z-index: 9999;
   backdrop-filter: blur(2px);
   background-color: #00000006;
-  background-image: url("https://www.transparenttextures.com/patterns/green-dust-and-scratches.png");
+  /* background-image: url("https://www.transparenttextures.com/patterns/green-dust-and-scratches.png"); */
   mask-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 0%,

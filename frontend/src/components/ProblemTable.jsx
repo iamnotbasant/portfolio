@@ -52,6 +52,7 @@ const ProblemTable = ({ problems }) => {
 
   const handleAddToPlaylist = (problemId) => {};
   const handleDelete = (problemId) => {};
+  const handleEdit = (problemId) => {};
 
   return (
     <div>
@@ -177,40 +178,43 @@ const ProblemTable = ({ problems }) => {
                       💾
                     </button>
                     {isAdmin && (
-                      <button onClick={() => handleDelete(problem.id)}>
+                      <button
+                        onClick={() => handleDelete(problem.id)}
+                        className="mr-4"
+                      >
                         🗑️
                       </button>
+                    )}
+                    {isAdmin && (
+                      <button onClick={() => handleEdit(problem.id)}>✏️</button>
                     )}
                   </td>
                 </tr>
               );
             })}
-            <tr className="border-b border-white/30">
-              <td className="py-2">☑️</td>
-              <td className="py-2 text-white"> Two Sum Two Sum Two Sum </td>
-              <td className="py-2">
-                <span className="bg-white/10 px-2 py-1 rounded-full text-sm text-white mr-2">
-                  Array
-                </span>
-                <span className="bg-white/10 px-2 py-1 rounded-full text-sm text-white">
-                  Hash Table
-                </span>
-              </td>
-              <td className="py-2 text-white">MEDIUM</td>
-              <td className="py-2">
-                <button className="text-white hover:text-blue-300 mr-4">
-                  💾
-                </button>
-                {isAdmin && (
-                  <button className="text-red-200 hover:text-red-300">
-                    🗑️
-                  </button>
-                )}
-              </td>
-            </tr>
           </tbody>
         </table>
       </motion.div>
+
+      <div className="flex justify-center mt-6 gap-2">
+        <button
+          className="text-white/80 neue-med"
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+        >
+          Prev
+        </button>
+        <span className="text-white/80 neue-med">
+          {currentPage} / {totalPages}
+        </span>
+        <button
+          className="text-white/80 neue-med"
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
