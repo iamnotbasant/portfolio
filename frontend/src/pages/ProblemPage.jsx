@@ -19,6 +19,8 @@ import {
 } from "lucide-react";
 
 import { useProblemStore } from "../store/useProblemStore";
+import { useExecutionStore } from "../store/useExecutionStore";
+import { getLanguageId } from "../libs/utils.js";
 import "../styles/ProblemPage.css";
 export const ProblemPage = () => {
   const { id } = useParams();
@@ -28,6 +30,8 @@ export const ProblemPage = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testCases, setTestCases] = useState([]);
+
+  const { isExecuting, executeCode, submission } = useExecutionStore();
 
   useEffect(() => {
     getProblemById(id);
@@ -150,13 +154,18 @@ export const ProblemPage = () => {
     }
   };
 
-  const isExecuting = false; // Placeholder for execution state
-  const handleRunCode = () => {
-    // Placeholder for code execution logic
-    console.log("Running code:", code);
+  const handleRunCode = (e) => {
+    e.preventDefault();
+    try {
+      const language_id = getLanguageId(selectedLanguage);
+      const stdin = problem?.testcases.map((testCase) => testCase.input);
+      const expected_outputs = problem.testcases.map((tc) => tc.output);
+      executeCode(code, language_id, stdin, expected_outputs, id);
+    } catch (error) {
+      console.log("Error executing code", error);
+    }
   };
 
-  const submission = null; // Placeholder for submission data
   const submissionCount = problem?.submissions?.length || 0;
 
   return (
@@ -292,10 +301,10 @@ export const ProblemPage = () => {
                 <div className="flex justify-between items-center">
                   <button
                     className={`btn btn-primary gap-2 `}
-                    // onClick={handleRunCode}
-                    // disabled={isExecuting}
+                    onClick={handleRunCode}
+                    disabled={isExecuting}
                   >
-                    {/* {!isExecuting && <Play className="w-4 h-4" />} */}
+                    {!isExecuting && <Play className="w-4 h-4" />} 
                     Run Code
                   </button>
                   <button className="btn btn-success gap-2">
