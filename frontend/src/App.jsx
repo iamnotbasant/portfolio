@@ -12,12 +12,16 @@ import "./input.css";
 import AdminRoute from "./components/AdminRoute";
 import AddProblem from "./pages/admin/AddProblem";
 import { ProblemPage } from "./pages/ProblemPage";
+import { Loader } from "./components/Loader";
 
 function App() {
-  const { authUser, checkAuth } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
   useEffect(() => {
-    checkAuth();
+    const checkAuthentication = async () => {
+      await checkAuth();
+    };
+    checkAuthentication();
   }, [checkAuth]);
 
   // if (isCheckingAuth && !authUser) {
@@ -51,7 +55,17 @@ function App() {
 
           <Route
             path="/problem/:id"
-            element={authUser ? <ProblemPage /> : <Navigate to="/login" />}
+            element={
+              isCheckingAuth ? (
+                <div className="flex items-center justify-center h-screen bg-[#111]">
+                  <Loader />
+                </div>
+              ) : authUser ? (
+                <ProblemPage />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
 
           <Route element={<AdminRoute />}>

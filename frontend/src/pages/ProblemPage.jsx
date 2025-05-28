@@ -22,6 +22,8 @@ import { useProblemStore } from "../store/useProblemStore";
 import { useExecutionStore } from "../store/useExecutionStore";
 import { getLanguageId } from "../libs/utils.js";
 import "../styles/ProblemPage.css";
+import Submission from "../components/Submission";
+
 export const ProblemPage = () => {
   const { id } = useParams();
   const { getProblemById, problem, isProblemLoading } = useProblemStore();
@@ -30,7 +32,6 @@ export const ProblemPage = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testCases, setTestCases] = useState([]);
-
   const { isExecuting, executeCode, submission } = useExecutionStore();
 
   useEffect(() => {
@@ -304,7 +305,7 @@ export const ProblemPage = () => {
                     onClick={handleRunCode}
                     disabled={isExecuting}
                   >
-                    {!isExecuting && <Play className="w-4 h-4" />} 
+                    {!isExecuting && <Play className="w-4 h-4" />}
                     Run Code
                   </button>
                   <button className="btn btn-success gap-2">
@@ -320,7 +321,7 @@ export const ProblemPage = () => {
       <div className="bg-base-100 shadow-xl mt-6">
         <div className="card-body">
           {submission ? (
-            <h1> Submission Data</h1>
+            <Submission submission={submission} />
           ) : (
             <>
               <div className="flex items-center justify-between mb-6">

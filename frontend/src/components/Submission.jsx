@@ -30,7 +30,7 @@ const Submission = ({ submission }) => {
     <div className="space-y-6">
       {/* Overall Status */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="card bg-base-200 shadow-lg">
+        <div className=" bg-base-200 shadow-lg">
           <div className="card-body p-4">
             <h3 className="card-title text-sm">Status</h3>
             <div
@@ -43,14 +43,14 @@ const Submission = ({ submission }) => {
           </div>
         </div>
 
-        <div className="card bg-base-200 shadow-lg">
+        <div className=" bg-base-200 shadow-lg">
           <div className="card-body p-4">
             <h3 className="card-title text-sm">Success Rate</h3>
             <div className="text-lg font-bold">{successRate.toFixed(1)}%</div>
           </div>
         </div>
 
-        <div className="card bg-base-200 shadow-lg">
+        <div className=" bg-base-200 shadow-lg">
           <div className="card-body p-4">
             <h3 className="card-title text-sm flex items-center gap-2">
               <Clock className="w-4 h-4" />
@@ -60,7 +60,7 @@ const Submission = ({ submission }) => {
           </div>
         </div>
 
-        <div className="card bg-base-200 shadow-lg">
+        <div className=" bg-base-200 shadow-lg">
           <div className="card-body p-4">
             <h3 className="card-title text-sm flex items-center gap-2">
               <Memory className="w-4 h-4" />
@@ -72,7 +72,7 @@ const Submission = ({ submission }) => {
       </div>
 
       {/* Test Cases Results */}
-      <div className="card bg-base-100 shadow-xl">
+      <div className=" bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title mb-4">Test Cases Results</h2>
           <div className="overflow-x-auto">
