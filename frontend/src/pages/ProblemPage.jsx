@@ -20,9 +20,11 @@ import {
 
 import { useProblemStore } from "../store/useProblemStore";
 import { useExecutionStore } from "../store/useExecutionStore";
+import { useSubmissionStore } from "../store/useSubmissionStore";
 import { getLanguageId } from "../libs/utils.js";
 import "../styles/ProblemPage.css";
 import Submission from "../components/Submission";
+import SubmissionsList from "../components/SubmissionList.jsx";
 
 export const ProblemPage = () => {
   const { id } = useParams();
@@ -33,13 +35,29 @@ export const ProblemPage = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testCases, setTestCases] = useState([]);
   const { isExecuting, executeCode, submission } = useExecutionStore();
+  const {
+    submission: submissions,
+    submissionCount,
+    isLoading: isSubmissionsLoading,
+    getSubmissionForProblem,
+    getSubmissionCountForProblem,
+  } = useSubmissionStore();
 
   useEffect(() => {
     getProblemById(id);
     if (problem) {
       console.log("Problem fetched:", problem);
     }
+    getSubmissionCountForProblem(id);
   }, [id]);
+
+  useEffect(() => {
+    if (activeTab === "submissions" && id) {
+      getSubmissionForProblem(id);
+    }
+  }, [activeTab, id]);
+
+  console.log("submissions", submissions);
 
   useEffect(() => {
     if (problem) {
@@ -122,11 +140,10 @@ export const ProblemPage = () => {
         );
       case "submissions":
         return (
-          <div className="p-4">no submissions yet</div>
-          // <SubmissionsList
-          //   submissions={submissions}
-          //   isLoading={isSubmissionsLoading}
-          // />
+          <SubmissionsList
+            submissions={submissions}
+            isLoading={isSubmissionsLoading}
+          />
         );
       case "discussion":
         return (
@@ -166,8 +183,6 @@ export const ProblemPage = () => {
       console.log("Error executing code", error);
     }
   };
-
-  const submissionCount = problem?.submissions?.length || 0;
 
   return (
     <div className="min-h-screen problem-page-container">

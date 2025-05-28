@@ -9,8 +9,9 @@ import { authMiddleware } from "../middleware/auth.middleware.js";
 const submissionRoutes = express.Router();
 
 submissionRoutes.get("/get-all-submissions", authMiddleware, getAllSubmissions);
+
 submissionRoutes.get(
-  "/get-submission/:id",
+  "/get-submissions/:id",
   authMiddleware,
   getSubmissionByProblem
 );

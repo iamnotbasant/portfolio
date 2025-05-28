@@ -65,13 +65,13 @@ const SubmissionsList = ({ submissions, isLoading }) => {
         return (
           <div
             key={submission.id}
-            className="card bg-base-200 shadow-lg hover:shadow-xl transition-shadow rounded-lg"
+            className=" bg-base-200 shadow-lg hover:shadow-xl transition-shadow rounded-lg"
           >
             <div className="card-body p-4">
               <div className="flex items-center justify-between">
                 {/* Left Section: Status and Language */}
                 <div className="flex items-center gap-4">
-                  {submission.status === "Accepted" ? (
+                  {submission.status === "ACCEPTED" ? (
                     <div className="flex items-center gap-2 text-success">
                       <CheckCircle2 className="w-6 h-6" />
                       <span className="font-semibold">Accepted</span>
@@ -82,9 +82,7 @@ const SubmissionsList = ({ submissions, isLoading }) => {
                       <span className="font-semibold">{submission.status}</span>
                     </div>
                   )}
-                  <div className="badge badge-neutral">
-                    {submission.language}
-                  </div>
+                  <div className=" badge-neutral">{submission.language}</div>
                 </div>
 
                 {/* Right Section: Runtime, Memory, and Date */}
