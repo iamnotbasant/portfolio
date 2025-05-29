@@ -6,6 +6,8 @@ import { useActions } from "../store/useAction";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import AddToPlaylistModal from "../components/AddToPlaylist";
 import ConfirmationModal from "./ConfirmationModal";
+import { Bookmark, BookmarkCheck, Save, Trash2, Edit } from "lucide-react";
+import { useRevisionStore } from "../store/useRevisionStore";
 
 const ProblemTable = ({ problems, onProblemDeleted }) => {
   const navigate = useNavigate();
@@ -25,6 +27,21 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
     useState(false);
   const [problemToDelete, setProblemToDelete] = useState(null);
   const [problemTitleToDelete, setProblemTitleToDelete] = useState("");
+
+  const {
+    addToRevision,
+    removeFromRevision,
+    isInRevision,
+    isLoading: isRevisionLoading,
+  } = useRevisionStore();
+
+  const handleRevisionToggle = async (problemId) => {
+    if (isInRevision(problemId)) {
+      await removeFromRevision(problemId);
+    } else {
+      await addToRevision(problemId);
+    }
+  };
 
   const difficultyOptions = ["EASY", "MEDIUM", "HARD"];
 
@@ -162,6 +179,8 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
               const isSolved = problem.solvedBy.some(
                 (user) => user.id === authUser?.id
               );
+
+              const isMarkedForRevision = isInRevision(problem.id);
               return (
                 <tr
                   key={problem.id}
@@ -204,6 +223,28 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                     </span>
                   </td>
                   <td className="py-2">
+                    <button
+                      onClick={() => handleRevisionToggle(problem.id)}
+                      className="mr-4 hover:bg-gray-700/50 rounded-full transition-colors"
+                      title={
+                        isMarkedForRevision
+                          ? "Remove from revision"
+                          : "Save for revision"
+                      }
+                      disabled={isRevisionLoading}
+                    >
+                      {isMarkedForRevision ? (
+                        <ion-icon
+                          style={{ color: "#fff", fontSize: "1.1em" }}
+                          name="bookmark"
+                        ></ion-icon>
+                      ) : (
+                        <ion-icon
+                          style={{ color: "#fff", fontSize: "1.1em" }}
+                          name="bookmark-outline"
+                        ></ion-icon>
+                      )}
+                    </button>
                     <button
                       onClick={() => handleAddToPlaylist(problem.id)}
                       className="mr-4 cursor-pointer"

@@ -15,6 +15,7 @@ import AddProblem from "./pages/admin/AddProblem";
 import EditProblem from "./pages/EditProblem";
 import { ProblemPage } from "./pages/ProblemPage";
 import { Loader } from "./components/Loader";
+import RevisionProblems from "./pages/RevisionProblems";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -81,7 +82,7 @@ function App() {
               )
             }
           />
-
+          <Route path="/revision" element={<RevisionProblems />} />
           <Route element={<AdminRoute />}>
             <Route
               path="/add-problem"

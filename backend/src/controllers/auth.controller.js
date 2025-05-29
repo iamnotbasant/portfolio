@@ -145,6 +145,7 @@ export const login = async (req, res) => {
         image: user.image,
         streakCount,
         maxStreakCount,
+        
       },
     });
   } catch (error) {
@@ -176,6 +177,7 @@ export const me = async (req, res) => {
       success: true,
       message: "User authenticated successfully",
       user: req.loggedInUser,
+
     });
   } catch (error) {
     console.error("Error getting user:", error);

@@ -48,6 +48,11 @@ export type Playlist = $Result.DefaultSelection<Prisma.$PlaylistPayload>
  * 
  */
 export type ProblemPlaylist = $Result.DefaultSelection<Prisma.$ProblemPlaylistPayload>
+/**
+ * Model Revision
+ * 
+ */
+export type Revision = $Result.DefaultSelection<Prisma.$RevisionPayload>
 
 /**
  * Enums
@@ -273,6 +278,16 @@ export class PrismaClient<
     * ```
     */
   get problemPlaylist(): Prisma.ProblemPlaylistDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.revision`: Exposes CRUD operations for the **Revision** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Revisions
+    * const revisions = await prisma.revision.findMany()
+    * ```
+    */
+  get revision(): Prisma.RevisionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -719,7 +734,8 @@ export namespace Prisma {
     TestCaseResult: 'TestCaseResult',
     ProblemSolved: 'ProblemSolved',
     Playlist: 'Playlist',
-    ProblemPlaylist: 'ProblemPlaylist'
+    ProblemPlaylist: 'ProblemPlaylist',
+    Revision: 'Revision'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -738,7 +754,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "problem" | "submission" | "testCaseResult" | "problemSolved" | "playlist" | "problemPlaylist"
+      modelProps: "user" | "problem" | "submission" | "testCaseResult" | "problemSolved" | "playlist" | "problemPlaylist" | "revision"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1260,6 +1276,80 @@ export namespace Prisma {
           }
         }
       }
+      Revision: {
+        payload: Prisma.$RevisionPayload<ExtArgs>
+        fields: Prisma.RevisionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RevisionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RevisionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RevisionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RevisionPayload>
+          }
+          findFirst: {
+            args: Prisma.RevisionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RevisionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RevisionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RevisionPayload>
+          }
+          findMany: {
+            args: Prisma.RevisionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RevisionPayload>[]
+          }
+          create: {
+            args: Prisma.RevisionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RevisionPayload>
+          }
+          createMany: {
+            args: Prisma.RevisionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RevisionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RevisionPayload>[]
+          }
+          delete: {
+            args: Prisma.RevisionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RevisionPayload>
+          }
+          update: {
+            args: Prisma.RevisionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RevisionPayload>
+          }
+          deleteMany: {
+            args: Prisma.RevisionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RevisionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RevisionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RevisionPayload>[]
+          }
+          upsert: {
+            args: Prisma.RevisionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RevisionPayload>
+          }
+          aggregate: {
+            args: Prisma.RevisionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRevision>
+          }
+          groupBy: {
+            args: Prisma.RevisionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RevisionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RevisionCountArgs<ExtArgs>
+            result: $Utils.Optional<RevisionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1351,6 +1441,7 @@ export namespace Prisma {
     problemSolved?: ProblemSolvedOmit
     playlist?: PlaylistOmit
     problemPlaylist?: ProblemPlaylistOmit
+    revision?: RevisionOmit
   }
 
   /* Types for Logging */
@@ -1449,6 +1540,7 @@ export namespace Prisma {
     submissions: number
     solvedProblems: number
     Playlists: number
+    Revision: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1456,6 +1548,7 @@ export namespace Prisma {
     submissions?: boolean | UserCountOutputTypeCountSubmissionsArgs
     solvedProblems?: boolean | UserCountOutputTypeCountSolvedProblemsArgs
     Playlists?: boolean | UserCountOutputTypeCountPlaylistsArgs
+    Revision?: boolean | UserCountOutputTypeCountRevisionArgs
   }
 
   // Custom InputTypes
@@ -1497,6 +1590,13 @@ export namespace Prisma {
     where?: PlaylistWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRevisionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RevisionWhereInput
+  }
+
 
   /**
    * Count Type ProblemCountOutputType
@@ -1506,12 +1606,14 @@ export namespace Prisma {
     submission: number
     solvedBy: number
     problemsPlaylist: number
+    Revision: number
   }
 
   export type ProblemCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     submission?: boolean | ProblemCountOutputTypeCountSubmissionArgs
     solvedBy?: boolean | ProblemCountOutputTypeCountSolvedByArgs
     problemsPlaylist?: boolean | ProblemCountOutputTypeCountProblemsPlaylistArgs
+    Revision?: boolean | ProblemCountOutputTypeCountRevisionArgs
   }
 
   // Custom InputTypes
@@ -1544,6 +1646,13 @@ export namespace Prisma {
    */
   export type ProblemCountOutputTypeCountProblemsPlaylistArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProblemPlaylistWhereInput
+  }
+
+  /**
+   * ProblemCountOutputType without action
+   */
+  export type ProblemCountOutputTypeCountRevisionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RevisionWhereInput
   }
 
 
@@ -1867,6 +1976,7 @@ export namespace Prisma {
     submissions?: boolean | User$submissionsArgs<ExtArgs>
     solvedProblems?: boolean | User$solvedProblemsArgs<ExtArgs>
     Playlists?: boolean | User$PlaylistsArgs<ExtArgs>
+    Revision?: boolean | User$RevisionArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1918,6 +2028,7 @@ export namespace Prisma {
     submissions?: boolean | User$submissionsArgs<ExtArgs>
     solvedProblems?: boolean | User$solvedProblemsArgs<ExtArgs>
     Playlists?: boolean | User$PlaylistsArgs<ExtArgs>
+    Revision?: boolean | User$RevisionArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1930,6 +2041,7 @@ export namespace Prisma {
       submissions: Prisma.$SubmissionPayload<ExtArgs>[]
       solvedProblems: Prisma.$ProblemSolvedPayload<ExtArgs>[]
       Playlists: Prisma.$PlaylistPayload<ExtArgs>[]
+      Revision: Prisma.$RevisionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2341,6 +2453,7 @@ export namespace Prisma {
     submissions<T extends User$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, User$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     solvedProblems<T extends User$solvedProblemsArgs<ExtArgs> = {}>(args?: Subset<T, User$solvedProblemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemSolvedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Playlists<T extends User$PlaylistsArgs<ExtArgs> = {}>(args?: Subset<T, User$PlaylistsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlaylistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Revision<T extends User$RevisionArgs<ExtArgs> = {}>(args?: Subset<T, User$RevisionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2865,6 +2978,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.Revision
+   */
+  export type User$RevisionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+    where?: RevisionWhereInput
+    orderBy?: RevisionOrderByWithRelationInput | RevisionOrderByWithRelationInput[]
+    cursor?: RevisionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RevisionScalarFieldEnum | RevisionScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3111,6 +3248,7 @@ export namespace Prisma {
     submission?: boolean | Problem$submissionArgs<ExtArgs>
     solvedBy?: boolean | Problem$solvedByArgs<ExtArgs>
     problemsPlaylist?: boolean | Problem$problemsPlaylistArgs<ExtArgs>
+    Revision?: boolean | Problem$RevisionArgs<ExtArgs>
     _count?: boolean | ProblemCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["problem"]>
 
@@ -3176,6 +3314,7 @@ export namespace Prisma {
     submission?: boolean | Problem$submissionArgs<ExtArgs>
     solvedBy?: boolean | Problem$solvedByArgs<ExtArgs>
     problemsPlaylist?: boolean | Problem$problemsPlaylistArgs<ExtArgs>
+    Revision?: boolean | Problem$RevisionArgs<ExtArgs>
     _count?: boolean | ProblemCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProblemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3192,6 +3331,7 @@ export namespace Prisma {
       submission: Prisma.$SubmissionPayload<ExtArgs>[]
       solvedBy: Prisma.$ProblemSolvedPayload<ExtArgs>[]
       problemsPlaylist: Prisma.$ProblemPlaylistPayload<ExtArgs>[]
+      Revision: Prisma.$RevisionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3607,6 +3747,7 @@ export namespace Prisma {
     submission<T extends Problem$submissionArgs<ExtArgs> = {}>(args?: Subset<T, Problem$submissionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     solvedBy<T extends Problem$solvedByArgs<ExtArgs> = {}>(args?: Subset<T, Problem$solvedByArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemSolvedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     problemsPlaylist<T extends Problem$problemsPlaylistArgs<ExtArgs> = {}>(args?: Subset<T, Problem$problemsPlaylistArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProblemPlaylistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Revision<T extends Problem$RevisionArgs<ExtArgs> = {}>(args?: Subset<T, Problem$RevisionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4116,6 +4257,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ProblemPlaylistScalarFieldEnum | ProblemPlaylistScalarFieldEnum[]
+  }
+
+  /**
+   * Problem.Revision
+   */
+  export type Problem$RevisionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+    where?: RevisionWhereInput
+    orderBy?: RevisionOrderByWithRelationInput | RevisionOrderByWithRelationInput[]
+    cursor?: RevisionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RevisionScalarFieldEnum | RevisionScalarFieldEnum[]
   }
 
   /**
@@ -9763,6 +9928,1072 @@ export namespace Prisma {
 
 
   /**
+   * Model Revision
+   */
+
+  export type AggregateRevision = {
+    _count: RevisionCountAggregateOutputType | null
+    _min: RevisionMinAggregateOutputType | null
+    _max: RevisionMaxAggregateOutputType | null
+  }
+
+  export type RevisionMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    problemId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RevisionMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    problemId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RevisionCountAggregateOutputType = {
+    id: number
+    userId: number
+    problemId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RevisionMinAggregateInputType = {
+    id?: true
+    userId?: true
+    problemId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RevisionMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    problemId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RevisionCountAggregateInputType = {
+    id?: true
+    userId?: true
+    problemId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RevisionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Revision to aggregate.
+     */
+    where?: RevisionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Revisions to fetch.
+     */
+    orderBy?: RevisionOrderByWithRelationInput | RevisionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RevisionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Revisions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Revisions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Revisions
+    **/
+    _count?: true | RevisionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RevisionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RevisionMaxAggregateInputType
+  }
+
+  export type GetRevisionAggregateType<T extends RevisionAggregateArgs> = {
+        [P in keyof T & keyof AggregateRevision]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRevision[P]>
+      : GetScalarType<T[P], AggregateRevision[P]>
+  }
+
+
+
+
+  export type RevisionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RevisionWhereInput
+    orderBy?: RevisionOrderByWithAggregationInput | RevisionOrderByWithAggregationInput[]
+    by: RevisionScalarFieldEnum[] | RevisionScalarFieldEnum
+    having?: RevisionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RevisionCountAggregateInputType | true
+    _min?: RevisionMinAggregateInputType
+    _max?: RevisionMaxAggregateInputType
+  }
+
+  export type RevisionGroupByOutputType = {
+    id: string
+    userId: string
+    problemId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: RevisionCountAggregateOutputType | null
+    _min: RevisionMinAggregateOutputType | null
+    _max: RevisionMaxAggregateOutputType | null
+  }
+
+  type GetRevisionGroupByPayload<T extends RevisionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RevisionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RevisionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RevisionGroupByOutputType[P]>
+            : GetScalarType<T[P], RevisionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RevisionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    problemId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["revision"]>
+
+  export type RevisionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    problemId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["revision"]>
+
+  export type RevisionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    problemId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["revision"]>
+
+  export type RevisionSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    problemId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RevisionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "problemId" | "createdAt" | "updatedAt", ExtArgs["result"]["revision"]>
+  export type RevisionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+  }
+  export type RevisionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+  }
+  export type RevisionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    problem?: boolean | ProblemDefaultArgs<ExtArgs>
+  }
+
+  export type $RevisionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Revision"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      problem: Prisma.$ProblemPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      problemId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["revision"]>
+    composites: {}
+  }
+
+  type RevisionGetPayload<S extends boolean | null | undefined | RevisionDefaultArgs> = $Result.GetResult<Prisma.$RevisionPayload, S>
+
+  type RevisionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RevisionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RevisionCountAggregateInputType | true
+    }
+
+  export interface RevisionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Revision'], meta: { name: 'Revision' } }
+    /**
+     * Find zero or one Revision that matches the filter.
+     * @param {RevisionFindUniqueArgs} args - Arguments to find a Revision
+     * @example
+     * // Get one Revision
+     * const revision = await prisma.revision.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RevisionFindUniqueArgs>(args: SelectSubset<T, RevisionFindUniqueArgs<ExtArgs>>): Prisma__RevisionClient<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Revision that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RevisionFindUniqueOrThrowArgs} args - Arguments to find a Revision
+     * @example
+     * // Get one Revision
+     * const revision = await prisma.revision.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RevisionFindUniqueOrThrowArgs>(args: SelectSubset<T, RevisionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RevisionClient<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Revision that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RevisionFindFirstArgs} args - Arguments to find a Revision
+     * @example
+     * // Get one Revision
+     * const revision = await prisma.revision.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RevisionFindFirstArgs>(args?: SelectSubset<T, RevisionFindFirstArgs<ExtArgs>>): Prisma__RevisionClient<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Revision that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RevisionFindFirstOrThrowArgs} args - Arguments to find a Revision
+     * @example
+     * // Get one Revision
+     * const revision = await prisma.revision.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RevisionFindFirstOrThrowArgs>(args?: SelectSubset<T, RevisionFindFirstOrThrowArgs<ExtArgs>>): Prisma__RevisionClient<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Revisions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RevisionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Revisions
+     * const revisions = await prisma.revision.findMany()
+     * 
+     * // Get first 10 Revisions
+     * const revisions = await prisma.revision.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const revisionWithIdOnly = await prisma.revision.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RevisionFindManyArgs>(args?: SelectSubset<T, RevisionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Revision.
+     * @param {RevisionCreateArgs} args - Arguments to create a Revision.
+     * @example
+     * // Create one Revision
+     * const Revision = await prisma.revision.create({
+     *   data: {
+     *     // ... data to create a Revision
+     *   }
+     * })
+     * 
+     */
+    create<T extends RevisionCreateArgs>(args: SelectSubset<T, RevisionCreateArgs<ExtArgs>>): Prisma__RevisionClient<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Revisions.
+     * @param {RevisionCreateManyArgs} args - Arguments to create many Revisions.
+     * @example
+     * // Create many Revisions
+     * const revision = await prisma.revision.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RevisionCreateManyArgs>(args?: SelectSubset<T, RevisionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Revisions and returns the data saved in the database.
+     * @param {RevisionCreateManyAndReturnArgs} args - Arguments to create many Revisions.
+     * @example
+     * // Create many Revisions
+     * const revision = await prisma.revision.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Revisions and only return the `id`
+     * const revisionWithIdOnly = await prisma.revision.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RevisionCreateManyAndReturnArgs>(args?: SelectSubset<T, RevisionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Revision.
+     * @param {RevisionDeleteArgs} args - Arguments to delete one Revision.
+     * @example
+     * // Delete one Revision
+     * const Revision = await prisma.revision.delete({
+     *   where: {
+     *     // ... filter to delete one Revision
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RevisionDeleteArgs>(args: SelectSubset<T, RevisionDeleteArgs<ExtArgs>>): Prisma__RevisionClient<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Revision.
+     * @param {RevisionUpdateArgs} args - Arguments to update one Revision.
+     * @example
+     * // Update one Revision
+     * const revision = await prisma.revision.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RevisionUpdateArgs>(args: SelectSubset<T, RevisionUpdateArgs<ExtArgs>>): Prisma__RevisionClient<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Revisions.
+     * @param {RevisionDeleteManyArgs} args - Arguments to filter Revisions to delete.
+     * @example
+     * // Delete a few Revisions
+     * const { count } = await prisma.revision.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RevisionDeleteManyArgs>(args?: SelectSubset<T, RevisionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Revisions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RevisionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Revisions
+     * const revision = await prisma.revision.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RevisionUpdateManyArgs>(args: SelectSubset<T, RevisionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Revisions and returns the data updated in the database.
+     * @param {RevisionUpdateManyAndReturnArgs} args - Arguments to update many Revisions.
+     * @example
+     * // Update many Revisions
+     * const revision = await prisma.revision.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Revisions and only return the `id`
+     * const revisionWithIdOnly = await prisma.revision.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RevisionUpdateManyAndReturnArgs>(args: SelectSubset<T, RevisionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Revision.
+     * @param {RevisionUpsertArgs} args - Arguments to update or create a Revision.
+     * @example
+     * // Update or create a Revision
+     * const revision = await prisma.revision.upsert({
+     *   create: {
+     *     // ... data to create a Revision
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Revision we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RevisionUpsertArgs>(args: SelectSubset<T, RevisionUpsertArgs<ExtArgs>>): Prisma__RevisionClient<$Result.GetResult<Prisma.$RevisionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Revisions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RevisionCountArgs} args - Arguments to filter Revisions to count.
+     * @example
+     * // Count the number of Revisions
+     * const count = await prisma.revision.count({
+     *   where: {
+     *     // ... the filter for the Revisions we want to count
+     *   }
+     * })
+    **/
+    count<T extends RevisionCountArgs>(
+      args?: Subset<T, RevisionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RevisionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Revision.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RevisionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RevisionAggregateArgs>(args: Subset<T, RevisionAggregateArgs>): Prisma.PrismaPromise<GetRevisionAggregateType<T>>
+
+    /**
+     * Group by Revision.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RevisionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RevisionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RevisionGroupByArgs['orderBy'] }
+        : { orderBy?: RevisionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RevisionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRevisionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Revision model
+   */
+  readonly fields: RevisionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Revision.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RevisionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    problem<T extends ProblemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProblemDefaultArgs<ExtArgs>>): Prisma__ProblemClient<$Result.GetResult<Prisma.$ProblemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Revision model
+   */
+  interface RevisionFieldRefs {
+    readonly id: FieldRef<"Revision", 'String'>
+    readonly userId: FieldRef<"Revision", 'String'>
+    readonly problemId: FieldRef<"Revision", 'String'>
+    readonly createdAt: FieldRef<"Revision", 'DateTime'>
+    readonly updatedAt: FieldRef<"Revision", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Revision findUnique
+   */
+  export type RevisionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+    /**
+     * Filter, which Revision to fetch.
+     */
+    where: RevisionWhereUniqueInput
+  }
+
+  /**
+   * Revision findUniqueOrThrow
+   */
+  export type RevisionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+    /**
+     * Filter, which Revision to fetch.
+     */
+    where: RevisionWhereUniqueInput
+  }
+
+  /**
+   * Revision findFirst
+   */
+  export type RevisionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+    /**
+     * Filter, which Revision to fetch.
+     */
+    where?: RevisionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Revisions to fetch.
+     */
+    orderBy?: RevisionOrderByWithRelationInput | RevisionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Revisions.
+     */
+    cursor?: RevisionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Revisions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Revisions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Revisions.
+     */
+    distinct?: RevisionScalarFieldEnum | RevisionScalarFieldEnum[]
+  }
+
+  /**
+   * Revision findFirstOrThrow
+   */
+  export type RevisionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+    /**
+     * Filter, which Revision to fetch.
+     */
+    where?: RevisionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Revisions to fetch.
+     */
+    orderBy?: RevisionOrderByWithRelationInput | RevisionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Revisions.
+     */
+    cursor?: RevisionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Revisions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Revisions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Revisions.
+     */
+    distinct?: RevisionScalarFieldEnum | RevisionScalarFieldEnum[]
+  }
+
+  /**
+   * Revision findMany
+   */
+  export type RevisionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+    /**
+     * Filter, which Revisions to fetch.
+     */
+    where?: RevisionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Revisions to fetch.
+     */
+    orderBy?: RevisionOrderByWithRelationInput | RevisionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Revisions.
+     */
+    cursor?: RevisionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Revisions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Revisions.
+     */
+    skip?: number
+    distinct?: RevisionScalarFieldEnum | RevisionScalarFieldEnum[]
+  }
+
+  /**
+   * Revision create
+   */
+  export type RevisionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Revision.
+     */
+    data: XOR<RevisionCreateInput, RevisionUncheckedCreateInput>
+  }
+
+  /**
+   * Revision createMany
+   */
+  export type RevisionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Revisions.
+     */
+    data: RevisionCreateManyInput | RevisionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Revision createManyAndReturn
+   */
+  export type RevisionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Revisions.
+     */
+    data: RevisionCreateManyInput | RevisionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Revision update
+   */
+  export type RevisionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Revision.
+     */
+    data: XOR<RevisionUpdateInput, RevisionUncheckedUpdateInput>
+    /**
+     * Choose, which Revision to update.
+     */
+    where: RevisionWhereUniqueInput
+  }
+
+  /**
+   * Revision updateMany
+   */
+  export type RevisionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Revisions.
+     */
+    data: XOR<RevisionUpdateManyMutationInput, RevisionUncheckedUpdateManyInput>
+    /**
+     * Filter which Revisions to update
+     */
+    where?: RevisionWhereInput
+    /**
+     * Limit how many Revisions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Revision updateManyAndReturn
+   */
+  export type RevisionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * The data used to update Revisions.
+     */
+    data: XOR<RevisionUpdateManyMutationInput, RevisionUncheckedUpdateManyInput>
+    /**
+     * Filter which Revisions to update
+     */
+    where?: RevisionWhereInput
+    /**
+     * Limit how many Revisions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Revision upsert
+   */
+  export type RevisionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Revision to update in case it exists.
+     */
+    where: RevisionWhereUniqueInput
+    /**
+     * In case the Revision found by the `where` argument doesn't exist, create a new Revision with this data.
+     */
+    create: XOR<RevisionCreateInput, RevisionUncheckedCreateInput>
+    /**
+     * In case the Revision was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RevisionUpdateInput, RevisionUncheckedUpdateInput>
+  }
+
+  /**
+   * Revision delete
+   */
+  export type RevisionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+    /**
+     * Filter which Revision to delete.
+     */
+    where: RevisionWhereUniqueInput
+  }
+
+  /**
+   * Revision deleteMany
+   */
+  export type RevisionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Revisions to delete
+     */
+    where?: RevisionWhereInput
+    /**
+     * Limit how many Revisions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Revision without action
+   */
+  export type RevisionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Revision
+     */
+    select?: RevisionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Revision
+     */
+    omit?: RevisionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RevisionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9884,6 +11115,17 @@ export namespace Prisma {
   };
 
   export type ProblemPlaylistScalarFieldEnum = (typeof ProblemPlaylistScalarFieldEnum)[keyof typeof ProblemPlaylistScalarFieldEnum]
+
+
+  export const RevisionScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    problemId: 'problemId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RevisionScalarFieldEnum = (typeof RevisionScalarFieldEnum)[keyof typeof RevisionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -10058,6 +11300,7 @@ export namespace Prisma {
     submissions?: SubmissionListRelationFilter
     solvedProblems?: ProblemSolvedListRelationFilter
     Playlists?: PlaylistListRelationFilter
+    Revision?: RevisionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -10076,6 +11319,7 @@ export namespace Prisma {
     submissions?: SubmissionOrderByRelationAggregateInput
     solvedProblems?: ProblemSolvedOrderByRelationAggregateInput
     Playlists?: PlaylistOrderByRelationAggregateInput
+    Revision?: RevisionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -10097,6 +11341,7 @@ export namespace Prisma {
     submissions?: SubmissionListRelationFilter
     solvedProblems?: ProblemSolvedListRelationFilter
     Playlists?: PlaylistListRelationFilter
+    Revision?: RevisionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -10158,6 +11403,7 @@ export namespace Prisma {
     submission?: SubmissionListRelationFilter
     solvedBy?: ProblemSolvedListRelationFilter
     problemsPlaylist?: ProblemPlaylistListRelationFilter
+    Revision?: RevisionListRelationFilter
   }
 
   export type ProblemOrderByWithRelationInput = {
@@ -10180,6 +11426,7 @@ export namespace Prisma {
     submission?: SubmissionOrderByRelationAggregateInput
     solvedBy?: ProblemSolvedOrderByRelationAggregateInput
     problemsPlaylist?: ProblemPlaylistOrderByRelationAggregateInput
+    Revision?: RevisionOrderByRelationAggregateInput
   }
 
   export type ProblemWhereUniqueInput = Prisma.AtLeast<{
@@ -10205,6 +11452,7 @@ export namespace Prisma {
     submission?: SubmissionListRelationFilter
     solvedBy?: ProblemSolvedListRelationFilter
     problemsPlaylist?: ProblemPlaylistListRelationFilter
+    Revision?: RevisionListRelationFilter
   }, "id">
 
   export type ProblemOrderByWithAggregationInput = {
@@ -10629,6 +11877,65 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"ProblemPlaylist"> | Date | string
   }
 
+  export type RevisionWhereInput = {
+    AND?: RevisionWhereInput | RevisionWhereInput[]
+    OR?: RevisionWhereInput[]
+    NOT?: RevisionWhereInput | RevisionWhereInput[]
+    id?: StringFilter<"Revision"> | string
+    userId?: StringFilter<"Revision"> | string
+    problemId?: StringFilter<"Revision"> | string
+    createdAt?: DateTimeFilter<"Revision"> | Date | string
+    updatedAt?: DateTimeFilter<"Revision"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
+  }
+
+  export type RevisionOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    problemId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    problem?: ProblemOrderByWithRelationInput
+  }
+
+  export type RevisionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_problemId?: RevisionUserIdProblemIdCompoundUniqueInput
+    AND?: RevisionWhereInput | RevisionWhereInput[]
+    OR?: RevisionWhereInput[]
+    NOT?: RevisionWhereInput | RevisionWhereInput[]
+    userId?: StringFilter<"Revision"> | string
+    problemId?: StringFilter<"Revision"> | string
+    createdAt?: DateTimeFilter<"Revision"> | Date | string
+    updatedAt?: DateTimeFilter<"Revision"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    problem?: XOR<ProblemScalarRelationFilter, ProblemWhereInput>
+  }, "id" | "userId_problemId">
+
+  export type RevisionOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    problemId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RevisionCountOrderByAggregateInput
+    _max?: RevisionMaxOrderByAggregateInput
+    _min?: RevisionMinOrderByAggregateInput
+  }
+
+  export type RevisionScalarWhereWithAggregatesInput = {
+    AND?: RevisionScalarWhereWithAggregatesInput | RevisionScalarWhereWithAggregatesInput[]
+    OR?: RevisionScalarWhereWithAggregatesInput[]
+    NOT?: RevisionScalarWhereWithAggregatesInput | RevisionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Revision"> | string
+    userId?: StringWithAggregatesFilter<"Revision"> | string
+    problemId?: StringWithAggregatesFilter<"Revision"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Revision"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Revision"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name?: string | null
@@ -10645,6 +11952,7 @@ export namespace Prisma {
     submissions?: SubmissionCreateNestedManyWithoutUserInput
     solvedProblems?: ProblemSolvedCreateNestedManyWithoutUserInput
     Playlists?: PlaylistCreateNestedManyWithoutUserInput
+    Revision?: RevisionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -10663,6 +11971,7 @@ export namespace Prisma {
     submissions?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     solvedProblems?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     Playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    Revision?: RevisionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -10681,6 +11990,7 @@ export namespace Prisma {
     submissions?: SubmissionUpdateManyWithoutUserNestedInput
     solvedProblems?: ProblemSolvedUpdateManyWithoutUserNestedInput
     Playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    Revision?: RevisionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -10699,6 +12009,7 @@ export namespace Prisma {
     submissions?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     solvedProblems?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     Playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    Revision?: RevisionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10762,6 +12073,7 @@ export namespace Prisma {
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     problemsPlaylist?: ProblemPlaylistCreateNestedManyWithoutProblemInput
+    Revision?: RevisionCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUncheckedCreateInput = {
@@ -10783,6 +12095,7 @@ export namespace Prisma {
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylist?: ProblemPlaylistUncheckedCreateNestedManyWithoutProblemInput
+    Revision?: RevisionUncheckedCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUpdateInput = {
@@ -10804,6 +12117,7 @@ export namespace Prisma {
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     problemsPlaylist?: ProblemPlaylistUpdateManyWithoutProblemNestedInput
+    Revision?: RevisionUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateInput = {
@@ -10825,6 +12139,7 @@ export namespace Prisma {
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylist?: ProblemPlaylistUncheckedUpdateManyWithoutProblemNestedInput
+    Revision?: RevisionUncheckedUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemCreateManyInput = {
@@ -11279,6 +12594,60 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RevisionCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRevisionInput
+    problem: ProblemCreateNestedOneWithoutRevisionInput
+  }
+
+  export type RevisionUncheckedCreateInput = {
+    id?: string
+    userId: string
+    problemId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RevisionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRevisionNestedInput
+    problem?: ProblemUpdateOneRequiredWithoutRevisionNestedInput
+  }
+
+  export type RevisionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RevisionCreateManyInput = {
+    id?: string
+    userId: string
+    problemId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RevisionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RevisionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -11373,6 +12742,12 @@ export namespace Prisma {
     none?: PlaylistWhereInput
   }
 
+  export type RevisionListRelationFilter = {
+    every?: RevisionWhereInput
+    some?: RevisionWhereInput
+    none?: RevisionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -11391,6 +12766,10 @@ export namespace Prisma {
   }
 
   export type PlaylistOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RevisionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11899,6 +13278,35 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type RevisionUserIdProblemIdCompoundUniqueInput = {
+    userId: string
+    problemId: string
+  }
+
+  export type RevisionCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    problemId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RevisionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    problemId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RevisionMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    problemId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type ProblemCreateNestedManyWithoutUserInput = {
     create?: XOR<ProblemCreateWithoutUserInput, ProblemUncheckedCreateWithoutUserInput> | ProblemCreateWithoutUserInput[] | ProblemUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ProblemCreateOrConnectWithoutUserInput | ProblemCreateOrConnectWithoutUserInput[]
@@ -11927,6 +13335,13 @@ export namespace Prisma {
     connect?: PlaylistWhereUniqueInput | PlaylistWhereUniqueInput[]
   }
 
+  export type RevisionCreateNestedManyWithoutUserInput = {
+    create?: XOR<RevisionCreateWithoutUserInput, RevisionUncheckedCreateWithoutUserInput> | RevisionCreateWithoutUserInput[] | RevisionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RevisionCreateOrConnectWithoutUserInput | RevisionCreateOrConnectWithoutUserInput[]
+    createMany?: RevisionCreateManyUserInputEnvelope
+    connect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+  }
+
   export type ProblemUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<ProblemCreateWithoutUserInput, ProblemUncheckedCreateWithoutUserInput> | ProblemCreateWithoutUserInput[] | ProblemUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ProblemCreateOrConnectWithoutUserInput | ProblemCreateOrConnectWithoutUserInput[]
@@ -11953,6 +13368,13 @@ export namespace Prisma {
     connectOrCreate?: PlaylistCreateOrConnectWithoutUserInput | PlaylistCreateOrConnectWithoutUserInput[]
     createMany?: PlaylistCreateManyUserInputEnvelope
     connect?: PlaylistWhereUniqueInput | PlaylistWhereUniqueInput[]
+  }
+
+  export type RevisionUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RevisionCreateWithoutUserInput, RevisionUncheckedCreateWithoutUserInput> | RevisionCreateWithoutUserInput[] | RevisionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RevisionCreateOrConnectWithoutUserInput | RevisionCreateOrConnectWithoutUserInput[]
+    createMany?: RevisionCreateManyUserInputEnvelope
+    connect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -12039,6 +13461,20 @@ export namespace Prisma {
     deleteMany?: PlaylistScalarWhereInput | PlaylistScalarWhereInput[]
   }
 
+  export type RevisionUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RevisionCreateWithoutUserInput, RevisionUncheckedCreateWithoutUserInput> | RevisionCreateWithoutUserInput[] | RevisionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RevisionCreateOrConnectWithoutUserInput | RevisionCreateOrConnectWithoutUserInput[]
+    upsert?: RevisionUpsertWithWhereUniqueWithoutUserInput | RevisionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RevisionCreateManyUserInputEnvelope
+    set?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    disconnect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    delete?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    connect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    update?: RevisionUpdateWithWhereUniqueWithoutUserInput | RevisionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RevisionUpdateManyWithWhereWithoutUserInput | RevisionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RevisionScalarWhereInput | RevisionScalarWhereInput[]
+  }
+
   export type ProblemUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<ProblemCreateWithoutUserInput, ProblemUncheckedCreateWithoutUserInput> | ProblemCreateWithoutUserInput[] | ProblemUncheckedCreateWithoutUserInput[]
     connectOrCreate?: ProblemCreateOrConnectWithoutUserInput | ProblemCreateOrConnectWithoutUserInput[]
@@ -12095,6 +13531,20 @@ export namespace Prisma {
     deleteMany?: PlaylistScalarWhereInput | PlaylistScalarWhereInput[]
   }
 
+  export type RevisionUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RevisionCreateWithoutUserInput, RevisionUncheckedCreateWithoutUserInput> | RevisionCreateWithoutUserInput[] | RevisionUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RevisionCreateOrConnectWithoutUserInput | RevisionCreateOrConnectWithoutUserInput[]
+    upsert?: RevisionUpsertWithWhereUniqueWithoutUserInput | RevisionUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RevisionCreateManyUserInputEnvelope
+    set?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    disconnect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    delete?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    connect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    update?: RevisionUpdateWithWhereUniqueWithoutUserInput | RevisionUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RevisionUpdateManyWithWhereWithoutUserInput | RevisionUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RevisionScalarWhereInput | RevisionScalarWhereInput[]
+  }
+
   export type ProblemCreatetagsInput = {
     set: string[]
   }
@@ -12126,6 +13576,13 @@ export namespace Prisma {
     connect?: ProblemPlaylistWhereUniqueInput | ProblemPlaylistWhereUniqueInput[]
   }
 
+  export type RevisionCreateNestedManyWithoutProblemInput = {
+    create?: XOR<RevisionCreateWithoutProblemInput, RevisionUncheckedCreateWithoutProblemInput> | RevisionCreateWithoutProblemInput[] | RevisionUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: RevisionCreateOrConnectWithoutProblemInput | RevisionCreateOrConnectWithoutProblemInput[]
+    createMany?: RevisionCreateManyProblemInputEnvelope
+    connect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+  }
+
   export type SubmissionUncheckedCreateNestedManyWithoutProblemInput = {
     create?: XOR<SubmissionCreateWithoutProblemInput, SubmissionUncheckedCreateWithoutProblemInput> | SubmissionCreateWithoutProblemInput[] | SubmissionUncheckedCreateWithoutProblemInput[]
     connectOrCreate?: SubmissionCreateOrConnectWithoutProblemInput | SubmissionCreateOrConnectWithoutProblemInput[]
@@ -12145,6 +13602,13 @@ export namespace Prisma {
     connectOrCreate?: ProblemPlaylistCreateOrConnectWithoutProblemInput | ProblemPlaylistCreateOrConnectWithoutProblemInput[]
     createMany?: ProblemPlaylistCreateManyProblemInputEnvelope
     connect?: ProblemPlaylistWhereUniqueInput | ProblemPlaylistWhereUniqueInput[]
+  }
+
+  export type RevisionUncheckedCreateNestedManyWithoutProblemInput = {
+    create?: XOR<RevisionCreateWithoutProblemInput, RevisionUncheckedCreateWithoutProblemInput> | RevisionCreateWithoutProblemInput[] | RevisionUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: RevisionCreateOrConnectWithoutProblemInput | RevisionCreateOrConnectWithoutProblemInput[]
+    createMany?: RevisionCreateManyProblemInputEnvelope
+    connect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
   }
 
   export type EnumDifficultyFieldUpdateOperationsInput = {
@@ -12206,6 +13670,20 @@ export namespace Prisma {
     deleteMany?: ProblemPlaylistScalarWhereInput | ProblemPlaylistScalarWhereInput[]
   }
 
+  export type RevisionUpdateManyWithoutProblemNestedInput = {
+    create?: XOR<RevisionCreateWithoutProblemInput, RevisionUncheckedCreateWithoutProblemInput> | RevisionCreateWithoutProblemInput[] | RevisionUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: RevisionCreateOrConnectWithoutProblemInput | RevisionCreateOrConnectWithoutProblemInput[]
+    upsert?: RevisionUpsertWithWhereUniqueWithoutProblemInput | RevisionUpsertWithWhereUniqueWithoutProblemInput[]
+    createMany?: RevisionCreateManyProblemInputEnvelope
+    set?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    disconnect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    delete?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    connect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    update?: RevisionUpdateWithWhereUniqueWithoutProblemInput | RevisionUpdateWithWhereUniqueWithoutProblemInput[]
+    updateMany?: RevisionUpdateManyWithWhereWithoutProblemInput | RevisionUpdateManyWithWhereWithoutProblemInput[]
+    deleteMany?: RevisionScalarWhereInput | RevisionScalarWhereInput[]
+  }
+
   export type SubmissionUncheckedUpdateManyWithoutProblemNestedInput = {
     create?: XOR<SubmissionCreateWithoutProblemInput, SubmissionUncheckedCreateWithoutProblemInput> | SubmissionCreateWithoutProblemInput[] | SubmissionUncheckedCreateWithoutProblemInput[]
     connectOrCreate?: SubmissionCreateOrConnectWithoutProblemInput | SubmissionCreateOrConnectWithoutProblemInput[]
@@ -12246,6 +13724,20 @@ export namespace Prisma {
     update?: ProblemPlaylistUpdateWithWhereUniqueWithoutProblemInput | ProblemPlaylistUpdateWithWhereUniqueWithoutProblemInput[]
     updateMany?: ProblemPlaylistUpdateManyWithWhereWithoutProblemInput | ProblemPlaylistUpdateManyWithWhereWithoutProblemInput[]
     deleteMany?: ProblemPlaylistScalarWhereInput | ProblemPlaylistScalarWhereInput[]
+  }
+
+  export type RevisionUncheckedUpdateManyWithoutProblemNestedInput = {
+    create?: XOR<RevisionCreateWithoutProblemInput, RevisionUncheckedCreateWithoutProblemInput> | RevisionCreateWithoutProblemInput[] | RevisionUncheckedCreateWithoutProblemInput[]
+    connectOrCreate?: RevisionCreateOrConnectWithoutProblemInput | RevisionCreateOrConnectWithoutProblemInput[]
+    upsert?: RevisionUpsertWithWhereUniqueWithoutProblemInput | RevisionUpsertWithWhereUniqueWithoutProblemInput[]
+    createMany?: RevisionCreateManyProblemInputEnvelope
+    set?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    disconnect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    delete?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    connect?: RevisionWhereUniqueInput | RevisionWhereUniqueInput[]
+    update?: RevisionUpdateWithWhereUniqueWithoutProblemInput | RevisionUpdateWithWhereUniqueWithoutProblemInput[]
+    updateMany?: RevisionUpdateManyWithWhereWithoutProblemInput | RevisionUpdateManyWithWhereWithoutProblemInput[]
+    deleteMany?: RevisionScalarWhereInput | RevisionScalarWhereInput[]
   }
 
   export type ProblemCreateNestedOneWithoutSubmissionInput = {
@@ -12446,6 +13938,34 @@ export namespace Prisma {
     upsert?: ProblemUpsertWithoutProblemsPlaylistInput
     connect?: ProblemWhereUniqueInput
     update?: XOR<XOR<ProblemUpdateToOneWithWhereWithoutProblemsPlaylistInput, ProblemUpdateWithoutProblemsPlaylistInput>, ProblemUncheckedUpdateWithoutProblemsPlaylistInput>
+  }
+
+  export type UserCreateNestedOneWithoutRevisionInput = {
+    create?: XOR<UserCreateWithoutRevisionInput, UserUncheckedCreateWithoutRevisionInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRevisionInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ProblemCreateNestedOneWithoutRevisionInput = {
+    create?: XOR<ProblemCreateWithoutRevisionInput, ProblemUncheckedCreateWithoutRevisionInput>
+    connectOrCreate?: ProblemCreateOrConnectWithoutRevisionInput
+    connect?: ProblemWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutRevisionNestedInput = {
+    create?: XOR<UserCreateWithoutRevisionInput, UserUncheckedCreateWithoutRevisionInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRevisionInput
+    upsert?: UserUpsertWithoutRevisionInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRevisionInput, UserUpdateWithoutRevisionInput>, UserUncheckedUpdateWithoutRevisionInput>
+  }
+
+  export type ProblemUpdateOneRequiredWithoutRevisionNestedInput = {
+    create?: XOR<ProblemCreateWithoutRevisionInput, ProblemUncheckedCreateWithoutRevisionInput>
+    connectOrCreate?: ProblemCreateOrConnectWithoutRevisionInput
+    upsert?: ProblemUpsertWithoutRevisionInput
+    connect?: ProblemWhereUniqueInput
+    update?: XOR<XOR<ProblemUpdateToOneWithWhereWithoutRevisionInput, ProblemUpdateWithoutRevisionInput>, ProblemUncheckedUpdateWithoutRevisionInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -12697,6 +14217,7 @@ export namespace Prisma {
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     problemsPlaylist?: ProblemPlaylistCreateNestedManyWithoutProblemInput
+    Revision?: RevisionCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUncheckedCreateWithoutUserInput = {
@@ -12717,6 +14238,7 @@ export namespace Prisma {
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylist?: ProblemPlaylistUncheckedCreateNestedManyWithoutProblemInput
+    Revision?: RevisionUncheckedCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemCreateOrConnectWithoutUserInput = {
@@ -12820,6 +14342,30 @@ export namespace Prisma {
 
   export type PlaylistCreateManyUserInputEnvelope = {
     data: PlaylistCreateManyUserInput | PlaylistCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RevisionCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    problem: ProblemCreateNestedOneWithoutRevisionInput
+  }
+
+  export type RevisionUncheckedCreateWithoutUserInput = {
+    id?: string
+    problemId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RevisionCreateOrConnectWithoutUserInput = {
+    where: RevisionWhereUniqueInput
+    create: XOR<RevisionCreateWithoutUserInput, RevisionUncheckedCreateWithoutUserInput>
+  }
+
+  export type RevisionCreateManyUserInputEnvelope = {
+    data: RevisionCreateManyUserInput | RevisionCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -12950,6 +14496,33 @@ export namespace Prisma {
     userId?: StringFilter<"Playlist"> | string
   }
 
+  export type RevisionUpsertWithWhereUniqueWithoutUserInput = {
+    where: RevisionWhereUniqueInput
+    update: XOR<RevisionUpdateWithoutUserInput, RevisionUncheckedUpdateWithoutUserInput>
+    create: XOR<RevisionCreateWithoutUserInput, RevisionUncheckedCreateWithoutUserInput>
+  }
+
+  export type RevisionUpdateWithWhereUniqueWithoutUserInput = {
+    where: RevisionWhereUniqueInput
+    data: XOR<RevisionUpdateWithoutUserInput, RevisionUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RevisionUpdateManyWithWhereWithoutUserInput = {
+    where: RevisionScalarWhereInput
+    data: XOR<RevisionUpdateManyMutationInput, RevisionUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RevisionScalarWhereInput = {
+    AND?: RevisionScalarWhereInput | RevisionScalarWhereInput[]
+    OR?: RevisionScalarWhereInput[]
+    NOT?: RevisionScalarWhereInput | RevisionScalarWhereInput[]
+    id?: StringFilter<"Revision"> | string
+    userId?: StringFilter<"Revision"> | string
+    problemId?: StringFilter<"Revision"> | string
+    createdAt?: DateTimeFilter<"Revision"> | Date | string
+    updatedAt?: DateTimeFilter<"Revision"> | Date | string
+  }
+
   export type UserCreateWithoutProblemsInput = {
     id?: string
     name?: string | null
@@ -12965,6 +14538,7 @@ export namespace Prisma {
     submissions?: SubmissionCreateNestedManyWithoutUserInput
     solvedProblems?: ProblemSolvedCreateNestedManyWithoutUserInput
     Playlists?: PlaylistCreateNestedManyWithoutUserInput
+    Revision?: RevisionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutProblemsInput = {
@@ -12982,6 +14556,7 @@ export namespace Prisma {
     submissions?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     solvedProblems?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     Playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    Revision?: RevisionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutProblemsInput = {
@@ -13079,6 +14654,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RevisionCreateWithoutProblemInput = {
+    id?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRevisionInput
+  }
+
+  export type RevisionUncheckedCreateWithoutProblemInput = {
+    id?: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RevisionCreateOrConnectWithoutProblemInput = {
+    where: RevisionWhereUniqueInput
+    create: XOR<RevisionCreateWithoutProblemInput, RevisionUncheckedCreateWithoutProblemInput>
+  }
+
+  export type RevisionCreateManyProblemInputEnvelope = {
+    data: RevisionCreateManyProblemInput | RevisionCreateManyProblemInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutProblemsInput = {
     update: XOR<UserUpdateWithoutProblemsInput, UserUncheckedUpdateWithoutProblemsInput>
     create: XOR<UserCreateWithoutProblemsInput, UserUncheckedCreateWithoutProblemsInput>
@@ -13105,6 +14704,7 @@ export namespace Prisma {
     submissions?: SubmissionUpdateManyWithoutUserNestedInput
     solvedProblems?: ProblemSolvedUpdateManyWithoutUserNestedInput
     Playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    Revision?: RevisionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProblemsInput = {
@@ -13122,6 +14722,7 @@ export namespace Prisma {
     submissions?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     solvedProblems?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     Playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    Revision?: RevisionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SubmissionUpsertWithWhereUniqueWithoutProblemInput = {
@@ -13183,6 +14784,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ProblemPlaylist"> | Date | string
   }
 
+  export type RevisionUpsertWithWhereUniqueWithoutProblemInput = {
+    where: RevisionWhereUniqueInput
+    update: XOR<RevisionUpdateWithoutProblemInput, RevisionUncheckedUpdateWithoutProblemInput>
+    create: XOR<RevisionCreateWithoutProblemInput, RevisionUncheckedCreateWithoutProblemInput>
+  }
+
+  export type RevisionUpdateWithWhereUniqueWithoutProblemInput = {
+    where: RevisionWhereUniqueInput
+    data: XOR<RevisionUpdateWithoutProblemInput, RevisionUncheckedUpdateWithoutProblemInput>
+  }
+
+  export type RevisionUpdateManyWithWhereWithoutProblemInput = {
+    where: RevisionScalarWhereInput
+    data: XOR<RevisionUpdateManyMutationInput, RevisionUncheckedUpdateManyWithoutProblemInput>
+  }
+
   export type ProblemCreateWithoutSubmissionInput = {
     id?: string
     title: string
@@ -13201,6 +14818,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutProblemsInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
     problemsPlaylist?: ProblemPlaylistCreateNestedManyWithoutProblemInput
+    Revision?: RevisionCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUncheckedCreateWithoutSubmissionInput = {
@@ -13221,6 +14839,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylist?: ProblemPlaylistUncheckedCreateNestedManyWithoutProblemInput
+    Revision?: RevisionUncheckedCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemCreateOrConnectWithoutSubmissionInput = {
@@ -13243,6 +14862,7 @@ export namespace Prisma {
     problems?: ProblemCreateNestedManyWithoutUserInput
     solvedProblems?: ProblemSolvedCreateNestedManyWithoutUserInput
     Playlists?: PlaylistCreateNestedManyWithoutUserInput
+    Revision?: RevisionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionsInput = {
@@ -13260,6 +14880,7 @@ export namespace Prisma {
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     solvedProblems?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
     Playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    Revision?: RevisionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionsInput = {
@@ -13336,6 +14957,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     problemsPlaylist?: ProblemPlaylistUpdateManyWithoutProblemNestedInput
+    Revision?: RevisionUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateWithoutSubmissionInput = {
@@ -13356,6 +14978,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylist?: ProblemPlaylistUncheckedUpdateManyWithoutProblemNestedInput
+    Revision?: RevisionUncheckedUpdateManyWithoutProblemNestedInput
   }
 
   export type UserUpsertWithoutSubmissionsInput = {
@@ -13384,6 +15007,7 @@ export namespace Prisma {
     problems?: ProblemUpdateManyWithoutUserNestedInput
     solvedProblems?: ProblemSolvedUpdateManyWithoutUserNestedInput
     Playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    Revision?: RevisionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionsInput = {
@@ -13401,6 +15025,7 @@ export namespace Prisma {
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     solvedProblems?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
     Playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    Revision?: RevisionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type TestCaseResultUpsertWithWhereUniqueWithoutSubmissionInput = {
@@ -13536,6 +15161,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     problemsPlaylist?: ProblemPlaylistCreateNestedManyWithoutProblemInput
+    Revision?: RevisionCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUncheckedCreateWithoutSolvedByInput = {
@@ -13556,6 +15182,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     problemsPlaylist?: ProblemPlaylistUncheckedCreateNestedManyWithoutProblemInput
+    Revision?: RevisionUncheckedCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemCreateOrConnectWithoutSolvedByInput = {
@@ -13578,6 +15205,7 @@ export namespace Prisma {
     problems?: ProblemCreateNestedManyWithoutUserInput
     submissions?: SubmissionCreateNestedManyWithoutUserInput
     Playlists?: PlaylistCreateNestedManyWithoutUserInput
+    Revision?: RevisionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSolvedProblemsInput = {
@@ -13595,6 +15223,7 @@ export namespace Prisma {
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     Playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+    Revision?: RevisionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSolvedProblemsInput = {
@@ -13631,6 +15260,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     problemsPlaylist?: ProblemPlaylistUpdateManyWithoutProblemNestedInput
+    Revision?: RevisionUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateWithoutSolvedByInput = {
@@ -13651,6 +15281,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylist?: ProblemPlaylistUncheckedUpdateManyWithoutProblemNestedInput
+    Revision?: RevisionUncheckedUpdateManyWithoutProblemNestedInput
   }
 
   export type UserUpsertWithoutSolvedProblemsInput = {
@@ -13679,6 +15310,7 @@ export namespace Prisma {
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUpdateManyWithoutUserNestedInput
     Playlists?: PlaylistUpdateManyWithoutUserNestedInput
+    Revision?: RevisionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSolvedProblemsInput = {
@@ -13696,6 +15328,7 @@ export namespace Prisma {
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     Playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+    Revision?: RevisionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProblemPlaylistCreateWithoutPlaylistInput = {
@@ -13737,6 +15370,7 @@ export namespace Prisma {
     problems?: ProblemCreateNestedManyWithoutUserInput
     submissions?: SubmissionCreateNestedManyWithoutUserInput
     solvedProblems?: ProblemSolvedCreateNestedManyWithoutUserInput
+    Revision?: RevisionCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPlaylistsInput = {
@@ -13754,6 +15388,7 @@ export namespace Prisma {
     problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
     submissions?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     solvedProblems?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    Revision?: RevisionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPlaylistsInput = {
@@ -13803,6 +15438,7 @@ export namespace Prisma {
     problems?: ProblemUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUpdateManyWithoutUserNestedInput
     solvedProblems?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    Revision?: RevisionUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPlaylistsInput = {
@@ -13820,6 +15456,7 @@ export namespace Prisma {
     problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
     submissions?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     solvedProblems?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    Revision?: RevisionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PlaylistCreateWithoutProblemsInput = {
@@ -13863,6 +15500,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutProblemsInput
     submission?: SubmissionCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
+    Revision?: RevisionCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemUncheckedCreateWithoutProblemsPlaylistInput = {
@@ -13883,6 +15521,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
     solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
+    Revision?: RevisionUncheckedCreateNestedManyWithoutProblemInput
   }
 
   export type ProblemCreateOrConnectWithoutProblemsPlaylistInput = {
@@ -13948,6 +15587,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutProblemsNestedInput
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
+    Revision?: RevisionUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateWithoutProblemsPlaylistInput = {
@@ -13968,6 +15608,195 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
+    Revision?: RevisionUncheckedUpdateManyWithoutProblemNestedInput
+  }
+
+  export type UserCreateWithoutRevisionInput = {
+    id?: string
+    name?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.Role
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLogin?: Date | string | null
+    streakCount?: number
+    maxStreakCount?: number
+    problems?: ProblemCreateNestedManyWithoutUserInput
+    submissions?: SubmissionCreateNestedManyWithoutUserInput
+    solvedProblems?: ProblemSolvedCreateNestedManyWithoutUserInput
+    Playlists?: PlaylistCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRevisionInput = {
+    id?: string
+    name?: string | null
+    email: string
+    image?: string | null
+    role?: $Enums.Role
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLogin?: Date | string | null
+    streakCount?: number
+    maxStreakCount?: number
+    problems?: ProblemUncheckedCreateNestedManyWithoutUserInput
+    submissions?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    solvedProblems?: ProblemSolvedUncheckedCreateNestedManyWithoutUserInput
+    Playlists?: PlaylistUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRevisionInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRevisionInput, UserUncheckedCreateWithoutRevisionInput>
+  }
+
+  export type ProblemCreateWithoutRevisionInput = {
+    id?: string
+    title: string
+    description: string
+    difficulty: $Enums.Difficulty
+    tags?: ProblemCreatetagsInput | string[]
+    examples: JsonNullValueInput | InputJsonValue
+    constraints: string
+    hints?: string | null
+    editorial?: string | null
+    testcases: JsonNullValueInput | InputJsonValue
+    codeSnippets: JsonNullValueInput | InputJsonValue
+    referenceSolutions: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutProblemsInput
+    submission?: SubmissionCreateNestedManyWithoutProblemInput
+    solvedBy?: ProblemSolvedCreateNestedManyWithoutProblemInput
+    problemsPlaylist?: ProblemPlaylistCreateNestedManyWithoutProblemInput
+  }
+
+  export type ProblemUncheckedCreateWithoutRevisionInput = {
+    id?: string
+    title: string
+    description: string
+    difficulty: $Enums.Difficulty
+    tags?: ProblemCreatetagsInput | string[]
+    userId: string
+    examples: JsonNullValueInput | InputJsonValue
+    constraints: string
+    hints?: string | null
+    editorial?: string | null
+    testcases: JsonNullValueInput | InputJsonValue
+    codeSnippets: JsonNullValueInput | InputJsonValue
+    referenceSolutions: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    submission?: SubmissionUncheckedCreateNestedManyWithoutProblemInput
+    solvedBy?: ProblemSolvedUncheckedCreateNestedManyWithoutProblemInput
+    problemsPlaylist?: ProblemPlaylistUncheckedCreateNestedManyWithoutProblemInput
+  }
+
+  export type ProblemCreateOrConnectWithoutRevisionInput = {
+    where: ProblemWhereUniqueInput
+    create: XOR<ProblemCreateWithoutRevisionInput, ProblemUncheckedCreateWithoutRevisionInput>
+  }
+
+  export type UserUpsertWithoutRevisionInput = {
+    update: XOR<UserUpdateWithoutRevisionInput, UserUncheckedUpdateWithoutRevisionInput>
+    create: XOR<UserCreateWithoutRevisionInput, UserUncheckedCreateWithoutRevisionInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRevisionInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRevisionInput, UserUncheckedUpdateWithoutRevisionInput>
+  }
+
+  export type UserUpdateWithoutRevisionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    streakCount?: IntFieldUpdateOperationsInput | number
+    maxStreakCount?: IntFieldUpdateOperationsInput | number
+    problems?: ProblemUpdateManyWithoutUserNestedInput
+    submissions?: SubmissionUpdateManyWithoutUserNestedInput
+    solvedProblems?: ProblemSolvedUpdateManyWithoutUserNestedInput
+    Playlists?: PlaylistUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRevisionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLogin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    streakCount?: IntFieldUpdateOperationsInput | number
+    maxStreakCount?: IntFieldUpdateOperationsInput | number
+    problems?: ProblemUncheckedUpdateManyWithoutUserNestedInput
+    submissions?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    solvedProblems?: ProblemSolvedUncheckedUpdateManyWithoutUserNestedInput
+    Playlists?: PlaylistUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ProblemUpsertWithoutRevisionInput = {
+    update: XOR<ProblemUpdateWithoutRevisionInput, ProblemUncheckedUpdateWithoutRevisionInput>
+    create: XOR<ProblemCreateWithoutRevisionInput, ProblemUncheckedCreateWithoutRevisionInput>
+    where?: ProblemWhereInput
+  }
+
+  export type ProblemUpdateToOneWithWhereWithoutRevisionInput = {
+    where?: ProblemWhereInput
+    data: XOR<ProblemUpdateWithoutRevisionInput, ProblemUncheckedUpdateWithoutRevisionInput>
+  }
+
+  export type ProblemUpdateWithoutRevisionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+    tags?: ProblemUpdatetagsInput | string[]
+    examples?: JsonNullValueInput | InputJsonValue
+    constraints?: StringFieldUpdateOperationsInput | string
+    hints?: NullableStringFieldUpdateOperationsInput | string | null
+    editorial?: NullableStringFieldUpdateOperationsInput | string | null
+    testcases?: JsonNullValueInput | InputJsonValue
+    codeSnippets?: JsonNullValueInput | InputJsonValue
+    referenceSolutions?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutProblemsNestedInput
+    submission?: SubmissionUpdateManyWithoutProblemNestedInput
+    solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
+    problemsPlaylist?: ProblemPlaylistUpdateManyWithoutProblemNestedInput
+  }
+
+  export type ProblemUncheckedUpdateWithoutRevisionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    difficulty?: EnumDifficultyFieldUpdateOperationsInput | $Enums.Difficulty
+    tags?: ProblemUpdatetagsInput | string[]
+    userId?: StringFieldUpdateOperationsInput | string
+    examples?: JsonNullValueInput | InputJsonValue
+    constraints?: StringFieldUpdateOperationsInput | string
+    hints?: NullableStringFieldUpdateOperationsInput | string | null
+    editorial?: NullableStringFieldUpdateOperationsInput | string | null
+    testcases?: JsonNullValueInput | InputJsonValue
+    codeSnippets?: JsonNullValueInput | InputJsonValue
+    referenceSolutions?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
+    solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
+    problemsPlaylist?: ProblemPlaylistUncheckedUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemCreateManyUserInput = {
@@ -14017,6 +15846,13 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type RevisionCreateManyUserInput = {
+    id?: string
+    problemId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ProblemUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -14035,6 +15871,7 @@ export namespace Prisma {
     submission?: SubmissionUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUpdateManyWithoutProblemNestedInput
     problemsPlaylist?: ProblemPlaylistUpdateManyWithoutProblemNestedInput
+    Revision?: RevisionUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateWithoutUserInput = {
@@ -14055,6 +15892,7 @@ export namespace Prisma {
     submission?: SubmissionUncheckedUpdateManyWithoutProblemNestedInput
     solvedBy?: ProblemSolvedUncheckedUpdateManyWithoutProblemNestedInput
     problemsPlaylist?: ProblemPlaylistUncheckedUpdateManyWithoutProblemNestedInput
+    Revision?: RevisionUncheckedUpdateManyWithoutProblemNestedInput
   }
 
   export type ProblemUncheckedUpdateManyWithoutUserInput = {
@@ -14168,6 +16006,27 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RevisionUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    problem?: ProblemUpdateOneRequiredWithoutRevisionNestedInput
+  }
+
+  export type RevisionUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RevisionUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    problemId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SubmissionCreateManyProblemInput = {
     id?: string
     userId: string
@@ -14193,6 +16052,13 @@ export namespace Prisma {
   export type ProblemPlaylistCreateManyProblemInput = {
     id?: string
     playlistId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RevisionCreateManyProblemInput = {
+    id?: string
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14282,6 +16148,27 @@ export namespace Prisma {
   export type ProblemPlaylistUncheckedUpdateManyWithoutProblemInput = {
     id?: StringFieldUpdateOperationsInput | string
     playlistId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RevisionUpdateWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRevisionNestedInput
+  }
+
+  export type RevisionUncheckedUpdateWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RevisionUncheckedUpdateManyWithoutProblemInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

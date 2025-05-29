@@ -18,6 +18,8 @@ export const authMiddleware = async (req, res, next) => {
           email: true,
           role: true,
           image: true,
+          streakCount: true,
+          maxStreakCount: true,
         },
       });
 
