@@ -13,6 +13,7 @@ import SubmissionHeatmap from "../components/SubmissionHeatmap";
 
 const Profile = () => {
   const { authUser } = useAuthStore();
+  console.log("Auth User:", authUser);
 
   // Animation variants
   const containerVariants = {
@@ -130,6 +131,13 @@ const Profile = () => {
                     ? "Full system access"
                     : "Limited access"}
                 </div>
+              </motion.div>
+
+              <motion.div className="profile-stats p-4" variants={itemVariants}>
+                <h1>Current Login Streak</h1>
+                <p>{authUser.streakCount}</p>
+                <h1>Maximum Login Streak</h1>
+                <p>{authUser.maxStreakCount}</p>
               </motion.div>
             </div>
 
