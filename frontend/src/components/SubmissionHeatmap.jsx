@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
-import ReactTooltip from "react-tooltip";
 import { Calendar } from "lucide-react";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 
@@ -48,7 +47,7 @@ const SubmissionHeatmap = () => {
       <h2 className="profile-component-header flex items-center gap-2 mb-6">
         <Calendar className="w-5 h-5 text-red-500" /> Submission Activity
       </h2>
-      <ReactTooltip place="top" effect="solid" />
+      {/* <ReactTooltip place="top" effect="solid" /> */}
       {submissions && submissions.length > 0 ? (
         <div className="submission-heatmap bg-black/20 p-4 rounded-lg border border-white/10">
           <CalendarHeatmap

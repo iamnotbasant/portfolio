@@ -1,12 +1,13 @@
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useAuthStore } from "../store/useAuthStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useActions } from "../store/useAction";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import AddToPlaylistModal from "../components/AddToPlaylist";
 
 const ProblemTable = ({ problems, onProblemDeleted }) => {
+  const navigate = useNavigate();
   const { authUser } = useAuthStore();
   const isAdmin = authUser?.role === "ADMIN";
   const [currentPage, setCurrentPage] = useState(1);
@@ -68,7 +69,9 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
       onProblemDeleted(problemId);
     }
   };
-  const handleEdit = (problemId) => {};
+  const handleEdit = (problemId) => {
+    navigate(`/problem/edit/${problemId}`);
+  };
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useForm, useFieldArray, Controller, set } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -512,10 +512,57 @@ public class Main {
   },
 };
 
-const ProblemForm = () => {
+const ProblemForm = ({ isEditing = false, problemData = null }) => {
   const [sampleType, setSampleType] = useState("DP");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Initialize form with problem data if in edit mode
+  const defaultValues = useMemo(() => {
+    if (isEditing && problemData) {
+      return {
+        ...problemData,
+        // Ensure all required fields exist
+        testcases: problemData.testcases || [{ input: "", output: "" }],
+        tags: problemData.tags || [""],
+        examples: problemData.examples || {
+          JAVASCRIPT: { input: "", output: "", explanation: "" },
+          PYTHON: { input: "", output: "", explanation: "" },
+          JAVA: { input: "", output: "", explanation: "" },
+        },
+        codeSnippets: problemData.codeSnippets || {
+          JAVASCRIPT: "function solution() {\n  // Write your code here\n}",
+          PYTHON: "def solution():\n    # Write your code here\n    pass",
+          JAVA: "public class Solution {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}",
+        },
+        referenceSolutions: problemData.referenceSolutions || {
+          JAVASCRIPT: "// Add your reference solution here",
+          PYTHON: "# Add your reference solution here",
+          JAVA: "// Add your reference solution here",
+        },
+      };
+    }
+    // Default values for create mode
+    return {
+      testcases: [{ input: "", output: "" }],
+      tags: [""],
+      examples: {
+        JAVASCRIPT: { input: "", output: "", explanation: "" },
+        PYTHON: { input: "", output: "", explanation: "" },
+        JAVA: { input: "", output: "", explanation: "" },
+      },
+      codeSnippets: {
+        JAVASCRIPT: "function solution() {\n  // Write your code here\n}",
+        PYTHON: "def solution():\n    # Write your code here\n    pass",
+        JAVA: "public class Solution {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}",
+      },
+      referenceSolutions: {
+        JAVASCRIPT: "// Add your reference solution here",
+        PYTHON: "# Add your reference solution here",
+        JAVA: "// Add your reference solution here",
+      },
+    };
+  }, [isEditing, problemData]);
 
   const {
     register,
@@ -545,6 +592,12 @@ const ProblemForm = () => {
       },
     },
   });
+
+  useEffect(() => {
+    if (isEditing && problemData) {
+      reset(defaultValues);
+    }
+  }, [isEditing, problemData, reset, defaultValues]);
 
   const {
     fields: testCaseFields,
@@ -577,17 +630,29 @@ const ProblemForm = () => {
   const onSubmit = async (data) => {
     try {
       setIsLoading(true);
-      const response = await axiosInstance.post(
-        "/problems/create-problem",
-        data
-      );
-      console.log(response.data);
+      let response;
 
-      Toast.success(response.data.message || "Problem created successfully!");
+      if (isEditing) {
+        response = await axiosInstance.put(
+          `/problems/update-problem/${problemData.id}`,
+          data
+        );
+        Toast.success(response.data.message || "Problem updated successfully!");
+      } else {
+        response = await axiosInstance.post("/problems/create-problem", data);
+        Toast.success(response.data.message || "Problem created successfully!");
+      }
+
       navigate("/dashboard");
     } catch (error) {
-      console.error("Error creating problem:", error);
-      Toast.error(error.response?.data?.message || "Error creating problem");
+      console.error(
+        `Error ${isEditing ? "updating" : "creating"} problem:`,
+        error
+      );
+      Toast.error(
+        error.response?.data?.message ||
+          `Error ${isEditing ? "updating" : "creating"} problem`
+      );
     } finally {
       setIsLoading(false);
     }
@@ -949,7 +1014,8 @@ const ProblemForm = () => {
 
           <div className="prob-form-footer prob-flex prob-flex-end">
             <button type="submit" className="prob-btn prob-btn-primary">
-              <CheckCircle2 size={20} /> Create Problem
+              <CheckCircle2 size={20} />{" "}
+              {isEditing ? "Update Problem" : "Create Problem"}
             </button>
           </div>
         </form>

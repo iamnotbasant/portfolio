@@ -12,6 +12,7 @@ import ToastContainer from "./components/ToastContainer";
 import "./input.css";
 import AdminRoute from "./components/AdminRoute";
 import AddProblem from "./pages/admin/AddProblem";
+import EditProblem from "./pages/EditProblem";
 import { ProblemPage } from "./pages/ProblemPage";
 import { Loader } from "./components/Loader";
 
@@ -40,7 +41,6 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<LandingPage />} />
           </Route>
-
           <Route
             path="/login"
             element={authUser ? <Navigate to="/dashboard" /> : <Login />}
@@ -67,7 +67,6 @@ function App() {
               )
             }
           />
-
           <Route
             path="/problem/:id"
             element={
@@ -88,8 +87,8 @@ function App() {
               path="/add-problem"
               element={authUser ? <AddProblem /> : <Navigate to="/login" />}
             />
+            <Route path="/problem/edit/:id" element={<EditProblem />} />
           </Route>
-
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
