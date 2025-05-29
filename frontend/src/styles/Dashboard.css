@@ -297,3 +297,26 @@ td {
   background-color: rgba(215, 8, 1, 0.2);
   color: #ff6666;
 }
+
+/* Add these styles to your Dashboard.css file */
+
+.stat-card {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  transform: translateY(-2px);
+}
+
+.stat-pill {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+  border: 1px solid;
+}

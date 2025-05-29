@@ -107,8 +107,6 @@ export const Dashboard = () => {
           </div>
         </motion.div>
 
-        {/* Filters */}
-
         {/* Problems Table */}
         {problems.length === 0 ? (
           <motion.div

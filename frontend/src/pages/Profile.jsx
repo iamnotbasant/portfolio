@@ -8,6 +8,7 @@ import PlaylistProfile from "../components/PlaylistProfile";
 import { Navbar } from "../components/Navbar";
 import { motion } from "framer-motion";
 import "../styles/Profile.css";
+import UserStats from "../components/UserStats";
 
 const Profile = () => {
   const { authUser } = useAuthStore();
@@ -49,19 +50,16 @@ const Profile = () => {
         animate="visible"
       >
         <div className="flex items-center gap-3 mt-4">
-          <Link
-            to="/dashboard"
-            className="btn btn-circle btn-ghost bg-opacity-20 backdrop-blur-sm"
-          >
+          <Link to="/dashboard" className="bg-opacity-20 backdrop-blur-sm">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <h1 className="text-3xl font-bold">Profile</h1>
         </div>
       </motion.div>
 
-      <motion.div className="flex items-start justify-start">
+      <motion.div className="flex items-start justify-start gap-4">
         <motion.div variants={itemVariants} className="profile-card">
-          <div className="card-body">
+          <div>
             {/* Profile Header */}
             <div className="flex flex-col md:flex-row items-center gap-8">
               {/* Avatar */}
@@ -89,9 +87,7 @@ const Profile = () => {
                 <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 neue-med">
                   {authUser.name}
                 </h2>
-                <div className="mt-2 inline-block px-3 py-1 bg-[rgba(255,51,51,0.15)] border border-[rgba(255,51,51,0.3)] text-[#ff3333]">
-                  {authUser.role}
-                </div>
+                <div>{authUser.role}</div>
               </div>
             </div>
 
@@ -100,11 +96,7 @@ const Profile = () => {
             {/* User Information */}
             <div className="grid grid-cols-1 gap-6">
               {/* Email */}
-              <motion.div
-                className="profile-stats p-4"
-                variants={itemVariants}
-                whileHover={{ y: -5, transition: { type: "spring" } }}
-              >
+              <motion.div className="profile-stats p-4" variants={itemVariants}>
                 <div className="stat-figure text-primary">
                   <Mail className="w-8 h-8" />
                 </div>
@@ -115,11 +107,7 @@ const Profile = () => {
               </motion.div>
 
               {/* User ID */}
-              <motion.div
-                className="profile-stats p-4"
-                variants={itemVariants}
-                whileHover={{ y: -5, transition: { type: "spring" } }}
-              >
+              <motion.div className="profile-stats p-4" variants={itemVariants}>
                 <div className="stat-figure text-primary">
                   <User className="w-8 h-8" />
                 </div>
@@ -130,11 +118,7 @@ const Profile = () => {
               </motion.div>
 
               {/* Role Status */}
-              <motion.div
-                className="profile-stats p-4"
-                variants={itemVariants}
-                whileHover={{ y: -5, transition: { type: "spring" } }}
-              >
+              <motion.div className="profile-stats p-4" variants={itemVariants}>
                 <div className="stat-figure text-primary">
                   <Shield className="w-8 h-8" />
                 </div>
@@ -150,7 +134,7 @@ const Profile = () => {
 
             {/* Action Buttons */}
             <motion.div
-              className="flex justify-end mt-6 gap-3"
+              className="flex justify-between mt-6 gap-3"
               variants={itemVariants}
             >
               <button className="profile-btn profile-btn-outline flex items-center gap-2">
@@ -171,6 +155,8 @@ const Profile = () => {
           animate="visible"
           transition={{ delay: 0.3 }}
         >
+          <UserStats />
+
           <motion.div variants={itemVariants}>
             <ProfileSubmission />
           </motion.div>

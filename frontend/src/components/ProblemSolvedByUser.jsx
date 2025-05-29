@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import { useProblemStore } from "../store/useProblemStore";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
   Tag,
   ExternalLink,
   AlertTriangle,
   CheckCircle,
   Circle,
+  Award,
+  BarChart4,
 } from "lucide-react";
 
 const ProblemSolvedByUser = () => {
@@ -21,138 +24,165 @@ const ProblemSolvedByUser = () => {
     switch (difficulty) {
       case "EASY":
         return (
-          <div className=" badge-success gap-1">
+          <div className="profile-pill pill-success flex items-center gap-1">
             <CheckCircle size={12} />
             Easy
           </div>
         );
       case "MEDIUM":
         return (
-          <div className=" badge-warning gap-1">
+          <div className="profile-pill pill-warning flex items-center gap-1">
             <Circle size={12} />
             Medium
           </div>
         );
       case "HARD":
         return (
-          <div className=" badge-error gap-1">
+          <div className="profile-pill pill-danger flex items-center gap-1">
             <AlertTriangle size={12} />
             Hard
           </div>
         );
       default:
-        return <div className=" badge-ghost">Unknown</div>;
+        return <div className="profile-pill">Unknown</div>;
     }
   };
 
+  const easyCount = solvedProblems.filter(
+    (p) => p.difficulty === "EASY"
+  ).length;
+  const mediumCount = solvedProblems.filter(
+    (p) => p.difficulty === "MEDIUM"
+  ).length;
+  const hardCount = solvedProblems.filter(
+    (p) => p.difficulty === "HARD"
+  ).length;
+
   return (
-    <div className="p-4 bg-base-200 ">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold text-primary mb-6">
-          Problems Solved
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="profile-component-card p-6"
+    >
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="profile-component-header flex items-center gap-2">
+          <Award className="w-5 h-5 text-red-500" /> Problems Solved
         </h2>
-
-        {solvedProblems.length === 0 ? (
-          <div className=" bg-base-100 shadow-xl">
-            <div className="card-body">
-              <h3 className="text-lg font-medium">No problems solved yet</h3>
-              <p className="text-base-content/70">
-                Start solving problems to see them listed here!
-              </p>
-              <div className="card-actions justify-end">
-                <Link to="/problems" className="btn btn-primary">
-                  View Problems
-                </Link>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className=" bg-base-100 shadow-xl overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="table table-zebra w-full">
-                <thead>
-                  <tr>
-                    <th className="bg-base-300">Problem</th>
-                    <th className="bg-base-300">Difficulty</th>
-                    <th className="bg-base-300">Tags</th>
-                    <th className="bg-base-300 text-center">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {solvedProblems.map((problem) => (
-                    <tr key={problem.id} className="hover">
-                      <td className="font-medium">{problem.title}</td>
-                      <td>{getDifficultyBadge(problem.difficulty)}</td>
-                      <td>
-                        <div className="flex flex-wrap gap-1">
-                          {problem.tags &&
-                            problem.tags.map((tag, index) => (
-                              <div
-                                key={index}
-                                className=" badge-outline badge-primary"
-                              >
-                                <Tag size={10} className="mr-1" />
-                                {tag}
-                              </div>
-                            ))}
-                        </div>
-                      </td>
-                      <td className="text-center">
-                        <div className="flex justify-center">
-                          <Link
-                            to={`/problems/${problem.id}`}
-                            className="btn btn-sm btn-outline btn-primary"
-                          >
-                            <ExternalLink size={14} className="mr-1" />
-                            View
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="card-footer bg-base-200 p-4">
-              <div className="flex justify-between items-center">
-                <span className="text-sm">
-                  Total problems solved:{" "}
-                  <span className="font-bold">{solvedProblems.length}</span>
-                </span>
-                <Link to="/problems" className="btn btn-sm btn-primary">
-                  Solve more problems
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Stats Cards */}
-        {solvedProblems.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <div className="stat bg-base-100 shadow rounded-box">
-              <div className="stat-title">Easy</div>
-              <div className="stat-value text-success">
-                {solvedProblems.filter((p) => p.difficulty === "EASY").length}
-              </div>
-            </div>
-            <div className="stat bg-base-100 shadow rounded-box">
-              <div className="stat-title">Medium</div>
-              <div className="stat-value text-warning">
-                {solvedProblems.filter((p) => p.difficulty === "MEDIUM").length}
-              </div>
-            </div>
-            <div className="stat bg-base-100 shadow rounded-box">
-              <div className="stat-title">Hard</div>
-              <div className="stat-value text-error">
-                {solvedProblems.filter((p) => p.difficulty === "HARD").length}
-              </div>
-            </div>
-          </div>
-        )}
+        <Link
+          to="/problems"
+          className="profile-btn profile-btn-primary flex items-center gap-1"
+        >
+          <ExternalLink size={16} /> Browse Problems
+        </Link>
       </div>
-    </div>
+
+      {/* Stats Grid - Always visible */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div className="stat-card bg-black/20 border border-white/10 rounded-md p-4 flex items-center justify-between">
+          <div>
+            <div className="text-sm text-white/60">Easy</div>
+            <div className="text-3xl font-medium text-emerald-500">
+              {easyCount}
+            </div>
+          </div>
+          <div className="rounded-full bg-emerald-500/20 p-3">
+            <CheckCircle className="w-6 h-6 text-emerald-500" />
+          </div>
+        </div>
+
+        <div className="stat-card bg-black/20 border border-white/10 rounded-md p-4 flex items-center justify-between">
+          <div>
+            <div className="text-sm text-white/60">Medium</div>
+            <div className="text-3xl font-medium text-amber-500">
+              {mediumCount}
+            </div>
+          </div>
+          <div className="rounded-full bg-amber-500/20 p-3">
+            <Circle className="w-6 h-6 text-amber-500" />
+          </div>
+        </div>
+
+        <div className="stat-card bg-black/20 border border-white/10 rounded-md p-4 flex items-center justify-between">
+          <div>
+            <div className="text-sm text-white/60">Hard</div>
+            <div className="text-3xl font-medium text-red-500">{hardCount}</div>
+          </div>
+          <div className="rounded-full bg-red-500/20 p-3">
+            <AlertTriangle className="w-6 h-6 text-red-500" />
+          </div>
+        </div>
+      </div>
+
+      {solvedProblems.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-state-icon">🏆</div>
+          <h3 className="text-xl font-medium text-white mb-2">
+            No problems solved yet
+          </h3>
+          <p className="text-white/70 mb-4">
+            Start solving problems to see them listed here!
+          </p>
+          <Link
+            to="/problems"
+            className="profile-btn profile-btn-primary inline-flex items-center gap-2"
+          >
+            <ExternalLink size={16} /> View Problems
+          </Link>
+        </div>
+      ) : (
+        <div className="profile-table-card">
+          <table className="profile-table w-full">
+            <thead>
+              <tr>
+                <th>Problem</th>
+                <th>Difficulty</th>
+                <th>Tags</th>
+                <th className="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {solvedProblems.map((problem) => (
+                <tr key={problem.id}>
+                  <td className="font-medium text-white">{problem.title}</td>
+                  <td>{getDifficultyBadge(problem.difficulty)}</td>
+                  <td>
+                    <div className="flex flex-wrap gap-1">
+                      {problem.tags &&
+                        problem.tags.map((tag, index) => (
+                          <div
+                            key={index}
+                            className="profile-pill pill-primary flex items-center gap-1"
+                          >
+                            <Tag size={10} /> {tag}
+                          </div>
+                        ))}
+                    </div>
+                  </td>
+                  <td className="text-right">
+                    <Link
+                      to={`/problems/${problem.id}`}
+                      className="profile-btn profile-btn-outline inline-flex items-center gap-1 py-1 px-2 text-xs"
+                    >
+                      <ExternalLink size={14} /> View
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {solvedProblems.length > 5 && (
+            <div className="flex justify-center p-3 border-t border-white/10">
+              <button className="profile-btn flex items-center gap-2 bg-black/30 text-white/70 hover:text-white border border-white/10">
+                <BarChart4 size={16} /> View All {solvedProblems.length} Solved
+                Problems
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </motion.div>
   );
 };
 
