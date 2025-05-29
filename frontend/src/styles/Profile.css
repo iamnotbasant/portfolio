@@ -321,3 +321,124 @@
   margin-bottom: 1rem;
   color: rgba(255, 255, 255, 0.3);
 }
+
+/* Heatmap container styles */
+.submission-heatmap {
+  padding: 10px;
+  /* overflow: hidden; */
+}
+
+.react-calendar-heatmap .color-empty {
+  fill: rgba(22, 27, 34, 0.6);
+  rx: 2;
+  ry: 2;
+}
+
+.react-calendar-heatmap .color-scale-1 {
+  fill: rgba(220, 38, 38, 0.25);
+  rx: 2;
+  ry: 2;
+}
+
+.react-calendar-heatmap .color-scale-2 {
+  fill: rgba(220, 38, 38, 0.5);
+  rx: 2;
+  ry: 2;
+}
+
+.react-calendar-heatmap .color-scale-3 {
+  fill: rgba(220, 38, 38, 0.75);
+  rx: 2;
+  ry: 2;
+}
+
+.react-calendar-heatmap .color-scale-4 {
+  fill: rgba(220, 38, 38, 1);
+  rx: 2;
+  ry: 2;
+}
+
+/* Text styles for better readability */
+.react-calendar-heatmap text {
+  font-size: 8px;
+  font-weight: 400;
+  fill: rgba(255, 255, 255, 0.7);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+/* Cell size and spacing adjustments */
+.react-calendar-heatmap .react-calendar-heatmap-small-text {
+  font-size: 6px;
+}
+
+/* Cell hover effect */
+.react-calendar-heatmap rect:hover {
+  stroke: rgba(255, 255, 255, 0.3);
+  stroke-width: 1px;
+  cursor: pointer;
+}
+
+/* Cell styling */
+.react-calendar-heatmap rect {
+  rx: 2px; /* Rounded corners */
+  ry: 2px;
+  height: 10px;
+  width: 10px;
+  transition: all 0.2s ease;
+}
+
+/* Legend styles */
+.heatmap-legend {
+  margin-top: 8px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legend-square {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.color-empty.legend-square {
+  background-color: rgba(22, 27, 34, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.color-scale-1.legend-square {
+  background-color: rgba(220, 38, 38, 0.25);
+}
+
+.color-scale-2.legend-square {
+  background-color: rgba(220, 38, 38, 0.5);
+}
+
+.color-scale-3.legend-square {
+  background-color: rgba(220, 38, 38, 0.75);
+}
+
+.color-scale-4.legend-square {
+  background-color: rgba(220, 38, 38, 1);
+}
+
+/* Responsive styles */
+.react-calendar-heatmap {
+  width: 50%;
+  height: auto;
+  overflow: visible;
+}
+
+/* Tooltip styling */
+.__react_component_tooltip {
+  background-color: #1f2937;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  opacity: 1;
+}

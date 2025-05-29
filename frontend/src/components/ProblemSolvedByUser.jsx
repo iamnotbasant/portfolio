@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useProblemStore } from "../store/useProblemStore";
+import { useSubmissionStore } from "../store/useSubmissionStore";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -10,14 +11,117 @@ import {
   Circle,
   Award,
   BarChart4,
+  Flame,
+  Calendar,
+  Clock,
+  Trophy,
 } from "lucide-react";
 
 const ProblemSolvedByUser = () => {
   const { getSolvedProblemByUser, solvedProblems } = useProblemStore();
+  const { submissions, getAllSubmissions } = useSubmissionStore();
 
   useEffect(() => {
     getSolvedProblemByUser();
-  }, [getSolvedProblemByUser]);
+    getAllSubmissions();
+  }, [getSolvedProblemByUser, getAllSubmissions]);
+
+  // Calculate streaks and activity metrics
+  const streakStats = useMemo(() => {
+    if (!submissions.length)
+      return {
+        currentStreak: 0,
+        longestStreak: 0,
+        lastActive: null,
+        activeDaysMap: {},
+      };
+
+    // Parse all submission dates and sort them
+    const submissionDates = submissions
+      .map((s) => {
+        const date = new Date(s.createdAt);
+        return new Date(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate()
+        ).getTime();
+      })
+      .sort();
+
+    // Create a map of active days
+    const activeDaysMap = {};
+    submissionDates.forEach((timestamp) => {
+      activeDaysMap[timestamp] = true;
+    });
+
+    // Get unique days
+    const uniqueDays = [...new Set(submissionDates)].sort();
+
+    // Calculate current streak (consecutive days from today/yesterday going backward)
+    let currentStreak = 0;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayTimestamp = today.getTime();
+    const yesterdayTimestamp = todayTimestamp - 86400000;
+
+    // Check if user submitted today or yesterday to start the streak
+    let checkDate;
+    if (activeDaysMap[todayTimestamp]) {
+      currentStreak = 1;
+      checkDate = todayTimestamp;
+    } else if (activeDaysMap[yesterdayTimestamp]) {
+      currentStreak = 1;
+      checkDate = yesterdayTimestamp;
+    } else {
+      checkDate = null;
+    }
+
+    // Continue counting backward for consecutive days
+    if (checkDate) {
+      let prevDay = checkDate;
+      while (true) {
+        prevDay = prevDay - 86400000;
+        if (activeDaysMap[prevDay]) {
+          currentStreak++;
+        } else {
+          break;
+        }
+      }
+    }
+
+    // Calculate longest streak
+    let longestStreak = 0;
+    let currentRun = 0;
+    for (let i = 1; i < uniqueDays.length; i++) {
+      if (uniqueDays[i] - uniqueDays[i - 1] === 86400000) {
+        // This is the next consecutive day
+        currentRun++;
+      } else {
+        // Break in the streak
+        longestStreak = Math.max(longestStreak, currentRun + 1);
+        currentRun = 0;
+      }
+    }
+    // Check the last run of the array
+    longestStreak = Math.max(longestStreak, currentRun + 1);
+
+    // Last active day
+    const lastActive = uniqueDays.length
+      ? new Date(uniqueDays[uniqueDays.length - 1])
+      : null;
+
+    return { currentStreak, longestStreak, lastActive, activeDaysMap };
+  }, [submissions]);
+
+  // Format date in a readable way
+  const formatDate = (date) => {
+    if (!date) return "Never";
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }).format(date);
+  };
 
   // Function to get difficulty badge styling
   const getDifficultyBadge = (difficulty) => {
@@ -75,6 +179,90 @@ const ProblemSolvedByUser = () => {
         >
           <ExternalLink size={16} /> Browse Problems
         </Link>
+      </div>
+
+      {/* Streak Card - New component */}
+      <div className="bg-black/30 border border-red-500/20 rounded-xl p-4 mb-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Flame className="text-orange-500 w-5 h-5" />
+          <h3 className="text-xl font-medium text-white">Your Coding Streak</h3>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Current Streak */}
+          <div className="flex items-center gap-4 bg-gradient-to-r from-black/30 to-transparent p-4 rounded-lg border border-white/5">
+            <div className="p-3 rounded-full bg-orange-500/20">
+              <Flame className="w-7 h-7 text-orange-500" />
+            </div>
+            <div>
+              <div className="text-white/60 text-xs font-medium">
+                CURRENT STREAK
+              </div>
+              <div className="text-3xl font-bold text-white flex items-center gap-1">
+                {streakStats.currentStreak}{" "}
+                <span className="text-xs font-normal text-white/50">days</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Longest Streak */}
+          <div className="flex items-center gap-4 bg-gradient-to-r from-black/30 to-transparent p-4 rounded-lg border border-white/5">
+            <div className="p-3 rounded-full bg-purple-500/20">
+              <Trophy className="w-7 h-7 text-purple-500" />
+            </div>
+            <div>
+              <div className="text-white/60 text-xs font-medium">
+                LONGEST STREAK
+              </div>
+              <div className="text-3xl font-bold text-white flex items-center gap-1">
+                {streakStats.longestStreak}{" "}
+                <span className="text-xs font-normal text-white/50">days</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Last Activity */}
+          <div className="flex items-center gap-4 bg-gradient-to-r from-black/30 to-transparent p-4 rounded-lg border border-white/5">
+            <div className="p-3 rounded-full bg-blue-500/20">
+              <Clock className="w-7 h-7 text-blue-500" />
+            </div>
+            <div>
+              <div className="text-white/60 text-xs font-medium">
+                LAST ACTIVITY
+              </div>
+              <div className="text-lg font-medium text-white">
+                {formatDate(streakStats.lastActive)}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Streak Tips */}
+        {streakStats.currentStreak > 0 ? (
+          <div className="mt-4 bg-green-500/10 border border-green-500/20 rounded-lg p-3 text-sm">
+            <div className="flex items-start gap-2">
+              <div className="pt-0.5">
+                <CheckCircle className="w-4 h-4 text-green-400" />
+              </div>
+              <p className="text-green-300">
+                You're on a {streakStats.currentStreak}-day streak! Keep solving
+                problems daily to maintain your momentum!
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-4 bg-amber-500/10 border border-amber-500/20 rounded-lg p-3 text-sm">
+            <div className="flex items-start gap-2">
+              <div className="pt-0.5">
+                <AlertTriangle className="w-4 h-4 text-amber-400" />
+              </div>
+              <p className="text-amber-300">
+                Your streak is currently at 0. Solve a problem today to start
+                building your streak!
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Stats Grid - Always visible */}

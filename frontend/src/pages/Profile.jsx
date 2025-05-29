@@ -9,6 +9,7 @@ import { Navbar } from "../components/Navbar";
 import { motion } from "framer-motion";
 import "../styles/Profile.css";
 import UserStats from "../components/UserStats";
+import SubmissionHeatmap from "../components/SubmissionHeatmap";
 
 const Profile = () => {
   const { authUser } = useAuthStore();
@@ -156,6 +157,7 @@ const Profile = () => {
           transition={{ delay: 0.3 }}
         >
           <UserStats />
+          <SubmissionHeatmap />
 
           <motion.div variants={itemVariants}>
             <ProfileSubmission />
