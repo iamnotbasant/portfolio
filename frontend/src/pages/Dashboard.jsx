@@ -15,11 +15,29 @@ export const Dashboard = () => {
   const { getProblems, problems, isProblemsLoading } = useProblemStore();
   const { createPlaylist } = usePlaylistStore();
   const { authUser, logout } = useAuthStore();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] =
     useState(false);
   const navigate = useNavigate();
   const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (
+        e.key.toLowerCase() === "c" &&
+        !e.metaKey &&
+        !e.ctrlKey &&
+        !e.altKey // Avoid shortcuts like Ctrl+C
+      ) {
+        setIsCreatePlaylistModalOpen(true);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
 
   useEffect(() => {
     getProblems();

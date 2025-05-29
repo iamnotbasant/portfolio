@@ -354,8 +354,8 @@ export const ProblemPage = () => {
                   <tbody>
                     {testCases.map((testCase, index) => (
                       <tr key={index}>
-                        <td className="font-mono">{testCase?.input}</td>
-                        <td className="font-mono">{testCase?.output}</td>
+                        <td className="font-monoo">{testCase?.input}</td>
+                        <td className="font-monoo">{testCase?.output}</td>
                       </tr>
                     ))}
                   </tbody>
