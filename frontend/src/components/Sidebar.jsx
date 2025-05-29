@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export const Sidebar = () => {
   const { logout } = useAuthStore();
@@ -24,6 +24,12 @@ export const Sidebar = () => {
           <h3 className="text-xl text-white neue-med">Quick Access</h3>
         </div>
         <div className="sidebar-content">
+          <Link to="/profile">
+            <div className="sidebar-item">
+              <span className="sidebar-icon">👤</span>
+              <span className="sidebar-text">Profile</span>
+            </div>
+          </Link>
           <div className="sidebar-item">
             <span className="sidebar-icon">📋</span>
             <span className="sidebar-text">My Problems</span>

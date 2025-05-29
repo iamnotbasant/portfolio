@@ -309,7 +309,7 @@ export const getAllProblemsSolvedByUser = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Problems fetched successfully",
-      problemsSolvedByUser: problems.map((problem) => ({
+      data: problems.map((problem) => ({
         ...problem,
         solvedBy: problem.solvedBy[0],
       })),

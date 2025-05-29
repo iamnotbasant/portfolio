@@ -5,6 +5,7 @@ import { LandingPage } from "./LandingPage";
 import { Login } from "./pages/Login";
 import { SignUp } from "./pages/SignUp";
 import { Dashboard } from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 import { Analytics } from "@vercel/analytics/react";
 import { useAuthStore } from "./store/useAuthStore";
 import ToastContainer from "./components/ToastContainer";
@@ -51,6 +52,20 @@ function App() {
           <Route
             path="/dashboard"
             element={authUser ? <Dashboard /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/profile"
+            element={
+              isCheckingAuth ? (
+                <div className="flex items-center justify-center h-screen bg-[#111]">
+                  <Loader />
+                </div>
+              ) : authUser ? (
+                <Profile />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
 
           <Route

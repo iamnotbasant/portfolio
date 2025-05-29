@@ -84,6 +84,49 @@ export const login = async (req, res) => {
       expiresIn: "7d",
     });
 
+    // Update last login and streak
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const lastLogin = user.lastLogin || new Date(0);
+    const lastLoginDate = new Date(lastLogin);
+
+    // Format dates to compare just the date part (not time)
+    const isYesterday =
+      lastLoginDate.getFullYear() === yesterday.getFullYear() &&
+      lastLoginDate.getMonth() === yesterday.getMonth() &&
+      lastLoginDate.getDate() === yesterday.getDate();
+
+    // Format today for comparison
+    const isSameDay =
+      lastLoginDate.getFullYear() === today.getFullYear() &&
+      lastLoginDate.getMonth() === today.getMonth() &&
+      lastLoginDate.getDate() === today.getDate();
+
+    let streakCount = user.streakCount || 0;
+    let maxStreakCount = user.maxStreakCount || 0;
+
+    if (isYesterday) {
+      // Continued streak
+      streakCount += 1;
+    } else if (!isSameDay) {
+      // Streak broken, unless this is the first login of today
+      streakCount = 1;
+    }
+
+    // Update max streak if current streak is higher
+    maxStreakCount = Math.max(streakCount, maxStreakCount);
+
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        lastLogin: today,
+        streakCount,
+        maxStreakCount,
+      },
+    });
+
     res.cookie("jwt", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
@@ -100,6 +143,8 @@ export const login = async (req, res) => {
         email: user.email,
         role: user.role,
         image: user.image,
+        streakCount,
+        maxStreakCount,
       },
     });
   } catch (error) {

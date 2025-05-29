@@ -26,14 +26,17 @@ enum Difficulty {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String?
-  email     String   @unique
-  image     String?
-  role      Role     @default(USER)
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String    @id @default(uuid())
+  name           String?
+  email          String    @unique
+  image          String?
+  role           Role      @default(USER)
+  password       String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  lastLogin      DateTime?
+  streakCount    Int       @default(0)
+  maxStreakCount Int       @default(0)
 
   problems       Problem[]
   submissions    Submission[]

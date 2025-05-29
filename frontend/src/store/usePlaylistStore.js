@@ -36,7 +36,6 @@ export const usePlaylistStore = create((set, get) => ({
       set({ isLoading: true });
       const response = await axiosInstance.get("/playlist");
       set({ playlists: response.data.playlists });
-      console.log("Fetched playlists:", response.data.playlists);
     } catch (error) {
       console.error("Error fetching playlists:", error);
       Toast.error("Failed to fetch playlists");
