@@ -237,7 +237,7 @@ export const Login = () => {
             />
             <button
               type="button"
-              className="absolute right-3 bottom-[28px] transform -translate-y-1/2 text-white"
+              className="absolute right-3 bottom-[28px] transform -translate-y-1/2 text-white cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? (

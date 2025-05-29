@@ -278,7 +278,7 @@ export const SignUp = () => {
             />
             <button
               type="button"
-              className="absolute right-3 bottom-6 transform translate-y-1/2 text-white"
+              className="absolute right-3 bottom-6 transform translate-y-1/2 text-white cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? (
@@ -308,7 +308,7 @@ export const SignUp = () => {
             />
             <button
               type="button"
-              className="absolute right-3 bottom-6 transform translate-y-1/2 text-white"
+              className="absolute right-3 bottom-6 transform translate-y-1/2 text-white cursor-pointer"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
               {showConfirmPassword ? (

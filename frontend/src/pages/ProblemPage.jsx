@@ -31,7 +31,7 @@ export const ProblemPage = () => {
   const { getProblemById, problem, isProblemLoading } = useProblemStore();
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
-  const [selectedLanguage, setSelectedLanguage] = useState("javascript");
+  const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testCases, setTestCases] = useState([]);
   const { isExecuting, executeCode, submission } = useExecutionStore();
@@ -45,37 +45,29 @@ export const ProblemPage = () => {
 
   useEffect(() => {
     getProblemById(id);
-    if (problem) {
-      console.log("Problem fetched:", problem);
-    }
     getSubmissionCountForProblem(id);
-  }, [id]);
+  }, [id, getProblemById, getSubmissionCountForProblem]);
 
   useEffect(() => {
     if (activeTab === "submissions" && id) {
       getSubmissionForProblem(id);
     }
-  }, [activeTab, id]);
+  }, [activeTab, id, getSubmissionForProblem]);
 
-  console.log("submissions", submissions);
-
+  // Load code whenever problem or selected language changes
   useEffect(() => {
-    if (problem) {
-      setCode(problem?.codeSnippets?.[selectedLanguage] || "");
-
-      setTestCases(
-        problem?.testcases?.map((testCase) => ({
-          input: testCase.input,
-          output: testCase.output,
-        })) || []
-      );
+    if (problem && problem.codeSnippets) {
+      // Make sure we have a default code snippet when problem loads
+      setCode(problem.codeSnippets[selectedLanguage] || "");
     }
   }, [problem, selectedLanguage]);
 
   const handleLanguageChange = (e) => {
     const lang = e.target.value;
     setSelectedLanguage(lang);
-    setCode(problem.codeSnippets?.[lang] || "");
+    if (problem?.codeSnippets?.[lang]) {
+      setCode(problem.codeSnippets[lang]);
+    }
   };
 
   const renderTabContent = () => {
@@ -188,7 +180,10 @@ export const ProblemPage = () => {
     <div className="min-h-screen problem-page-container">
       <nav className="problem-page-navbar bg-[#e4e4e4] px-4">
         <div className="flex-1 gap-2">
-          <Link to={"/"} className="flex items-center gap-2 text-primary">
+          <Link
+            to={"/dashboard"}
+            className="flex items-center gap-2 text-primary"
+          >
             <Home className="w-6 h-6" />
             <ChevronRight className="w-4 h-4" />
           </Link>
@@ -231,7 +226,13 @@ export const ProblemPage = () => {
                 >
                   {Object.keys(problem?.codeSnippets || {}).map((lang) => (
                     <option key={lang} value={lang}>
-                      {lang.charAt(0).toUpperCase() + lang.slice(1)}
+                      {lang
+                        .toLowerCase()
+                        .split("_")
+                        .map(
+                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                        )
+                        .join(" ")}
                     </option>
                   ))}
                 </select>

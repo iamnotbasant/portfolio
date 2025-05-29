@@ -29,11 +29,16 @@
   src: url(./assets/fonts/nulshock.otf);
 }
 
+@font-face {
+  font-family: emberly;
+  src: url(./assets/fonts/Emberly.ttf);
+}
+
 .neue-med {
   font-family: Neue-Med;
 }
 
-.arame{
+.arame {
   font-family: Arame;
 }
 
