@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useActions } from "../store/useAction";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 import AddToPlaylistModal from "../components/AddToPlaylist";
+import ConfirmationModal from "./ConfirmationModal";
 
 const ProblemTable = ({ problems, onProblemDeleted }) => {
   const navigate = useNavigate();
@@ -20,7 +21,10 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
   const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
     useState(false);
   const [selectedProblemId, setSelectedProblemId] = useState(null);
-  const {} = usePlaylistStore();
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] =
+    useState(false);
+  const [problemToDelete, setProblemToDelete] = useState(null);
+  const [problemTitleToDelete, setProblemTitleToDelete] = useState("");
 
   const difficultyOptions = ["EASY", "MEDIUM", "HARD"];
 
@@ -63,12 +67,22 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
     setSelectedProblemId(problemId);
     setIsAddToPlaylistModalOpen(true);
   };
-  const handleDelete = async (problemId) => {
-    const result = await onDeleteProblem(problemId);
-    if (result.success && onProblemDeleted) {
-      onProblemDeleted(problemId);
-    }
+
+  const handleDeleteClick = (problemId, problemTitle) => {
+    setProblemToDelete(problemId);
+    setProblemTitleToDelete(problemTitle);
+    setIsDeleteConfirmationOpen(true);
   };
+
+  const handleConfirmDelete = async () => {
+    const result = await onDeleteProblem(problemToDelete);
+    if (result.success && onProblemDeleted) {
+      onProblemDeleted(problemToDelete);
+    }
+    setProblemToDelete(null);
+    setProblemTitleToDelete("");
+  };
+
   const handleEdit = (problemId) => {
     navigate(`/problem/edit/${problemId}`);
   };
@@ -199,7 +213,9 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                     {isAdmin && (
                       <button
                         disabled={isDeletingProblem}
-                        onClick={() => handleDelete(problem.id)}
+                        onClick={() =>
+                          handleDeleteClick(problem.id, problem.title)
+                        }
                         className="mr-4 cursor-pointer"
                       >
                         🗑️
@@ -247,6 +263,13 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
           setIsAddToPlaylistModalOpen(false);
         }}
         problemId={selectedProblemId}
+      />
+      <ConfirmationModal
+        isOpen={isDeleteConfirmationOpen}
+        onClose={() => setIsDeleteConfirmationOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Problem"
+        message={`Are you sure you want to delete "${problemTitleToDelete}"? This action cannot be undone.`}
       />
     </div>
   );
