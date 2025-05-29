@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link } from "react-router-dom";
+import { useActions } from "../store/useAction";
 
 const ProblemTable = ({ problems }) => {
   const { authUser } = useAuthStore();
@@ -12,6 +13,7 @@ const ProblemTable = ({ problems }) => {
     tags: "",
     difficulty: "",
   });
+  const { onDeleteProblem, isDeletingProblem } = useActions();
 
   const difficultyOptions = ["EASY", "MEDIUM", "HARD"];
 
@@ -51,7 +53,9 @@ const ProblemTable = ({ problems }) => {
   );
 
   const handleAddToPlaylist = (problemId) => {};
-  const handleDelete = (problemId) => {};
+  const handleDelete = (problemId) => {
+    onDeleteProblem(problemId);
+  };
   const handleEdit = (problemId) => {};
 
   return (
@@ -179,6 +183,7 @@ const ProblemTable = ({ problems }) => {
                     </button>
                     {isAdmin && (
                       <button
+                        disabled={isDeletingProblem}
                         onClick={() => handleDelete(problem.id)}
                         className="mr-4"
                       >

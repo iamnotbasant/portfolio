@@ -10,6 +10,8 @@ import "../styles/SignUp.css";
 import bg from "../assets/images/arkham9.png";
 import batLogo from "../assets/images/batrang2.png";
 import { Loader } from "../components/Loader";
+import eye from "../assets/svgs/eye-sharp.svg";
+import eyeOff from "../assets/svgs/eye-off-sharp.svg";
 
 const SignUpSchema = z
   .object({
@@ -276,10 +278,14 @@ export const SignUp = () => {
             />
             <button
               type="button"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute right-3 bottom-6 transform translate-y-1/2 text-white"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? "Hide" : "Show"}
+              {showPassword ? (
+                <ion-icon name="eye-off-sharp"></ion-icon>
+              ) : (
+                <ion-icon name="eye-sharp"></ion-icon>
+              )}
             </button>
             {errors.password && (
               <span className="text-red-500/70 neue-reg text-sm">
@@ -302,10 +308,14 @@ export const SignUp = () => {
             />
             <button
               type="button"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute right-3 bottom-6 transform translate-y-1/2 text-white"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
-              {showConfirmPassword ? "Hide" : "Show"}
+              {showConfirmPassword ? (
+                <ion-icon name="eye-off-sharp"></ion-icon>
+              ) : (
+                <ion-icon name="eye-sharp"></ion-icon>
+              )}
             </button>
             {errors.confirmPassword && (
               <span className="text-red-500/70 neue-reg text-sm">

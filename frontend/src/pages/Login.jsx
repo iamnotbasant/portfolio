@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuthStore } from "../store/useAuthStore";
@@ -19,6 +20,7 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const { login, isLoggingIn } = useAuthStore();
+  const [showPassword, setShowPassword] = useState(false);
 
   const { register, handleSubmit } = useForm({
     resolver: zodResolver(LoginSchema),
@@ -226,13 +228,24 @@ export const Login = () => {
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               {...register("password")}
               className="form-input"
               placeholder="••••••••••••"
               required
             />
+            <button
+              type="button"
+              className="absolute right-3 bottom-[28px] transform -translate-y-1/2 text-white"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <ion-icon name="eye-off-sharp"></ion-icon>
+              ) : (
+                <ion-icon name="eye-sharp"></ion-icon>
+              )}
+            </button>
             <motion.div className="text-right mt-1" variants={itemVariants}>
               <Link to="/forgot-password" className="forgot-password neue-reg">
                 Forgot password?

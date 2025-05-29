@@ -92,17 +92,13 @@ export const LandingPageNavbar = () => {
 
         {/* Desktop buttons */}
         <div className="hidden lg:flex gap-4">
-          <motion.button
-            className="text-[#00105f] sign-in-btn hover:text-[#000] neue-med ease-in-out"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 1 }}
-          >
+          <motion.button className="text-[#5f0000] sign-in-btn hover:text-[#6b2828] neue-med ease-in-out">
             <Link to="/login">Login</Link>
           </motion.button>
 
           <Link to="/sign-up">
             <motion.button
-              className="text-[#00105f] px-4 py-2 neue-med rounded-full sign-up-btn"
+              className="text-[#5f0000] px-4 py-2 neue-med rounded-full sign-up-btn cursor-pointer"
               whileHover={{
                 scale: 1.02,
               }}

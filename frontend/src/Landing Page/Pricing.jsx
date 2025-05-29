@@ -93,7 +93,7 @@ export const Pricing = () => {
               transition={{ duration: 0.7, delay: 0.2, ease: "easeIn" }}
             >
               <motion.div
-                className="w-24 text-6xl"
+                className="w-24 text-4xl mb-2"
                 initial={{ scale: 0, rotate: -45 }}
                 animate={
                   isInView ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -45 }
@@ -105,7 +105,7 @@ export const Pricing = () => {
                   delay: 0.3,
                 }}
               >
-                🕶️
+                ✨
               </motion.div>
               <h2 className="neue-med">Free Tier</h2>
               <h3 className="card-title neue-med">₹0 /forever</h3>
@@ -127,7 +127,7 @@ export const Pricing = () => {
             >
               <div className="w-full flex items-center justify-center">
                 <motion.div className="badge neue-med" initial="initial">
-                  ✨ User's choice
+                  💫 User's choice
                 </motion.div>
               </div>
 
