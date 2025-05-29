@@ -34,6 +34,7 @@ export const ProblemPage = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [testCases, setTestCases] = useState([]);
+  const [successRate, setSuccessRate] = useState(0);
   const { isExecuting, executeCode, submission } = useExecutionStore();
   const {
     submission: submissions,
@@ -45,8 +46,30 @@ export const ProblemPage = () => {
 
   useEffect(() => {
     getProblemById(id);
+    getSubmissionForProblem(id);
     getSubmissionCountForProblem(id);
-  }, [id, getProblemById, getSubmissionCountForProblem]);
+  }, [
+    id,
+    getProblemById,
+    getSubmissionCountForProblem,
+    getSubmissionForProblem,
+  ]);
+
+  useEffect(() => {
+    if (submissions && submissions.length > 0) {
+      const acceptedSubmissions = submissions.filter(
+        (submission) =>
+          submission.status === "ACCEPTED" || submission.status === "Accepted"
+      ).length;
+
+      const calculatedRate = Math.round(
+        (acceptedSubmissions / submissions.length) * 100
+      );
+      setSuccessRate(calculatedRate);
+    } else {
+      setSuccessRate(0);
+    }
+  }, [submissions]);
 
   useEffect(() => {
     if (activeTab === "submissions" && id) {
@@ -205,7 +228,9 @@ export const ProblemPage = () => {
                 <span>{submissionCount} Submissions</span>
                 <span className="text-base-content/30">•</span>
                 <ThumbsUp className="w-4 h-4" />
-                <span>95% Success Rate</span>
+                {submissions && submissions.length > 0
+                  ? `${successRate}% Success Rate`
+                  : "No attempts yet"}
               </div>
               <div className="flex gap-4">
                 <button
