@@ -3,8 +3,10 @@ import { motion } from "framer-motion";
 import { useAuthStore } from "../store/useAuthStore";
 import { Link } from "react-router-dom";
 import { useActions } from "../store/useAction";
+import { usePlaylistStore } from "../store/usePlaylistStore";
+import AddToPlaylistModal from "../components/AddToPlaylist";
 
-const ProblemTable = ({ problems }) => {
+const ProblemTable = ({ problems, onProblemDeleted }) => {
   const { authUser } = useAuthStore();
   const isAdmin = authUser?.role === "ADMIN";
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,6 +16,10 @@ const ProblemTable = ({ problems }) => {
     difficulty: "",
   });
   const { onDeleteProblem, isDeletingProblem } = useActions();
+  const [isAddToPlaylistModalOpen, setIsAddToPlaylistModalOpen] =
+    useState(false);
+  const [selectedProblemId, setSelectedProblemId] = useState(null);
+  const {} = usePlaylistStore();
 
   const difficultyOptions = ["EASY", "MEDIUM", "HARD"];
 
@@ -52,9 +58,15 @@ const ProblemTable = ({ problems }) => {
     [filteredProblems, startIndex, endIndex]
   );
 
-  const handleAddToPlaylist = (problemId) => {};
-  const handleDelete = (problemId) => {
-    onDeleteProblem(problemId);
+  const handleAddToPlaylist = (problemId) => {
+    setSelectedProblemId(problemId);
+    setIsAddToPlaylistModalOpen(true);
+  };
+  const handleDelete = async (problemId) => {
+    const result = await onDeleteProblem(problemId);
+    if (result.success && onProblemDeleted) {
+      onProblemDeleted(problemId);
+    }
   };
   const handleEdit = (problemId) => {};
 
@@ -220,6 +232,14 @@ const ProblemTable = ({ problems }) => {
           Next
         </button>
       </div>
+
+      <AddToPlaylistModal
+        isOpen={isAddToPlaylistModalOpen}
+        onClose={() => {
+          setIsAddToPlaylistModalOpen(false);
+        }}
+        problemId={selectedProblemId}
+      />
     </div>
   );
 };

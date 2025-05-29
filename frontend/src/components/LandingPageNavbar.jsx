@@ -97,13 +97,7 @@ export const LandingPageNavbar = () => {
           </motion.button>
 
           <Link to="/sign-up">
-            <motion.button
-              className="text-[#5f0000] px-4 py-2 neue-med rounded-full sign-up-btn cursor-pointer"
-              whileHover={{
-                scale: 1.02,
-              }}
-              whileTap={{ scale: 1 }}
-            >
+            <motion.button className="text-[#5f0000] px-4 py-2 neue-med rounded-full sign-up-btn cursor-pointer">
               Sign Up <span className="inline-block ml-1">✦</span>
             </motion.button>
           </Link>

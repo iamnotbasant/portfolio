@@ -7,12 +7,17 @@ import { useProblemStore } from "../store/useProblemStore";
 import { Loader } from "../components/Loader";
 import Sidebar from "../components/Sidebar";
 import ProblemTable from "../components/ProblemTable";
+import CreatePlaylistModal from "../components/CreatePlaylistModal";
 import "../styles/Dashboard.css";
+import { usePlaylistStore } from "../store/usePlaylistStore";
 
 export const Dashboard = () => {
   const { getProblems, problems, isProblemsLoading } = useProblemStore();
+  const { createPlaylist } = usePlaylistStore();
   const { authUser, logout } = useAuthStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] =
+    useState(false);
   const navigate = useNavigate();
   const sectionRef = useRef(null);
 
@@ -20,10 +25,13 @@ export const Dashboard = () => {
     getProblems();
   }, [getProblems]);
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    await logout();
-    navigate("/login");
+  const handleCreatePlaylist = async (playlistData) => {
+    const result = await createPlaylist(playlistData);
+  };
+
+  const handleProblemDeleted = () => {
+    // Refresh the problems list after deletion
+    getProblems();
   };
 
   if (isProblemsLoading) {
@@ -70,9 +78,14 @@ export const Dashboard = () => {
             <p className="text-sm text-white/80 neue-reg">
               k4p1ll.23@gmail.com <br />
             </p>
-            <p className="text-sm text-white/80 bg-[#ffffff2a] font-mono tracking-tighter uppercase hover:text-red-500 hover:bg-[#0e0e0e5e] duration-200 ease-out cursor-pointer w-fit">
+            <button
+              onClick={() => {
+                setIsCreatePlaylistModalOpen(true);
+              }}
+              className="text-sm text-white/80 bg-[#ffffff2a] font-mono tracking-tighter uppercase hover:text-red-500 hover:bg-[#0e0e0e5e] duration-200 ease-out cursor-pointer w-fit"
+            >
               <span>[C]</span> Create Playlist
-            </p>
+            </button>
           </div>
         </motion.div>
 
@@ -93,9 +106,18 @@ export const Dashboard = () => {
             </div>
           </motion.div>
         ) : (
-          <ProblemTable problems={problems} />
+          <ProblemTable
+            problems={problems}
+            onProblemDeleted={handleProblemDeleted}
+          />
         )}
       </div>
+
+      <CreatePlaylistModal
+        isOpen={isCreatePlaylistModalOpen}
+        onClose={() => setIsCreatePlaylistModalOpen(false)}
+        onSubmit={handleCreatePlaylist}
+      />
     </div>
   );
 };
