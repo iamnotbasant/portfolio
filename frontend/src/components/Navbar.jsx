@@ -11,8 +11,9 @@ export const Navbar = () => {
 
   useEffect(() => {
     const handleKeyPress = (e) => {
-      if (e.key === "a" || e.key === "A") {
+      if (e.altKey && (e.key === "a" || e.key === "A")) {
         if (isAdmin) {
+          e.preventDefault(); // prevent default browser behavior if needed
           navigate("/add-problem");
         }
       }
@@ -57,7 +58,7 @@ export const Navbar = () => {
               to="/add-problem"
               className="add-btn text-white/90  px-4 py-2 neue-med rounded-md transition duration-300 ease-in-out text-sm"
             >
-              [A] &nbsp; Add Problem
+              [Alt+A] &nbsp; Add Problem
             </Link>
           )}
           <button

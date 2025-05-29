@@ -12,9 +12,9 @@ const ToastContainer = () => {
   const getIcon = (type) => {
     switch (type) {
       case "success":
-        return <CheckCircle className="w-5 h-5" />;
+        return <ion-icon size="large" name="checkmark-sharp"></ion-icon>;
       case "error":
-        return <XCircle className="w-5 h-5" />;
+        return <ion-icon size="large" name="close-sharp"></ion-icon>;
       case "warning":
         return <AlertCircle className="w-5 h-5" />;
       default:
@@ -25,13 +25,13 @@ const ToastContainer = () => {
   const getTypeClasses = (type) => {
     switch (type) {
       case "success":
-        return "bg-[#ECFDF3] text-[#027A48] border-[#6CE9A6]";
+        return "arkham-toast-success";
       case "error":
-        return "bg-[#FEF3F2] text-[#B42318] border-[#FEE4E2]";
+        return "arkham-toast-error";
       case "warning":
-        return "bg-[#FFFAEB] text-[#B54708] border-[#FEF0C7]";
+        return "arkham-toast-warning";
       default:
-        return "bg-[#EFF8FF] text-[#1570EF] border-[#B2DDFF]";
+        return "arkham-toast-info";
     }
   };
 
@@ -45,25 +45,21 @@ const ToastContainer = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 100 }}
             transition={{ duration: 0.3 }}
-            className={`flex items-start justify-center gap-3 p-4 rounded-lg border shadow-lg mb-4 ${getTypeClasses(
-              toast.type
-            )}`}
+            className={`arkham-toast ${getTypeClasses(toast.type)}`}
           >
             {/* Icon */}
-            <span className="flex-shrink-0">{getIcon(toast.type)}</span>
+            <span className="toast-icon">{getIcon(toast.type)}</span>
 
             {/* Content */}
-            <div className="flex-1 min-w-0">
-              {toast.title && (
-                <h3 className="font-semibold text-sm">{toast.title}</h3>
-              )}
-              <p className="text-sm">{toast.message}</p>
+            <div className="toast-content">
+              {toast.title && <h3 className="toast-title">{toast.title}</h3>}
+              <p className="toast-message">{toast.message}</p>
             </div>
 
             {/* Close Button */}
             <button
               onClick={() => removeToast(toast.id)}
-              className="flex-shrink-0 hover:opacity-75 transition-opacity duration-200"
+              className="toast-close-btn"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path
