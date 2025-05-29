@@ -14,7 +14,7 @@ import { usePlaylistStore } from "../store/usePlaylistStore";
 export const Dashboard = () => {
   const { getProblems, problems, isProblemsLoading } = useProblemStore();
   const { createPlaylist } = usePlaylistStore();
-  const { authUser, logout } = useAuthStore();
+  const { authUser } = useAuthStore();
   const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] =
     useState(false);
   const navigate = useNavigate();

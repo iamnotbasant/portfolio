@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { X } from "lucide-react";
+import { X, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import "../styles/Modal.css";
+import { useAuthStore } from "../store/useAuthStore";
 
 const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
   const {
@@ -10,6 +12,7 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
     formState: { errors },
     reset,
   } = useForm();
+  const { authUser } = useAuthStore();
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -35,74 +38,95 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 bg-black/30 backdrop-blur-[3px] brightness-150 flex items-center justify-center z-50"
+          className="fixed inset-0 bg-black/20 backdrop-blur-md flex items-center justify-center z-50 brightness-125"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           <motion.div
-            className="bg-white rounded-lg shadow-xl w-full max-w-md"
-            initial={{ opacity: 0, y: 0, scale: 0.9 }}
+            className="modal-card w-full max-w-3xl relative p-3"
+            initial={{ opacity: 0, y: 0, scale: 1 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 0, scale: 0.9 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <div className="flex justify-between items-center p-4 border-b border-base-300">
-              <h3 className="text-xl font-bold">Create New Playlist</h3>
+            {/* Red glow effect */}
+            <div
+              className="absolute -top-10 -left-20 w-40 h-20"
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(215, 8, 1, 0.4) 0%, rgba(255, 0, 0, 0) 80%)",
+                filter: "blur(15px)",
+                opacity: "0.5",
+                zIndex: "-1",
+                transform: "rotate(-25deg)",
+                pointerEvents: "none",
+              }}
+            ></div>
+
+            <div className="flex justify-between items-center mb-4 px-2">
+              <h3 className="text-base text-white/90 arame">
+                {authUser?.name} / New Playlist
+              </h3>
               <button
                 onClick={onClose}
-                className="btn btn-ghost btn-sm btn-circle"
+                className="text-white hover:text-red-500 transition-colors arame cursor-pointer"
               >
-                <X className="w-5 h-5" />
+                X [ESC]
               </button>
             </div>
 
-            <form
-              onSubmit={handleSubmit(handleFormSubmit)}
-              className="p-6 space-y-4"
-            >
+            <form onSubmit={handleSubmit(handleFormSubmit)}>
               <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-medium">Playlist Name</span>
-                </label>
+                {/* <label className="label mb-1">
+                  <span className="text-white neue-med text-sm">
+                    Playlist Name
+                  </span>
+                </label> */}
                 <input
                   type="text"
-                  className="input input-bordered w-full"
-                  placeholder="Enter playlist name"
+                  className="modal-input w-full p-2"
+                  placeholder="Playlist name"
                   {...register("name", {
                     required: "Playlist name is required",
                   })}
                 />
                 {errors.name && (
-                  <label className="label">
-                    <span className="label-text-alt text-error">
+                  <label className="label mt-1">
+                    <span className="text-[#ff9999] text-sm neue-reg">
                       {errors.name.message}
                     </span>
                   </label>
                 )}
               </div>
 
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-medium">Description</span>
-                </label>
+              <div className="border-b border-[#383838] mb-4">
+                {/* <label className="label mb-1">
+                  <span className="text-white neue-med text-sm">
+                    Description
+                  </span>
+                </label> */}
                 <textarea
-                  className="textarea textarea-bordered h-24"
-                  placeholder="Enter playlist description"
+                  className="modal-text-area w-full p-2 h-20 resize-none"
+                  placeholder="Add description..."
                   {...register("description")}
                 />
               </div>
 
-              <div className="flex justify-end gap-2 mt-6">
+              <div className="flex justify-end gap-4 ">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="btn btn-ghost"
+                  className="px-4 py-2 rounded-md text-white/80 border border-[#383838] hover:text-white hover:border-[#525252] transition-colors neue-reg text-sm cursor-pointer"
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn btn-primary">
+                <button
+                  type="submit"
+                  className="add-btn px-6 py-2 rounded-md text-white transition-all flex items-center gap-2 neue-reg text-sm cursor-pointer"
+                >
+                  <Plus size={18} />
                   Create Playlist
                 </button>
               </div>

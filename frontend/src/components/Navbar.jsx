@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import logo from "../assets/images/logo2.png";
 
 export const Navbar = () => {
   const { authUser, logout } = useAuthStore();
   const isAdmin = authUser?.role === "ADMIN";
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.key === "a" || e.key === "A") {
+        if (isAdmin) {
+          navigate("/add-problem");
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyPress);
+    return () => document.removeEventListener("keydown", handleKeyPress);
+  }, [navigate, isAdmin]);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -21,12 +35,14 @@ export const Navbar = () => {
         transition={{ duration: 0.5, ease: "backInOut" }}
         className="navbar flex justify-between items-center px-3 py-2"
       >
-        <div className="flex items-center gap-4">
-          <div className="logo w-[50px] h-auto z-50">
-            <img src={logo} alt="logo" />
+        <Link to="/dashboard">
+          <div className="flex items-center gap-4">
+            <div className="logo w-[50px] h-auto z-50">
+              <img src={logo} alt="logo" />
+            </div>
+            <h1 className="text-lg text-white/90 nulshock">Arkham Labs</h1>
           </div>
-          <h1 className="text-lg text-white/90 nulshock">Arkham Labs</h1>
-        </div>
+        </Link>
 
         <div className="flex items-center gap-4">
           <p className="text-sm text-white/80 neue-reg">

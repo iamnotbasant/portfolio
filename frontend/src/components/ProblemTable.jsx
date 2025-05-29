@@ -148,7 +148,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
               return (
                 <tr
                   key={problem.id}
-                  className="border-b border-white/30 hover:bg-white/10 transition-all duration-200 ease-in-out"
+                  className="border-b border-white/30 hover:bg-white/10 "
                 >
                   <td className="py-2">
                     {isSolved ? (
@@ -159,7 +159,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                       </span>
                     )}
                   </td>
-                  <td className="py-2 text-white">
+                  <td className="py-2 text-white hover:underline">
                     <Link to={`/problem/${problem.id}`}>{problem.title}</Link>
                   </td>
                   <td className="py-2">
@@ -189,7 +189,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                   <td className="py-2">
                     <button
                       onClick={() => handleAddToPlaylist(problem.id)}
-                      className="mr-4"
+                      className="mr-4 cursor-pointer"
                     >
                       💾
                     </button>
@@ -197,13 +197,18 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                       <button
                         disabled={isDeletingProblem}
                         onClick={() => handleDelete(problem.id)}
-                        className="mr-4"
+                        className="mr-4 cursor-pointer"
                       >
                         🗑️
                       </button>
                     )}
                     {isAdmin && (
-                      <button onClick={() => handleEdit(problem.id)}>✏️</button>
+                      <button
+                        className="cursor-pointer"
+                        onClick={() => handleEdit(problem.id)}
+                      >
+                        ✏️
+                      </button>
                     )}
                   </td>
                 </tr>

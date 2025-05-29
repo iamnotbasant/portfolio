@@ -608,11 +608,6 @@ const ProblemForm = () => {
     <div className="prob-form-container">
       <div className="prob-form-card">
         <div className="prob-form-header">
-          <h2 className="prob-form-title">
-            <FileText className="prob-form-icon" size={24} />
-            Create Problem
-          </h2>
-
           <div className="prob-flex prob-flex-gap">
             <div className="prob-flex">
               <button
