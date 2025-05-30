@@ -11,7 +11,7 @@ const AddProblem = () => {
         <Navbar />
         <Sidebar />
         <Link to="/dashboard">
-          <button className="text-white/80 hover:text-white transition-all duration-300 ease-in-out cursor-pointer">
+          <button className="text-white/80 hover:text-white transition-all duration-300 ease-in-out cursor-pointer mt-4 mb-6">
             🡰 Back
           </button>
         </Link>
