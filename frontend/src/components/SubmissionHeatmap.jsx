@@ -34,7 +34,7 @@ const SubmissionHeatmap = () => {
   // Calculate date ranges (last 6 months)
   const endDate = new Date();
   const startDate = new Date();
-  startDate.setMonth(startDate.getMonth() - 6);
+  startDate.setMonth(startDate.getMonth() - 12);
 
   // Get max value for color scaling
   const maxCount = useMemo(() => {
@@ -90,7 +90,7 @@ const SubmissionHeatmap = () => {
 
       {submissions && submissions.length > 0 && (
         <p className="text-xs text-white/60 text-center mt-2">
-          Your submission activity over the last 6 months
+          Your submission activity over the last 12 months
         </p>
       )}
     </div>

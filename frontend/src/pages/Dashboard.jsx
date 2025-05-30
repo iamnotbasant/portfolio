@@ -11,14 +11,75 @@ import CreatePlaylistModal from "../components/CreatePlaylistModal";
 import "../styles/Dashboard.css";
 import { usePlaylistStore } from "../store/usePlaylistStore";
 
+const getGreeting = () => {
+  const hour = new Date().getHours();
+
+  if (hour < 12) {
+    return "Good Morning";
+  } else if (hour < 18) {
+    return "Good Afternoon";
+  } else {
+    return "Good Evening";
+  }
+};
+
+// Function to get formatted date string
+const getFormattedDateTime = () => {
+  const greeting = getGreeting();
+  const date = new Date();
+
+  const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const dayOfWeek = dayNames[date.getDay()];
+  const month = monthNames[date.getMonth()];
+  const dayOfMonth = date.getDate();
+  const year = date.getFullYear();
+
+  return `${greeting} • ${dayOfWeek}, ${month} ${dayOfMonth}, ${year}`;
+};
+
 export const Dashboard = () => {
   const { getProblems, problems, isProblemsLoading } = useProblemStore();
   const { createPlaylist } = usePlaylistStore();
   const { authUser } = useAuthStore();
   const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] =
     useState(false);
+  const [currentDateTime, setCurrentDateTime] = useState(
+    getFormattedDateTime()
+  );
   const navigate = useNavigate();
   const sectionRef = useRef(null);
+
+  useEffect(() => {
+    // Update the datetime every minute
+    const intervalId = setInterval(() => {
+      setCurrentDateTime(getFormattedDateTime());
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -90,9 +151,7 @@ export const Dashboard = () => {
             <h3 className="text-3xl text-white neue-med">
               Welcome Back, {authUser?.name} ✨
             </h3>
-            <p className="text-base text-white neue-reg">
-              Good Afternoon • Tuesday, May 13, 2025
-            </p>
+            <p className="text-base text-white neue-reg">{currentDateTime}</p>
             <p className="text-sm text-white/80 neue-reg">
               k4p1ll.23@gmail.com <br />
             </p>

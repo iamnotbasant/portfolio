@@ -35,8 +35,6 @@ export const getSubmissionByProblem = async (req, res) => {
         problemId: problemId,
       },
     });
-    console.log("hit");
-    console.log("Fetched submissions:", submissions);
 
     res.status(200).json({
       success: true,

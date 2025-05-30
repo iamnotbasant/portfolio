@@ -426,9 +426,10 @@
 
 /* Responsive styles */
 .react-calendar-heatmap {
-  width: 50%;
+  width: 100%;
   height: auto;
   overflow: visible;
+  padding: 20px;
 }
 
 /* Tooltip styling */
