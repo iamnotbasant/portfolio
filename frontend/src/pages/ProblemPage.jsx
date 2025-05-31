@@ -16,6 +16,7 @@ import {
   Users,
   ThumbsUp,
   Home,
+  Bot,
 } from "lucide-react";
 
 import { useProblemStore } from "../store/useProblemStore";
@@ -24,7 +25,8 @@ import { useSubmissionStore } from "../store/useSubmissionStore";
 import { getLanguageId } from "../libs/utils.js";
 import "../styles/ProblemPage.css";
 import Submission from "../components/Submission";
-import SubmissionsList from "../components/SubmissionList.jsx";
+import SubmissionsList from "../components/SubmissionList";
+import AIChatPanel from "../components/AIChatPanel.jsx";
 
 export const ProblemPage = () => {
   const { id } = useParams();
@@ -33,8 +35,9 @@ export const ProblemPage = () => {
   const [activeTab, setActiveTab] = useState("description");
   const [selectedLanguage, setSelectedLanguage] = useState("JAVASCRIPT");
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const [testCases, setTestCases] = useState([]);
+  const [testcases, setTestcases] = useState([]);
   const [successRate, setSuccessRate] = useState(0);
+  const [showAiChat, setShowAiChat] = useState(false);
   const { isExecuting, executeCode, submission } = useExecutionStore();
   const {
     submission: submissions,
@@ -191,7 +194,7 @@ export const ProblemPage = () => {
     e.preventDefault();
     try {
       const language_id = getLanguageId(selectedLanguage);
-      const stdin = problem?.testcases.map((testCase) => testCase.input);
+      const stdin = problem?.testcases.map((testcase) => testcase.input);
       const expected_outputs = problem.testcases.map((tc) => tc.output);
       executeCode(code, language_id, stdin, expected_outputs, id);
     } catch (error) {
@@ -321,6 +324,13 @@ export const ProblemPage = () => {
                   <Terminal className="w-4 h-4" />
                   Code Editor
                 </button>
+                <button
+                  className="tab gap-2 ml-auto"
+                  onClick={() => setShowAiChat(!showAiChat)}
+                >
+                  <Bot className="w-4 h-4" />
+                  AI Assistant
+                </button>
               </div>
 
               <div className="h-[600px] w-full">
@@ -377,10 +387,10 @@ export const ProblemPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {testCases.map((testCase, index) => (
+                    {testcases.map((testcase, index) => (
                       <tr key={index}>
-                        <td className="font-monoo">{testCase?.input}</td>
-                        <td className="font-monoo">{testCase?.output}</td>
+                        <td className="font-monoo">{testcase?.input}</td>
+                        <td className="font-monoo">{testcase?.output}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -390,6 +400,14 @@ export const ProblemPage = () => {
           )}
         </div>
       </div>
+
+      {showAiChat && (
+        <AIChatPanel
+          problem={problem}
+          code={code}
+          language={selectedLanguage}
+        />
+      )}
     </div>
   );
 };
