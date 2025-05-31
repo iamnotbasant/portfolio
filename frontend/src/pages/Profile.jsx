@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import "../styles/Profile.css";
 import UserStats from "../components/UserStats";
 import SubmissionHeatmap from "../components/SubmissionHeatmap";
+import Sidebar from "../components/Sidebar";
 
 const Profile = () => {
   const { authUser } = useAuthStore();
@@ -44,6 +45,7 @@ const Profile = () => {
   return (
     <div className="profile-container">
       <Navbar />
+      <Sidebar />
       {/* Header with back button */}
       <motion.div
         className="profile-header w-full"

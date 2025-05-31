@@ -24,6 +24,12 @@ export const Sidebar = () => {
           <h3 className="text-xl text-white neue-med">Quick Access</h3>
         </div>
         <div className="sidebar-content">
+          <Link to="/dashboard">
+            <div className="sidebar-item">
+              <span className="sidebar-icon">🏠</span>
+              <span className="sidebar-text">Home</span>
+            </div>
+          </Link>
           <Link to="/profile">
             <div className="sidebar-item">
               <span className="sidebar-icon">👤</span>

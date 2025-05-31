@@ -176,7 +176,7 @@ td {
 .sidebar-trigger {
   position: fixed;
   left: 0;
-  top: 10%;
+  top: 25%;
   transform: translateY(-50%);
   width: 30px;
   height: 60px;

@@ -1,11 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useRevisionStore } from "../store/useRevisionStore";
 import { useProblemStore } from "../store/useProblemStore";
 import { Navbar } from "../components/Navbar";
 import { Sidebar } from "../components/Sidebar";
-import { BookmarkCheck, ArrowLeft, ExternalLink } from "lucide-react";
+import {
+  BookmarkCheck,
+  ArrowLeft,
+  ExternalLink,
+  Search,
+  Filter,
+} from "lucide-react";
 import { Loader } from "../components/Loader";
 
 const RevisionProblems = () => {
@@ -17,6 +23,12 @@ const RevisionProblems = () => {
     isLoading,
   } = useRevisionStore();
   const { problems, getProblems } = useProblemStore();
+
+  const [filters, setFilters] = useState({
+    search: "",
+    tags: "",
+    difficulty: "",
+  });
 
   useEffect(() => {
     getRevisionProblems();
@@ -34,11 +46,48 @@ const RevisionProblems = () => {
     };
   });
 
+  // Filter problems based on search, tags, and difficulty
+  const filteredProblems = useMemo(() => {
+    return revisionProblemsWithDetails.filter((item) => {
+      if (!item.problemDetails) return false;
+
+      const matchesSearch =
+        filters.search === "" ||
+        item.problemDetails.title
+          .toLowerCase()
+          .includes(filters.search.toLowerCase());
+
+      const matchesTags =
+        filters.tags === "" ||
+        (item.problemDetails.tags &&
+          item.problemDetails.tags.includes(filters.tags));
+
+      const matchesDifficulty =
+        filters.difficulty === "" ||
+        item.problemDetails.difficulty === filters.difficulty;
+
+      return matchesSearch && matchesTags && matchesDifficulty;
+    });
+  }, [revisionProblemsWithDetails, filters]);
+
   const handleRemoveFromRevision = (problemId, e) => {
     e.preventDefault();
     e.stopPropagation();
     removeFromRevision(problemId);
   };
+
+  // Extract all unique tags from problems
+  const allTags = useMemo(() => {
+    const tagsSet = new Set();
+
+    revisionProblemsWithDetails.forEach((item) => {
+      if (item.problemDetails?.tags) {
+        item.problemDetails.tags.forEach((tag) => tagsSet.add(tag));
+      }
+    });
+
+    return Array.from(tagsSet);
+  }, [revisionProblemsWithDetails]);
 
   const getDifficultyClass = (difficulty) => {
     switch (difficulty) {
@@ -59,19 +108,104 @@ const RevisionProblems = () => {
         <Navbar />
         <Sidebar />
 
-        <div className="mt-8 mb-6">
+        <div className="my-4">
           <Link
             to="/dashboard"
-            className="text-white/80 hover:text-white transition-all duration-300 ease-in-out flex items-center gap-2 mb-4"
+            className="text-white/80 hover:text-white transition-all duration-300 ease-in-out flex items-center gap-2 mb-4 neue-reg"
           >
             <ArrowLeft size={18} />
             <span>Back to Dashboard</span>
           </Link>
-          <h1 className="text-white text-3xl flex items-center gap-3">
-            <BookmarkCheck className="text-purple-400" size={28} />
-            Problems Saved for Revision
+          <h1 className="text-white text-4xl neue-med text-center">
+            Saved Problems for Revision
           </h1>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          exit={{ opacity: 0 }}
+          className="flex justify-end h-8 mr-[0.5em]"
+        >
+          {filters.search || filters.tags || filters.difficulty ? (
+            <button
+              onClick={() =>
+                setFilters({ search: "", tags: "", difficulty: "" })
+              }
+              className="px-3 py-1 text-sm bg-transparent hover:bg-gray-700/20 text-white/80 hover:text-white rounded border border-red-700 transition-all duration-200 flex items-center gap-2 neue-reg"
+            >
+              Clear Filters
+            </button>
+          ) : (
+            <div></div> // Empty div to hold space when button is not visible
+          )}
+        </motion.div>
+
+        {!isLoading && revisionProblemsWithDetails.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: "backInOut" }}
+            className="dash-card mb-4"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="relative">
+                <Search
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50"
+                  size={16}
+                />
+                <input
+                  type="text"
+                  placeholder="Search problems..."
+                  className="pl-10 px-4 py-2 text-white filter-input w-full"
+                  value={filters.search}
+                  onChange={(e) =>
+                    setFilters({ ...filters, search: e.target.value })
+                  }
+                />
+              </div>
+
+              <select
+                className="px-4 py-2 text-white filter-input"
+                value={filters.tags}
+                onChange={(e) =>
+                  setFilters({ ...filters, tags: e.target.value })
+                }
+              >
+                <option className="bg-black/90" value="">
+                  All Tags
+                </option>
+                {allTags.map((tag) => (
+                  <option className="bg-black/90" key={tag} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="px-4 py-2 filter-input"
+                value={filters.difficulty}
+                onChange={(e) =>
+                  setFilters({ ...filters, difficulty: e.target.value })
+                }
+              >
+                <option className="bg-black/90" value="">
+                  All Difficulties
+                </option>
+                <option className="bg-black/90" value="EASY">
+                  Easy
+                </option>
+                <option className="bg-black/90" value="MEDIUM">
+                  Medium
+                </option>
+                <option className="bg-black/90" value="HARD">
+                  Hard
+                </option>
+              </select>
+            </div>
+          </motion.div>
+        )}
 
         {isLoading ? (
           <div className="p-12 flex justify-center">
@@ -88,11 +222,29 @@ const RevisionProblems = () => {
               quick access.
             </p>
             <Link
-              to="/problems"
+              to="/dashboard"
               className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors"
             >
               Browse Problems
             </Link>
+          </div>
+        ) : filteredProblems.length === 0 ? (
+          <div className="bg-black/20 p-8 rounded-lg border border-white/10 text-center">
+            <Filter className="w-12 h-12 text-purple-400 mx-auto mb-4 opacity-50" />
+            <h3 className="text-xl font-medium text-white mb-2">
+              No matching problems found
+            </h3>
+            <p className="text-white/60 mb-6">
+              Try adjusting your filter criteria to find more problems.
+            </p>
+            <button
+              onClick={() =>
+                setFilters({ search: "", tags: "", difficulty: "" })
+              }
+              className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors"
+            >
+              Clear Filters
+            </button>
           </div>
         ) : (
           <motion.div
@@ -110,7 +262,7 @@ const RevisionProblems = () => {
                 </tr>
               </thead>
               <tbody>
-                {revisionProblemsWithDetails.map((item) => (
+                {filteredProblems.map((item) => (
                   <tr
                     key={item.id}
                     className="border-b border-white/30 hover:bg-white/10 cursor-pointer"
@@ -153,10 +305,13 @@ const RevisionProblems = () => {
                           onClick={(e) =>
                             handleRemoveFromRevision(item.problemId, e)
                           }
-                          className="p-1.5 hover:bg-red-900/30 rounded-full transition-colors"
+                          className="p-1.5 hover:bg-emerald-900/30 rounded-full transition-colors"
                           title="Remove from revision"
                         >
-                          <BookmarkCheck size={16} className="text-red-400" />
+                          <BookmarkCheck
+                            size={16}
+                            className="text-emerald-400"
+                          />
                         </button>
                         <Link
                           to={`/problem/${item.problemId}`}

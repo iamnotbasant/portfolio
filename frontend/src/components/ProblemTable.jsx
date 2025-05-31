@@ -210,7 +210,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                   </td>
                   <td className="py-2">
                     <span
-                      className={` text-white px-2 py-1 rounded-full ${
+                      className={`  px-2 py-1 rounded-full ${
                         problem.difficulty === "EASY"
                           ? "bg-emerald-900/60 text-emerald-400 border border-emerald-700"
                           : problem.difficulty === "MEDIUM"
