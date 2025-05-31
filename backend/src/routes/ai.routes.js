@@ -1,0 +1,14 @@
+import express from "express";
+import {
+  getAIHelp,
+  getCodeExplanation,
+} from "../controllers/groq.controller.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
+
+const aiAssistantRoutes = express.Router();
+
+// Routes for AI assistance
+aiAssistantRoutes.post("/help", authMiddleware, getAIHelp);
+aiAssistantRoutes.post("/explain", authMiddleware, getCodeExplanation);
+
+export default aiAssistantRoutes;

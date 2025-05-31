@@ -8,6 +8,7 @@ import executionRoutes from "./routes/code-execution.routes.js";
 import submissionRoutes from "./routes/submission.routes.js";
 import playlistRoutes from "./routes/playlist.route.js";
 import revisionRoutes from "./routes/revision.route.js";
+import aiAssistantRoutes from "./routes/ai.routes.js";
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ const corsOptions = {
   credentials: true, // This is important for cookies/auth to work
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-}; 
+};
 
 // Apply CORS middleware before other middleware
 app.use(cors(corsOptions));
@@ -39,6 +40,7 @@ app.use("/api/v1/execution", executionRoutes);
 app.use("/api/v1/submission", submissionRoutes);
 app.use("/api/v1/playlist", playlistRoutes);
 app.use("/api/v1/revision", revisionRoutes);
+app.use("/api/v1/ai", aiAssistantRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
