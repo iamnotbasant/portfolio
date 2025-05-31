@@ -1,13 +1,15 @@
-import React, { useEffect, useMemo } from "react";
-import { useForm, useFieldArray, Controller, set } from "react-hook-form";
+import React, { useEffect, useMemo, useCallback } from "react";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Editor from "@monaco-editor/react";
 import { useState } from "react";
 import { axiosInstance } from "../libs/axios";
 import { Toast } from "../store/useToastStore";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Loader } from "../components/Loader";
+import { Bot, Sparkles } from "lucide-react";
+import AIProblemGeneratorModal from "./AIProblemGeneratorModal";
 import {
   Plus,
   Trash2,
@@ -516,6 +518,7 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
   const [sampleType, setSampleType] = useState("DP");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [isAIModalOpen, setIsAIModalOpen] = useState(false);
 
   // Initialize form with problem data if in edit mode
   const defaultValues = useMemo(() => {
@@ -619,13 +622,32 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
     name: "tags",
   });
 
-  if (isLoading) {
-    return (
-      <div>
-        <Loader />
-      </div>
-    );
-  }
+  // Move this function inside the component and memoize it with useCallback
+  const handleAIGenerated = useCallback(
+    (generatedProblem) => {
+      // Format tags as array if they're not already
+      const tags = Array.isArray(generatedProblem.tags)
+        ? generatedProblem.tags
+        : [generatedProblem.tags];
+
+      // Format testcases as array if they're not already
+      const testcases = Array.isArray(generatedProblem.testcases)
+        ? generatedProblem.testcases
+        : [];
+
+      // Reset the form with the generated problem data
+      reset({
+        ...generatedProblem,
+        tags,
+        testcases,
+      });
+
+      // Now these function references are properly accessible
+      replaceTags(tags.map((tag) => tag));
+      replaceTestCases(testcases.map((tc) => tc));
+    },
+    [reset, replaceTags, replaceTestCases]
+  );
 
   const onSubmit = async (data) => {
     try {
@@ -669,6 +691,14 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
     reset(sampleData);
   };
 
+  if (isLoading) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div className="prob-form-container">
       <div className="prob-form-card">
@@ -700,6 +730,13 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
               onClick={loadSampleData}
             >
               <Download size={16} /> Load Sample
+            </button>
+            <button
+              type="button"
+              className="prob-btn prob-btn-accent"
+              onClick={() => setIsAIModalOpen(true)}
+            >
+              <Bot size={16} /> <Sparkles size={12} /> Generate with AI
             </button>
           </div>
         </div>
@@ -1020,6 +1057,12 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
           </div>
         </form>
       </div>
+
+      <AIProblemGeneratorModal
+        isOpen={isAIModalOpen}
+        onClose={() => setIsAIModalOpen(false)}
+        onProblemGenerated={handleAIGenerated}
+      />
     </div>
   );
 };
