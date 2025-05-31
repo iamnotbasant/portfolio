@@ -1,4 +1,8 @@
-import { generateAIResponse, explainCode } from "../libs/groq.lib.js";
+import {
+  generateAIResponse,
+  explainCode,
+  generateProblem,
+} from "../libs/groq.lib.js";
 import { db } from "../libs/db.js";
 
 export const getAIHelp = async (req, res) => {
@@ -64,6 +68,49 @@ export const getCodeExplanation = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Failed to generate code explanation",
+      error: error.message,
+    });
+  }
+};
+
+export const generateAIProblem = async (req, res) => {
+  try {
+    const { topic, difficulty, category, additionalRequirements } = req.body;
+
+    // Validate required inputs
+    if (!topic) {
+      return res.status(400).json({
+        success: false,
+        message: "Topic is required for problem generation",
+      });
+    }
+
+    // Check if user is admin
+    if (req.loggedInUser.role !== "ADMIN") {
+      return res.status(403).json({
+        success: false,
+        message: "Only admins can generate problems",
+      });
+    }
+
+    // Call the generateProblem function
+    const problemData = await generateProblem({
+      topic,
+      difficulty,
+      category,
+      additionalRequirements,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Problem generated successfully",
+      problem: problemData,
+    });
+  } catch (error) {
+    console.error("Error generating problem:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to generate problem",
       error: error.message,
     });
   }
