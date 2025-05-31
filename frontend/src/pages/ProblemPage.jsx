@@ -26,7 +26,7 @@ import { getLanguageId } from "../libs/utils.js";
 import "../styles/ProblemPage.css";
 import Submission from "../components/Submission";
 import SubmissionsList from "../components/SubmissionList";
-import AIChatPanel from "../components/AIChatPanel";
+import AIChatPanel from "../components/AIChatPanel.jsx";
 
 export const ProblemPage = () => {
   const { id } = useParams();
