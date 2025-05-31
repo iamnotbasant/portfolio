@@ -4,7 +4,6 @@ import {
   generateProblem,
 } from "../libs/groq.lib.js";
 import { db } from "../libs/db.js";
-import { validateGeneratedSolutions } from "../libs/judge0.lib.js";
 
 export const getAIHelp = async (req, res) => {
   try {
@@ -101,16 +100,6 @@ export const generateAIProblem = async (req, res) => {
       category,
       additionalRequirements,
     });
-
-    // Validate and fix reference solutions against test cases
-    try {
-      const validatedProblem = await validateGeneratedSolutions(problemData);
-      problemData = validatedProblem; // Use the validated problem data
-      console.log("Solutions validated and fixed successfully");
-    } catch (validationError) {
-      console.error("Validation error:", validationError);
-      // Continue with the generated problem even if validation fails
-    }
 
     return res.status(200).json({
       success: true,

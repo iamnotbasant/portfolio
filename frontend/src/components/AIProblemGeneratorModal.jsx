@@ -76,6 +76,16 @@ const AIProblemGeneratorModal = ({ isOpen, onClose, onProblemGenerated }) => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="bg-black/90 modal-card rounded-lg shadow-xl w-full max-w-2xl p-2 px-6 m-4 text-white border border-[#6272ff] relative"
           >
+            {isGenerating && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm rounded-lg z-10">
+                <div className="flex flex-col items-center gap-4">
+                  <Loader />
+                  <p className="text-white/80 neue-reg">
+                    Generating problem...
+                  </p>
+                </div>
+              </div>
+            )}
             <div
               className="absolute -top-10 -left-20 w-60 h-30"
               style={{
@@ -192,12 +202,6 @@ const AIProblemGeneratorModal = ({ isOpen, onClose, onProblemGenerated }) => {
                 </button>
               </div>
             </form>
-
-            {isGenerating && (
-              <div>
-                <Loader />
-              </div>
-            )}
           </motion.div>
         </motion.div>
       )}

@@ -626,30 +626,72 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
 
   const handleAIGenerated = useCallback(
     (generatedProblem) => {
-      // Format tags as array if they're not already
-      const tags = Array.isArray(generatedProblem.tags)
-        ? generatedProblem.tags
-        : [generatedProblem.tags];
+      try {
+        console.log("Received AI generated problem:", generatedProblem);
 
-      // Format testcases as array if they're not already
-      const testcases = Array.isArray(generatedProblem.testcases)
-        ? generatedProblem.testcases
-        : [];
+        // Ensure all required fields are present
+        const formattedProblem = {
+          ...generatedProblem,
+          // Format tags as array
+          tags: Array.isArray(generatedProblem.tags)
+            ? generatedProblem.tags
+            : [generatedProblem.tags],
 
-      // Reset the form with the generated problem data
-      reset({
-        ...generatedProblem,
-        tags,
-        testcases,
-      });
+          // Ensure testcases array
+          testcases: Array.isArray(generatedProblem.testcases)
+            ? generatedProblem.testcases
+            : [],
 
-      // Now these function references are properly accessible
-      replaceTags(tags.map((tag) => tag));
-      replaceTestCases(testcases.map((tc) => tc));
+          // Ensure all required nested objects exist
+          examples: {
+            JAVASCRIPT: generatedProblem.examples?.JAVASCRIPT || {
+              input: "",
+              output: "",
+              explanation: "",
+            },
+            PYTHON: generatedProblem.examples?.PYTHON || {
+              input: "",
+              output: "",
+              explanation: "",
+            },
+            JAVA: generatedProblem.examples?.JAVA || {
+              input: "",
+              output: "",
+              explanation: "",
+            },
+          },
+
+          codeSnippets: {
+            JAVASCRIPT: generatedProblem.codeSnippets?.JAVASCRIPT || "",
+            PYTHON: generatedProblem.codeSnippets?.PYTHON || "",
+            JAVA: generatedProblem.codeSnippets?.JAVA || "",
+          },
+
+          referenceSolutions: {
+            JAVASCRIPT: generatedProblem.referenceSolutions?.JAVASCRIPT || "",
+            PYTHON: generatedProblem.referenceSolutions?.PYTHON || "",
+            JAVA: generatedProblem.referenceSolutions?.JAVA || "",
+          },
+        };
+
+        console.log("Formatted problem data:", formattedProblem);
+
+        // Reset form with formatted data
+        reset(formattedProblem);
+
+        // Update field arrays
+        replaceTags(formattedProblem.tags);
+        replaceTestCases(formattedProblem.testcases);
+
+        // Close the modal
+        setIsAIModalOpen(false);
+      } catch (error) {
+        console.error("Error formatting AI generated problem:", error);
+        Toast.error("Error loading AI generated problem");
+      }
     },
-    [reset, replaceTags, replaceTestCases]
+    [reset, replaceTags, replaceTestCases, setIsAIModalOpen]
   );
-
   const onSubmit = async (data) => {
     try {
       setIsLoading(true);
