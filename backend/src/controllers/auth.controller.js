@@ -131,7 +131,7 @@ export const login = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
       sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
     });
 
     res.status(200).json({
@@ -145,7 +145,6 @@ export const login = async (req, res) => {
         image: user.image,
         streakCount,
         maxStreakCount,
-        
       },
     });
   } catch (error) {
@@ -177,7 +176,6 @@ export const me = async (req, res) => {
       success: true,
       message: "User authenticated successfully",
       user: req.loggedInUser,
-
     });
   } catch (error) {
     console.error("Error getting user:", error);

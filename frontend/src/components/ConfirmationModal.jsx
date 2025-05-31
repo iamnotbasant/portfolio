@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 
@@ -6,7 +6,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message }) => {
   if (!isOpen) return null;
 
   // Close modal on Escape key press
-  React.useEffect(() => {
+  useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape") {
         onClose();

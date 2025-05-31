@@ -14,13 +14,15 @@ import {
   Plus,
   Trash2,
   Code2,
-  FileText,
   Lightbulb,
   BookOpen,
   CheckCircle2,
   Download,
 } from "lucide-react";
 import "../styles/ProblemForm.css";
+import aiBat from "../assets/images/ai-bat.png";
+import aiorb from "../assets/images/ai-orb.webp";
+import aiorb2 from "../assets/images/ai-orb2.webp";
 
 const problemSchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -622,7 +624,6 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
     name: "tags",
   });
 
-  // Move this function inside the component and memoize it with useCallback
   const handleAIGenerated = useCallback(
     (generatedProblem) => {
       // Format tags as array if they're not already
@@ -703,8 +704,8 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
     <div className="prob-form-container">
       <div className="prob-form-card">
         <div className="prob-form-header">
-          <div className="prob-flex prob-flex-gap">
-            <div className="prob-flex">
+          <div className="flex gap-4 justify-between items-center w-full">
+            <div className="flex gap-2">
               <button
                 type="button"
                 className={`prob-btn ${
@@ -723,20 +724,25 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
               >
                 String Problem
               </button>
+              <button
+                type="button"
+                className="prob-btn prob-btn-primary"
+                onClick={loadSampleData}
+              >
+                <Download size={16} /> Load Sample
+              </button>
             </div>
             <button
               type="button"
-              className="prob-btn prob-btn-primary"
-              onClick={loadSampleData}
-            >
-              <Download size={16} /> Load Sample
-            </button>
-            <button
-              type="button"
-              className="prob-btn prob-btn-accent"
+              className=" relative ai-btn"
               onClick={() => setIsAIModalOpen(true)}
             >
-              <Bot size={16} /> <Sparkles size={12} /> Generate with AI
+              <img
+                className="w-12 absolute left-0 brightness-125 ai-logo"
+                src={aiorb}
+                alt=""
+              />
+              <span className="ml-8">AI [Experimental]</span>
             </button>
           </div>
         </div>
