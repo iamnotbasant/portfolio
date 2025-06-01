@@ -692,6 +692,7 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
     },
     [reset, replaceTags, replaceTestCases, setIsAIModalOpen]
   );
+
   const onSubmit = async (data) => {
     try {
       setIsLoading(true);

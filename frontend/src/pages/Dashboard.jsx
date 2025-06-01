@@ -152,8 +152,8 @@ export const Dashboard = () => {
               Welcome Back, {authUser?.name} ✨
             </h3>
             <p className="text-base text-white neue-reg">{currentDateTime}</p>
-            <p className="text-sm text-white/80 neue-reg">
-              k4p1ll.23@gmail.com <br />
+            <p className="text-sm text-white/80 neue-reg mb-2">
+              {authUser?.email} <br />
             </p>
             <button
               onClick={() => {

@@ -225,7 +225,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                   <td className="py-2">
                     <button
                       onClick={() => handleRevisionToggle(problem.id)}
-                      className="mr-4 hover:bg-gray-700/50 rounded-full transition-colors"
+                      className="mr-4 hover:bg-gray-700/50 rounded-full transition-colors cursor-pointer"
                       title={
                         isMarkedForRevision
                           ? "Remove from revision"

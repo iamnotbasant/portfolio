@@ -44,20 +44,17 @@ export const Sidebar = () => {
           </Link>
 
           <div className="sidebar-item">
+            <span className="sidebar-icon">📚</span>
+            <span className="sidebar-text">Playlists</span>
+          </div>
+
+          <div className="sidebar-item">
             <span className="sidebar-icon">🏆</span>
             <span className="sidebar-text">Leaderboard</span>
           </div>
           <div className="sidebar-item">
             <span className="sidebar-icon">📊</span>
             <span className="sidebar-text">Statistics</span>
-          </div>
-          <div className="sidebar-item">
-            <span className="sidebar-icon">📚</span>
-            <span className="sidebar-text">Learning Paths</span>
-          </div>
-          <div className="sidebar-item">
-            <span className="sidebar-icon">⚙️</span>
-            <span className="sidebar-text">Settings</span>
           </div>
         </div>
         <div className="sidebar-footer">
