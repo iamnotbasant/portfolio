@@ -14,10 +14,18 @@ import {
   Trash2,
   Plus,
 } from "lucide-react";
+import EditPlaylistModal from "./EditPlaylistModal";
 
 const PlaylistProfile = () => {
   const { getAllPlaylists, playlists, deletePlaylist } = usePlaylistStore();
   const [expandedPlaylist, setExpandedPlaylist] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  const handlePlaylistUpdated = () => {
+    setIsEditModalOpen(false);
+    getAllPlaylists();
+    getAllPlaylists();
+  };
 
   useEffect(() => {
     getAllPlaylists();
@@ -33,6 +41,11 @@ const PlaylistProfile = () => {
 
   const handleDelete = async (id) => {
     await deletePlaylist(id);
+  };
+
+  const handleEdit = (playlist) => {
+    setSelectedPlaylist(playlist);
+    setIsEditModalOpen(true);
   };
 
   const getDifficultyBadge = (difficulty) => {
@@ -65,9 +78,6 @@ const PlaylistProfile = () => {
       className="profile-component-card p-6"
     >
       <div className="flex justify-between items-center mb-6">
-        <h2 className="profile-component-header flex items-center gap-2">
-          <Folder className="w-5 h-5 text-red-500" /> My Playlists
-        </h2>
         <button className="profile-btn profile-btn-primary flex items-center gap-2">
           <Plus size={16} /> Create Playlist
         </button>
@@ -102,17 +112,14 @@ const PlaylistProfile = () => {
                 onClick={() => togglePlaylist(playlist.id)}
               >
                 <div className="flex items-center gap-4">
-                  <div className="playlist-badge">
-                    <BookOpen size={24} />
-                  </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white">
+                    <h3 className="text-xl font-bold arame text-white">
                       {playlist.name}
                     </h3>
                     <div className="flex items-center gap-4 mt-1 text-sm text-white/60">
                       <div className="flex items-center gap-1">
                         <List size={14} />
-                        <span>{playlist.problems.length} problems</span>
+                        <span>{playlist.problems?.length || 0} problems</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <Clock size={14} />
@@ -136,6 +143,13 @@ const PlaylistProfile = () => {
                   {playlist.description}
                 </p>
               )}
+
+              <button
+                onClick={() => handleEdit(playlist)}
+                className="profile-btn flex items-center gap-1 bg-red-900/20 border border-red-500/30 text-red-400 hover:bg-red-900/40"
+              >
+                Edit Playlist
+              </button>
 
               {/* Expanded Problems List */}
               {expandedPlaylist === playlist.id && (
@@ -217,6 +231,15 @@ const PlaylistProfile = () => {
           ))}
         </div>
       )}
+      <EditPlaylistModal
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setSelectedPlaylist(null);
+        }}
+        onSuccess={handlePlaylistUpdated}
+        playlist={selectedPlaylist}
+      />
     </motion.div>
   );
 };

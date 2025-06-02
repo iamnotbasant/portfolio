@@ -11,6 +11,7 @@ import { LandingPage } from "./LandingPage";
 import { Login } from "./pages/Login";
 import { SignUp } from "./pages/SignUp";
 import { Dashboard } from "./pages/Dashboard";
+import Playlists from "./pages/Playlists";
 import Profile from "./pages/Profile";
 import { Analytics } from "@vercel/analytics/react";
 import { useAuthStore } from "./store/useAuthStore";
@@ -113,6 +114,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <RevisionProblems />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/playlists"
+        element={
+          <ProtectedRoute>
+            <Playlists />
           </ProtectedRoute>
         }
       />

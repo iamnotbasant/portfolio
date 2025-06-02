@@ -215,3 +215,68 @@ export const removeProblemFromPlaylist = async (req, res) => {
     res.status(500).json({ message: "Error removing problem from playlist" });
   }
 };
+
+export const updatePlaylist = async (req, res) => {
+  try {
+    const { playlistId } = req.params;
+    const { name, description } = req.body;
+    const userId = req.loggedInUser.id;
+
+    // Validate input
+    if (!name && !description) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide name or description to update",
+      });
+    }
+
+    // Check if playlist exists and belongs to user
+    const playlist = await db.playlist.findUnique({
+      where: {
+        id: playlistId,
+        userId,
+      },
+    });
+
+    if (!playlist) {
+      return res.status(404).json({
+        success: false,
+        message: "Playlist not found",
+      });
+    }
+
+    // Create update data object with only provided fields
+    const updateData = {};
+    if (name !== undefined) updateData.name = name;
+    if (description !== undefined) updateData.description = description;
+
+    // Update the playlist
+    const updatedPlaylist = await db.playlist.update({
+      where: {
+        id: playlistId,
+      },
+      data: updateData,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Playlist updated successfully",
+      playlist: updatedPlaylist,
+    });
+  } catch (error) {
+    console.error("Error updating playlist:", error);
+
+    // Handle unique constraint violation (duplicate playlist name)
+    if (error.code === "P2002") {
+      return res.status(400).json({
+        success: false,
+        message: "You already have a playlist with this name",
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: "Error updating playlist",
+    });
+  }
+};

@@ -4,7 +4,6 @@ import { ArrowLeft, Mail, User, Shield, Image, Edit, Key } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import ProfileSubmission from "../components/ProfileSubmission";
 import ProblemSolvedByUser from "../components/ProblemSolvedByUser";
-import PlaylistProfile from "../components/PlaylistProfile";
 import { Navbar } from "../components/Navbar";
 import { motion } from "framer-motion";
 import "../styles/Profile.css";
@@ -175,10 +174,6 @@ const Profile = () => {
 
           <motion.div variants={itemVariants}>
             <ProblemSolvedByUser />
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <PlaylistProfile />
           </motion.div>
         </motion.div>
       </motion.div>

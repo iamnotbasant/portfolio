@@ -57,6 +57,44 @@ export const usePlaylistStore = create((set, get) => ({
     }
   },
 
+  updatePlaylist: async (playlistId, updateData) => {
+    try {
+      set({ isLoading: true });
+      const response = await axiosInstance.patch(
+        `/playlist/${playlistId}`,
+        updateData
+      );
+
+      // Update the playlist in the state
+      set((state) => ({
+        playlists: state.playlists.map((playlist) =>
+          playlist.id === playlistId ? response.data.playlist : playlist
+        ),
+        // If this is the current playlist being viewed, update it too
+        currentPlaylist:
+          state.currentPlaylist?.id === playlistId
+            ? response.data.playlist
+            : state.currentPlaylist,
+      }));
+
+      Toast.success("Playlist updated successfully");
+      return response.data.playlist;
+    } catch (error) {
+      console.error("Error updating playlist:", error);
+
+      // Handle specific errors
+      if (error.response?.status === 400) {
+        Toast.error(error.response.data.message || "Failed to update playlist");
+      } else {
+        Toast.error("Failed to update playlist");
+      }
+
+      throw error;
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
   addProblemToPlaylist: async (playlistId, problemIds) => {
     try {
       set({ isLoading: true });

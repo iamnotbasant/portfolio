@@ -43,10 +43,12 @@ export const Sidebar = () => {
             </div>
           </Link>
 
-          <div className="sidebar-item">
-            <span className="sidebar-icon">📚</span>
-            <span className="sidebar-text">Playlists</span>
-          </div>
+          <Link to="/playlists">
+            <div className="sidebar-item">
+              <span className="sidebar-icon">📚</span>
+              <span className="sidebar-text">Playlists</span>
+            </div>
+          </Link>
 
           <div className="sidebar-item">
             <span className="sidebar-icon">🏆</span>

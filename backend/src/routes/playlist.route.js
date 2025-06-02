@@ -7,6 +7,7 @@ import {
   addProblemToPlaylist,
   removeProblemFromPlaylist,
   deletePlaylist,
+  updatePlaylist,
 } from "../controllers/playlist.controller.js";
 
 const playlistRoutes = express.Router();
@@ -34,5 +35,7 @@ playlistRoutes.delete(
   authMiddleware,
   deletePlaylist
 );
+
+playlistRoutes.patch("/:playlistId", authMiddleware, updatePlaylist);
 
 export default playlistRoutes;
