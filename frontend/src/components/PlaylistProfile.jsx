@@ -163,7 +163,7 @@ const PlaylistProfile = () => {
                     Problems in this playlist
                   </h4>
 
-                  {playlist.problems.length === 0 ? (
+                  {!playlist.problems || playlist.problems.length === 0 ? (
                     <div className="p-4 bg-black/20 rounded-lg border border-white/5 text-white/60">
                       <span>No problems added to this playlist yet.</span>
                     </div>
