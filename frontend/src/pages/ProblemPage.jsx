@@ -10,7 +10,6 @@ import {
   Share2,
   Clock,
   ChevronRight,
-  BookOpen,
   Terminal,
   Code2,
   Users,
@@ -105,6 +104,21 @@ export const ProblemPage = () => {
 
             {problem?.examples && (
               <>
+                {problem?.companyTags && problem.companyTags.length > 0 && (
+                  <div className="mt-4">
+                    <h3 className="text-lg font-medium mb-2">Companies:</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {problem.companyTags.map((company, idx) => (
+                        <span
+                          key={idx}
+                          className="bg-indigo-900/50 text-indigo-300 px-3 py-1 rounded-full text-sm border border-indigo-800"
+                        >
+                          {company}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <h3 className="text-xl font-bold mb-4">Examples:</h3>
                 {Object.entries(problem?.examples).map(
                   ([lang, example], idx) => (

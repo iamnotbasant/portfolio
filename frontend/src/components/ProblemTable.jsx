@@ -17,6 +17,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
   const [filters, setFilters] = useState({
     search: "",
     tags: "",
+    companyTags: "",
     difficulty: "",
   });
   const { onDeleteProblem, isDeletingProblem } = useActions();
@@ -55,6 +56,16 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
     return Array.from(tagsSet);
   }, [problems]);
 
+  const allCompanyTags = useMemo(() => {
+    if (!Array.isArray(problems)) return [];
+
+    const companyTagsSet = new Set();
+    problems.forEach((problem) => {
+      problem.companyTags?.forEach((tag) => companyTagsSet.add(tag));
+    });
+    return Array.from(companyTagsSet);
+  }, [problems]);
+
   const filteredProblems = useMemo(() => {
     if (!Array.isArray(problems)) return [];
 
@@ -64,10 +75,15 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
         problem.title.toLowerCase().includes(filters.search.toLowerCase());
       const matchesTags =
         filters.tags === "" || problem.tags?.includes(filters.tags);
+      const matchesCompanyTags =
+        filters.companyTags === "" ||
+        problem.companyTags?.includes(filters.companyTags);
       const matchesDifficulty =
         filters.difficulty === "" || problem.difficulty === filters.difficulty;
 
-      return matchesSearch && matchesTags && matchesDifficulty;
+      return (
+        matchesSearch && matchesTags && matchesDifficulty && matchesCompanyTags
+      );
     });
   }, [problems, filters]);
 
@@ -113,7 +129,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
         transition={{ duration: 0.8, ease: "backInOut" }}
         className="dash-card mb-2 mt-2"
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <input
             type="text"
             placeholder="Search problems..."
@@ -152,6 +168,22 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
               </option>
             ))}
           </select>
+          <select
+            className="px-4 py-2 text-white filter-input"
+            value={filters.companyTags}
+            onChange={(e) =>
+              setFilters({ ...filters, companyTags: e.target.value })
+            }
+          >
+            <option className="bg-black/90" value="">
+              All Companies
+            </option>
+            {allCompanyTags.map((tag) => (
+              <option className="bg-black/90" key={tag} value={tag}>
+                {tag}
+              </option>
+            ))}
+          </select>
         </div>
       </motion.div>
 
@@ -168,6 +200,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
               <th className="text-left py-2 text-white/80 neue-med">Status</th>
               <th className="text-left py-2 text-white/80 neue-med">Title</th>
               <th className="text-left py-2 text-white/80 neue-med">Tags</th>
+              <th className="text-left py-2 text-white/80 neue-med">Company</th>
               <th className="text-left py-2 text-white/80 neue-med">
                 Difficulty
               </th>
@@ -207,6 +240,28 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                         {tag}
                       </span>
                     ))}
+                  </td>
+                  <td>
+                    <div className="flex flex-wrap gap-1">
+                      {problem.companyTags && problem.companyTags.length > 0 ? (
+                        problem.companyTags.map((company, index) => (
+                          <div
+                            key={index}
+                            className="profile-pill pill-primary flex items-center gap-1"
+                          >
+                            {company ? (
+                              <span className="text-xs">{company}</span>
+                            ) : (
+                              <span className="text-xs">N/A</span>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="profile-pill pill-primary flex items-center gap-1">
+                          <span className="text-xs">N/A</span>
+                        </div>
+                      )}
+                    </div>
                   </td>
                   <td className="py-2">
                     <span
@@ -280,7 +335,11 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
 
       <div className="flex justify-center mt-6 gap-2">
         <button
-          className="text-white/80 neue-med"
+          className={`neue-med transition-colors duration-200 ease-in-out ${
+            currentPage === 1
+              ? "text-white/40 cursor-not-allowed"
+              : "text-white/80 hover:text-white"
+          }`}
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((prev) => prev - 1)}
         >
@@ -290,7 +349,11 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
           {currentPage} / {totalPages}
         </span>
         <button
-          className="text-white/80 neue-med"
+          className={`neue-med transition-colors duration-200 ease-in-out ${
+            currentPage === totalPages
+              ? "text-white/40 cursor-not-allowed"
+              : "text-white/80 hover:text-white"
+          }`}
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((prev) => prev + 1)}
         >

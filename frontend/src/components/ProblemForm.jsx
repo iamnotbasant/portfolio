@@ -17,6 +17,7 @@ import {
   Lightbulb,
   BookOpen,
   CheckCircle2,
+  Briefcase,
   Download,
 } from "lucide-react";
 import "../styles/ProblemForm.css";
@@ -29,6 +30,7 @@ const problemSchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters"),
   difficulty: z.enum(["EASY", "MEDIUM", "HARD"]),
   tags: z.array(z.string()).min(1, "At least one tag is required"),
+  companyTags: z.array(z.string()).optional(),
   constraints: z.string().min(1, "Constraints are required"),
   hints: z.string().optional(),
   editorial: z.string().optional(),
@@ -530,6 +532,7 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
         // Ensure all required fields exist
         testcases: problemData.testcases || [{ input: "", output: "" }],
         tags: problemData.tags || [""],
+        companyTags: problemData.companyTags || [],
         examples: problemData.examples || {
           JAVASCRIPT: { input: "", output: "", explanation: "" },
           PYTHON: { input: "", output: "", explanation: "" },
@@ -612,6 +615,16 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
   } = useFieldArray({
     control,
     name: "testcases",
+  });
+
+  const {
+    fields: companyTagFields,
+    append: appendCompanyTag,
+    remove: removeCompanyTag,
+    replace: replaceCompanyTags,
+  } = useFieldArray({
+    control,
+    name: "companyTags",
   });
 
   const {
@@ -873,6 +886,40 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
             {errors.tags && (
               <div className="prob-error">{errors.tags.message}</div>
             )}
+          </div>
+          {/* Company Tags */}
+          <div className="prob-section-card">
+            <div className="prob-flex prob-flex-between">
+              <h3 className="prob-section-title">
+                <Briefcase size={20} /> Company Tags
+              </h3>
+              <button
+                type="button"
+                className="prob-btn prob-btn-primary"
+                onClick={() => appendCompanyTag("")}
+              >
+                <Plus size={16} /> Add Company
+              </button>
+            </div>
+            <div className="prob-grid prob-grid-3">
+              {companyTagFields.map((field, index) => (
+                <div key={field.id} className="prob-flex prob-flex-gap">
+                  <input
+                    type="text"
+                    className="prob-input"
+                    {...register(`companyTags.${index}`)}
+                    placeholder="Enter company name"
+                  />
+                  <button
+                    type="button"
+                    className="prob-btn prob-btn-danger"
+                    onClick={() => removeCompanyTag(index)}
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Test Cases */}

@@ -12,6 +12,7 @@ export const createProblem = async (req, res) => {
     description,
     difficulty,
     tags,
+    companyTags,
     constraints,
     examples,
     testcases,
@@ -76,6 +77,7 @@ export const createProblem = async (req, res) => {
         hints,
         userId: req.loggedInUser.id,
         tags,
+        companyTags: companyTags || [],
         testcases,
         codeSnippets,
         referenceSolutions,
@@ -159,6 +161,7 @@ export const updateProblem = async (req, res) => {
       description,
       difficulty,
       tags,
+      companyTags,
       constraints,
       examples,
       testcases,
@@ -237,6 +240,7 @@ export const updateProblem = async (req, res) => {
     if (editorial !== undefined) updateData.editorial = editorial;
     if (hints !== undefined) updateData.hints = hints;
     if (tags !== undefined) updateData.tags = tags;
+    if (companyTags !== undefined) updateData.companyTags = companyTags;
     if (testcases !== undefined) updateData.testcases = testcases;
     if (codeSnippets !== undefined) updateData.codeSnippets = codeSnippets;
     if (referenceSolutions !== undefined)

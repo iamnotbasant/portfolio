@@ -326,6 +326,7 @@ const ProblemSolvedByUser = () => {
                 <th>Problem</th>
                 <th>Difficulty</th>
                 <th>Tags</th>
+                <th>Companies</th>
                 <th className="text-right">Actions</th>
               </tr>
             </thead>
@@ -345,6 +346,28 @@ const ProblemSolvedByUser = () => {
                             <Tag size={10} /> {tag}
                           </div>
                         ))}
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex flex-wrap gap-1">
+                      {problem.companyTags && problem.companyTags.length > 0 ? (
+                        problem.companyTags.map((company, index) => (
+                          <div
+                            key={index}
+                            className="profile-pill pill-primary flex items-center gap-1"
+                          >
+                            {company ? (
+                              <span className="text-xs">{company}</span>
+                            ) : (
+                              <span className="text-xs">N/A</span>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <div className="profile-pill pill-primary flex items-center gap-1">
+                          <span className="text-xs">N/A</span>
+                        </div>
+                      )}
                     </div>
                   </td>
                   <td className="text-right">
