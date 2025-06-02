@@ -277,10 +277,10 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                         problem.difficulty.slice(1).toLowerCase()}
                     </span>
                   </td>
-                  <td className="py-2">
+                  <td className="py-2 flex items-center justify-start">
                     <button
                       onClick={() => handleRevisionToggle(problem.id)}
-                      className="mr-4 hover:bg-gray-700/50 rounded-full transition-colors cursor-pointer"
+                      className="mr-4 hover:bg-gray-700/50  cursor-pointer"
                       title={
                         isMarkedForRevision
                           ? "Remove from revision"
@@ -290,12 +290,18 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                     >
                       {isMarkedForRevision ? (
                         <ion-icon
-                          style={{ color: "#fff", fontSize: "1.1em" }}
+                          style={{
+                            color: "#fff",
+                            fontSize: "1.1em",
+                          }}
                           name="bookmark"
                         ></ion-icon>
                       ) : (
                         <ion-icon
-                          style={{ color: "#fff", fontSize: "1.1em" }}
+                          style={{
+                            color: "#fff",
+                            fontSize: "1.1em",
+                          }}
                           name="bookmark-outline"
                         ></ion-icon>
                       )}
