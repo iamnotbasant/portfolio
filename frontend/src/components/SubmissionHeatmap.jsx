@@ -3,6 +3,7 @@ import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 import { Calendar } from "lucide-react";
 import { useSubmissionStore } from "../store/useSubmissionStore";
+import { Tooltip } from "react-tooltip";
 
 const SubmissionHeatmap = () => {
   const { submissions } = useSubmissionStore();
@@ -47,7 +48,6 @@ const SubmissionHeatmap = () => {
       <h2 className="profile-component-header flex items-center gap-2 mb-6">
         <Calendar className="w-5 h-5 text-red-500" /> Submission Activity
       </h2>
-      {/* <ReactTooltip place="top" effect="solid" /> */}
       {submissions && submissions.length > 0 ? (
         <div className="submission-heatmap bg-black/20 p-4 rounded-lg border border-white/10">
           <CalendarHeatmap
@@ -66,17 +66,19 @@ const SubmissionHeatmap = () => {
             }}
             tooltipDataAttrs={(value) => {
               if (!value || !value.date) return null;
-              const date = new Date(value.date).toDateString();
-              const count = value.count || 0;
               return {
-                "data-tip": `${date}: ${count} submission${
-                  count !== 1 ? "s" : ""
-                }`,
+                "data-tooltip-id": "submission-tooltip",
+                "data-tooltip-content": getTooltipContent(value),
               };
             }}
             showWeekdayLabels={true}
             horizontal={true}
             gutterSize={1}
+          />
+          <Tooltip
+            id="submission-tooltip"
+            className="submission-tooltip"
+            place="top"
           />
         </div>
       ) : (
@@ -95,6 +97,23 @@ const SubmissionHeatmap = () => {
       )}
     </div>
   );
+};
+
+// Function to format tooltip content
+const getTooltipContent = (value) => {
+  if (!value || !value.date) return "";
+
+  const date = new Date(value.date);
+  const formattedDate = date.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const count = value.count || 0;
+
+  return `${formattedDate}: ${count} submission${count !== 1 ? "s" : ""}`;
 };
 
 export default SubmissionHeatmap;
