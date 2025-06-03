@@ -37,7 +37,8 @@ export const ProblemPage = () => {
   const [testcases, setTestcases] = useState([]);
   const [successRate, setSuccessRate] = useState(0);
   const [showAiChat, setShowAiChat] = useState(false);
-  const { isExecuting, executeCode, submission } = useExecutionStore();
+  const { isExecuting, executeCode, isSubmitting, submission } =
+    useExecutionStore();
   const {
     submission: submissions,
     submissionCount,
@@ -210,9 +211,34 @@ export const ProblemPage = () => {
       const language_id = getLanguageId(selectedLanguage);
       const stdin = problem?.testcases.map((testcase) => testcase.input);
       const expected_outputs = problem.testcases.map((tc) => tc.output);
-      executeCode(code, language_id, stdin, expected_outputs, id);
+      executeCode(code, language_id, stdin, expected_outputs, id, false);
     } catch (error) {
       console.log("Error executing code", error);
+    }
+  };
+
+  const handleSubmitSolution = (e) => {
+    e.preventDefault();
+    try {
+      const language_id = getLanguageId(selectedLanguage);
+      const stdin = problem?.testcases.map((testcase) => testcase.input);
+      const expected_outputs = problem.testcases.map((tc) => tc.output);
+
+      // Execute code and then refresh submissions data
+      executeCode(code, language_id, stdin, expected_outputs, id, true).then(
+        () => {
+          // Refresh submission data after submission completes
+          getSubmissionForProblem(id);
+          getSubmissionCountForProblem(id);
+
+          // If we're not on the submissions tab, switch to it to show the latest submission
+          if (activeTab !== "submissions") {
+            setActiveTab("submissions");
+          }
+        }
+      );
+    } catch (error) {
+      console.log("Error submitting solution", error);
     }
   };
 
@@ -366,14 +392,27 @@ export const ProblemPage = () => {
               <div className="p-4 border-t border-base-300 bg-base-200">
                 <div className="flex justify-between items-center">
                   <button
-                    className={`btn btn-primary gap-2 `}
+                    className={`btn btn-primary gap-2`}
                     onClick={handleRunCode}
-                    disabled={isExecuting}
+                    disabled={isExecuting || isSubmitting}
                   >
-                    {!isExecuting && <Play className="w-4 h-4" />}
+                    {isExecuting ? (
+                      <span className="loading loading-spinner loading-sm"></span>
+                    ) : (
+                      <Play className="w-4 h-4" />
+                    )}
                     Run Code
                   </button>
-                  <button className="btn btn-success gap-2">
+                  <button
+                    className="btn btn-success gap-2"
+                    onClick={handleSubmitSolution}
+                    disabled={isExecuting || isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <span className="loading loading-spinner loading-sm"></span>
+                    ) : (
+                      <Code2 className="w-4 h-4" />
+                    )}
                     Submit Solution
                   </button>
                 </div>
