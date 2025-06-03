@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import {
   Play,
@@ -16,6 +16,8 @@ import {
   ThumbsUp,
   Home,
   Bot,
+  UserPlus,
+  Copy,
 } from "lucide-react";
 
 import { useProblemStore } from "../store/useProblemStore";
@@ -26,9 +28,14 @@ import "../styles/ProblemPage.css";
 import Submission from "../components/Submission";
 import SubmissionsList from "../components/SubmissionList";
 import AIChatPanel from "../components/AiChatPanel.jsx";
+import { RoomProvider } from "../libs/liveblocks.js";
+import CollaborativeEditor from "../components/CollaborativeEditor";
+import { Toast } from "../store/useToastStore";
+import { useAuthStore } from "../store/useAuthStore.js";
 
 export const ProblemPage = () => {
   const { id } = useParams();
+  const location = useLocation();
   const { getProblemById, problem, isProblemLoading } = useProblemStore();
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("description");
@@ -37,6 +44,11 @@ export const ProblemPage = () => {
   const [testcases, setTestcases] = useState([]);
   const [successRate, setSuccessRate] = useState(0);
   const [showAiChat, setShowAiChat] = useState(false);
+  const [isCollaborative, setIsCollaborative] = useState(false);
+  const [collaborationUrl, setCollaborationUrl] = useState("");
+  const [sessionId, setSessionId] = useState("");
+  const { authUser } = useAuthStore();
+
   const { isExecuting, executeCode, isSubmitting, submission } =
     useExecutionStore();
   const {
@@ -46,6 +58,32 @@ export const ProblemPage = () => {
     getSubmissionForProblem,
     getSubmissionCountForProblem,
   } = useSubmissionStore();
+
+  useEffect(() => {
+    console.log("Full URL:", window.location.href);
+    console.log("Location search:", location.search);
+
+    // Force re-parse URL parameters
+    const currentURL = new URL(window.location.href);
+    const session = currentURL.searchParams.get("session");
+
+    console.log("Session from current URL:", session);
+
+    if (session) {
+      console.log("Setting collaborative mode with session:", session);
+      setIsCollaborative(true);
+      setSessionId(session);
+      setCollaborationUrl(window.location.href);
+    } else {
+      console.log("No session found, setting normal mode");
+      // Only reset if we're not in the middle of creating a session
+      if (!sessionId && !isCollaborative) {
+        setIsCollaborative(false);
+        setSessionId("");
+        setCollaborationUrl("");
+      }
+    }
+  }, [location.search, location.pathname]); // Changed dependency to location.search
 
   useEffect(() => {
     getProblemById(id);
@@ -242,6 +280,72 @@ export const ProblemPage = () => {
     }
   };
 
+  const toggleCollaborativeMode = () => {
+    if (!isCollaborative) {
+      // Generate a new session ID only when starting collaboration
+      const newSessionId = `room-${id}-${Date.now()}-${Math.random()
+        .toString(36)
+        .substring(2, 9)}`;
+
+      console.log("Starting collaboration with session:", newSessionId);
+
+      setSessionId(newSessionId);
+      setIsCollaborative(true);
+
+      // Update URL immediately
+      const url = new URL(window.location.href);
+      url.searchParams.set("session", newSessionId);
+      const newUrl = url.toString();
+
+      console.log("New collaboration URL:", newUrl);
+
+      window.history.pushState({}, "", newUrl);
+      setCollaborationUrl(newUrl);
+    } else {
+      console.log("Stopping collaboration");
+
+      setIsCollaborative(false);
+      setSessionId("");
+
+      // Remove session from URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete("session");
+      window.history.pushState({}, "", url.toString());
+      setCollaborationUrl("");
+    }
+  };
+
+  const copyCollaborationLink = async () => {
+    try {
+      await navigator.clipboard.writeText(collaborationUrl);
+      Toast.success("Collaboration link copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy link:", err);
+      Toast.error("Failed to copy link to clipboard");
+    }
+  };
+
+  // Get random color based on user ID
+  const getRandomColor = (id) => {
+    const colors = [
+      "#FF6B6B", // Red
+      "#4ECDC4", // Teal
+      "#FFE66D", // Yellow
+      "#6A0572", // Purple
+      "#FF9E7A", // Orange
+      "#2E86AB", // Blue
+      "#A846A0", // Pink
+      "#50514F", // Dark Gray
+    ];
+
+    // Generate consistent index based on user ID
+    const hash = id.split("").reduce((acc, char) => {
+      return acc + char.charCodeAt(0);
+    }, 0);
+
+    return colors[hash % colors.length];
+  };
+
   return (
     <div className="min-h-screen problem-page-container">
       <nav className="problem-page-navbar bg-[#e4e4e4] px-4">
@@ -371,22 +475,70 @@ export const ProblemPage = () => {
                   <Bot className="w-4 h-4" />
                   AI Assistant
                 </button>
+                {/* Collaboration toggle button */}
+                <button
+                  className={`tab gap-2 ${
+                    isCollaborative ? "text-primary" : ""
+                  }`}
+                  onClick={toggleCollaborativeMode}
+                >
+                  <UserPlus className="w-4 h-4" />
+                  {isCollaborative ? "Collaborating" : "Collaborate"}
+                </button>
               </div>
 
+              {isCollaborative && (
+                <div className="bg-base-200 p-2 rounded-md flex items-center justify-between mb-2">
+                  <span className="text-sm truncate max-w-[60%]">
+                    {new URL(collaborationUrl).searchParams.get("session")}
+                  </span>
+                  <button
+                    className="btn btn-sm btn-primary gap-1"
+                    onClick={copyCollaborationLink}
+                  >
+                    <Copy className="w-3 h-3" />
+                    Copy Link
+                  </button>
+                </div>
+              )}
+
               <div className="h-[600px] w-full">
-                <Editor
-                  height={"100%"}
-                  language={selectedLanguage.toLowerCase()}
-                  theme="vs-dark"
-                  value={code}
-                  onChange={(value) => setCode(value || "")}
-                  options={{
-                    minimap: { enabled: false },
-                    fontSize: 16,
-                    lineNumbers: "on",
-                    automaticLayout: true,
-                  }}
-                />
+                {isCollaborative ? (
+                  <RoomProvider
+                    id={sessionId}
+                    initialPresence={{
+                      name: authUser?.name || "Anonymous",
+                      color: getRandomColor(
+                        authUser?.id || Math.random().toString()
+                      ),
+                      userId: authUser?.id,
+                      avatar: authUser?.profilePicture,
+                    }}
+                  >
+                    <CollaborativeEditor
+                      height="100%"
+                      language={selectedLanguage.toLowerCase()}
+                      theme="vs-dark"
+                      value={code}
+                      onChange={(value) => setCode(value || "")}
+                      roomId={sessionId}
+                    />
+                  </RoomProvider>
+                ) : (
+                  <Editor
+                    height={"100%"}
+                    language={selectedLanguage.toLowerCase()}
+                    theme="vs-dark"
+                    value={code}
+                    onChange={(value) => setCode(value || "")}
+                    options={{
+                      minimap: { enabled: false },
+                      fontSize: 16,
+                      lineNumbers: "on",
+                      automaticLayout: true,
+                    }}
+                  />
+                )}
               </div>
 
               <div className="p-4 border-t border-base-300 bg-base-200">

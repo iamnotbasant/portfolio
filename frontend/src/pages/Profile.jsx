@@ -133,13 +133,6 @@ const Profile = () => {
                     : "Limited access"}
                 </div>
               </motion.div>
-
-              <motion.div className="profile-stats p-4" variants={itemVariants}>
-                <h1>Current Login Streak</h1>
-                <p>{authUser.streakCount}</p>
-                <h1>Maximum Login Streak</h1>
-                <p>{authUser.maxStreakCount}</p>
-              </motion.div>
             </div>
 
             {/* Action Buttons */}

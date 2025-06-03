@@ -43,22 +43,27 @@ function AppRoutes() {
       );
     }
 
-    if (!authUser) {
-      // Store the location they were trying to access
-      return <Navigate to="/login" state={{ from: location }} />;
+    // Only redirect to login if auth check is complete AND user is not authenticated
+    if (!authUser && !isCheckingAuth) {
+      // Preserve the full URL including search params
+      const from = {
+        pathname: location.pathname,
+        search: location.search, // This preserves ?session=xyz
+      };
+      return <Navigate to="/login" state={{ from }} replace />;
     }
 
     return children;
   };
 
-  // If still checking auth, show a loader
-  if (isCheckingAuth) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-[#111]">
-        <Loader />
-      </div>
-    );
-  }
+  // // If still checking auth, show a loader
+  // if (isCheckingAuth) {
+  //   return (
+  //     <div className="flex items-center justify-center h-screen bg-[#111]">
+  //       <Loader />
+  //     </div>
+  //   );
+  // }
 
   return (
     <Routes>
@@ -69,7 +74,14 @@ function AppRoutes() {
         path="/login"
         element={
           authUser ? (
-            <Navigate to={location.state?.from?.pathname || "/dashboard"} />
+            // Redirect back with preserved search params
+            <Navigate
+              to={{
+                pathname: location.state?.from?.pathname || "/dashboard",
+                search: location.state?.from?.search || "",
+              }}
+              replace
+            />
           ) : (
             <Login />
           )
@@ -79,7 +91,13 @@ function AppRoutes() {
         path="/sign-up"
         element={
           authUser ? (
-            <Navigate to={location.state?.from?.pathname || "/dashboard"} />
+            <Navigate
+              to={{
+                pathname: location.state?.from?.pathname || "/dashboard",
+                search: location.state?.from?.search || "",
+              }}
+              replace
+            />
           ) : (
             <SignUp />
           )

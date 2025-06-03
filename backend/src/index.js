@@ -9,6 +9,7 @@ import submissionRoutes from "./routes/submission.routes.js";
 import playlistRoutes from "./routes/playlist.route.js";
 import revisionRoutes from "./routes/revision.route.js";
 import aiAssistantRoutes from "./routes/ai.routes.js";
+import liveblocksRoutes from "./routes/liveblocks.route.js";
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use("/api/v1/submission", submissionRoutes);
 app.use("/api/v1/playlist", playlistRoutes);
 app.use("/api/v1/revision", revisionRoutes);
 app.use("/api/v1/ai", aiAssistantRoutes);
+app.use("/api/v1/liveblocks", liveblocksRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
