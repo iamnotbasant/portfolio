@@ -76,7 +76,10 @@ export const login = async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({
+        success: false,
+        message: "Incorrect password. Please try again.",
+      });
     }
 
     // Generate JWT token
@@ -143,8 +146,6 @@ export const login = async (req, res) => {
         email: user.email,
         role: user.role,
         image: user.image,
-        streakCount,
-        maxStreakCount,
       },
     });
   } catch (error) {

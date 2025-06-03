@@ -48,6 +48,36 @@ const ProfileSubmission = () => {
     }).format(date);
   };
 
+  // Helper function to safely parse JSON and extract values
+  const safeJsonParse = (value, defaultValue = "N/A") => {
+    if (!value) return defaultValue;
+
+    try {
+      const parsed = JSON.parse(value);
+      if (Array.isArray(parsed)) {
+        return parsed.length > 0 ? parsed[0] : defaultValue;
+      }
+      return parsed;
+    } catch (error) {
+      return value || defaultValue;
+    }
+  };
+
+  // Helper function to format output data
+  const formatOutput = (stdout) => {
+    if (!stdout) return "No output";
+
+    try {
+      const parsed = JSON.parse(stdout);
+      if (Array.isArray(parsed)) {
+        return parsed.join("\n");
+      }
+      return String(parsed);
+    } catch (error) {
+      return String(stdout);
+    }
+  };
+
   const toggleExpand = (id) => {
     if (expandedSubmission === id) {
       setExpandedSubmission(null);
@@ -185,7 +215,9 @@ const ProfileSubmission = () => {
                       Solution Code
                     </h3>
                     <pre className="bg-black/30 text-white/90 p-4 rounded-lg overflow-x-auto border border-white/5 text-sm">
-                      <code>{submission.sourceCode}</code>
+                      <code>
+                        {submission.sourceCode || "No code available"}
+                      </code>
                     </pre>
                   </div>
 
@@ -207,17 +239,39 @@ const ProfileSubmission = () => {
                         Output
                       </h3>
                       <pre className="bg-black/30 text-white/70 p-3 rounded-lg overflow-x-auto border border-white/5 text-xs h-24">
-                        <code>
-                          {Array.isArray(JSON.parse(submission.stdout))
-                            ? JSON.parse(submission.stdout).join("")
-                            : submission.stdout || "No output"}
-                        </code>
+                        <code>{formatOutput(submission.stdout)}</code>
                       </pre>
                     </div>
                   </div>
 
+                  <div className="text-white text-lg">
+                    {(() => {
+                      try {
+                        const result = safeJsonParse(submission.time);
+                        console.log("Time result:", result, typeof result);
+                        return String(result);
+                      } catch (e) {
+                        console.error("Error parsing time:", e);
+                        return "Error parsing time";
+                      }
+                    })()}
+                  </div>
+
+                  <div className="text-white text-lg">
+                    {(() => {
+                      try {
+                        const result = safeJsonParse(submission.memory);
+                        console.log("Memory result:", result, typeof result);
+                        return String(result);
+                      } catch (e) {
+                        console.error("Error parsing memory:", e);
+                        return "Error parsing memory";
+                      }
+                    })()}
+                  </div>
+
                   {/* Performance Stats */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex items-center gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
                       <Clock className="text-blue-400 w-10 h-10" />
                       <div>
@@ -225,9 +279,7 @@ const ProfileSubmission = () => {
                           Execution Time
                         </div>
                         <div className="text-white text-lg">
-                          {Array.isArray(JSON.parse(submission.time))
-                            ? JSON.parse(submission.time)[0]
-                            : submission.time || "N/A"}
+                          {safeJsonParse(submission.time)}
                         </div>
                       </div>
                     </div>
@@ -237,13 +289,11 @@ const ProfileSubmission = () => {
                       <div>
                         <div className="text-white/60 text-xs">Memory Used</div>
                         <div className="text-white text-lg">
-                          {Array.isArray(JSON.parse(submission.memory))
-                            ? JSON.parse(submission.memory)[0]
-                            : submission.memory || "N/A"}
+                          {safeJsonParse(submission.memory)}
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </motion.div>
               )}
             </motion.div>
