@@ -12,6 +12,7 @@ export const useSubmissionStore = create((set, get) => ({
     try {
       set({ isLoading: true });
       const res = await axiosInstance.get("/submission/get-all-submissions");
+      console.log("All submissions:", res.data.data);
 
       set({ submissions: res.data.data });
     } catch (error) {

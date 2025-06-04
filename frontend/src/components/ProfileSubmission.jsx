@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 import { motion } from "framer-motion";
+import Editor from "@monaco-editor/react";
 import {
   Code,
   Terminal,
@@ -48,18 +49,46 @@ const ProfileSubmission = () => {
     }).format(date);
   };
 
+  // Enhanced safe render function that handles ALL data types
+  const safeRender = (value, defaultValue = "N/A") => {
+    if (value === null || value === undefined) return defaultValue;
+
+    // If it's already a string, return it
+    if (typeof value === "string") return value;
+
+    // If it's a number or boolean, convert to string
+    if (typeof value === "number" || typeof value === "boolean") {
+      return String(value);
+    }
+
+    // If it's an object or array, stringify it
+    if (typeof value === "object") {
+      try {
+        return JSON.stringify(value, null, 2);
+      } catch (error) {
+        return `[Object: ${Object.prototype.toString.call(value)}]`;
+      }
+    }
+
+    // Fallback: convert to string
+    return String(value);
+  };
+
   // Helper function to safely parse JSON and extract values
   const safeJsonParse = (value, defaultValue = "N/A") => {
     if (!value) return defaultValue;
 
     try {
       const parsed = JSON.parse(value);
+
       if (Array.isArray(parsed)) {
-        return parsed.length > 0 ? parsed[0] : defaultValue;
+        const firstElement = parsed.length > 0 ? parsed[0] : defaultValue;
+        return safeRender(firstElement);
       }
-      return parsed;
+
+      return safeRender(parsed);
     } catch (error) {
-      return value || defaultValue;
+      return safeRender(value, defaultValue);
     }
   };
 
@@ -69,13 +98,53 @@ const ProfileSubmission = () => {
 
     try {
       const parsed = JSON.parse(stdout);
+
       if (Array.isArray(parsed)) {
-        return parsed.join("\n");
+        // Convert all array elements to strings before joining
+        const stringElements = parsed.map((item) => safeRender(item));
+        return stringElements.join("\n");
       }
+
+      return safeRender(parsed);
+    } catch (error) {
+      return safeRender(stdout);
+    }
+  };
+
+  const extractSourceCode = (sourceCode) => {
+    if (!sourceCode) return "No code available";
+
+    // If it's an object with code property
+    if (typeof sourceCode === "object" && sourceCode.code) {
+      return sourceCode.code;
+    }
+
+    // If it's already a string
+    if (typeof sourceCode === "string") {
+      return sourceCode;
+    }
+
+    // Try to parse if it's JSON string
+    try {
+      const parsed = JSON.parse(sourceCode);
+      if (parsed.code) return parsed.code;
       return String(parsed);
     } catch (error) {
-      return String(stdout);
+      return String(sourceCode);
     }
+  };
+
+  // Helper function to get language for Monaco Editor
+  const getLanguageForEditor = (language) => {
+    const languageMap = {
+      JAVASCRIPT: "javascript",
+      PYTHON: "python",
+      JAVA: "java",
+      javascript: "javascript",
+      python: "python",
+      java: "java",
+    };
+    return languageMap[language?.toUpperCase()] || "javascript";
   };
 
   const toggleExpand = (id) => {
@@ -175,14 +244,14 @@ const ProfileSubmission = () => {
                     {submission.status === "Accepted" ? (
                       <Check size={12} />
                     ) : null}
-                    {submission.status}
+                    {safeRender(submission.status)}
                   </div>
 
                   <div className="flex items-center gap-2 text-white/70">
-                    <Code size={14} />
+                    {/* <Code size={14} />
                     <span className="font-medium text-white">
-                      {submission.language}
-                    </span>
+                      {safeRender(submission.language)}
+                    </span> */}
                   </div>
 
                   <div className="flex items-center gap-2 text-white/50 text-sm">
@@ -214,11 +283,28 @@ const ProfileSubmission = () => {
                       <Code size={16} />
                       Solution Code
                     </h3>
-                    <pre className="bg-black/30 text-white/90 p-4 rounded-lg overflow-x-auto border border-white/5 text-sm">
-                      <code>
-                        {submission.sourceCode || "No code available"}
-                      </code>
-                    </pre>
+                    <div className="border border-white/5 rounded-lg overflow-hidden">
+                      <Editor
+                        height="400px"
+                        language={getLanguageForEditor(submission.language)}
+                        theme="vs-dark"
+                        value={extractSourceCode(submission.sourceCode)}
+                        options={{
+                          readOnly: true,
+                          minimap: { enabled: false },
+                          fontSize: 14,
+                          lineNumbers: "on",
+                          automaticLayout: true,
+                          scrollBeyondLastLine: false,
+                          wordWrap: "on",
+                          folding: true,
+                          renderLineHighlight: "none",
+                          selectionHighlight: false,
+                          contextmenu: false,
+                          padding: { top: 16, bottom: 16 },
+                        }}
+                      />
+                    </div>
                   </div>
 
                   {/* Input/Output Section */}
@@ -229,7 +315,9 @@ const ProfileSubmission = () => {
                         Input
                       </h3>
                       <pre className="bg-black/30 text-white/70 p-3 rounded-lg overflow-x-auto border border-white/5 text-xs h-24">
-                        <code>{submission.stdin || "No input provided"}</code>
+                        <code>
+                          {safeRender(submission.stdin, "No input provided")}
+                        </code>
                       </pre>
                     </div>
 
@@ -244,34 +332,8 @@ const ProfileSubmission = () => {
                     </div>
                   </div>
 
-                  <div className="text-white text-lg">
-                    {(() => {
-                      try {
-                        const result = safeJsonParse(submission.time);
-                        console.log("Time result:", result, typeof result);
-                        return String(result);
-                      } catch (e) {
-                        console.error("Error parsing time:", e);
-                        return "Error parsing time";
-                      }
-                    })()}
-                  </div>
-
-                  <div className="text-white text-lg">
-                    {(() => {
-                      try {
-                        const result = safeJsonParse(submission.memory);
-                        console.log("Memory result:", result, typeof result);
-                        return String(result);
-                      } catch (e) {
-                        console.error("Error parsing memory:", e);
-                        return "Error parsing memory";
-                      }
-                    })()}
-                  </div>
-
                   {/* Performance Stats */}
-                  {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex items-center gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
                       <Clock className="text-blue-400 w-10 h-10" />
                       <div>
@@ -293,7 +355,7 @@ const ProfileSubmission = () => {
                         </div>
                       </div>
                     </div>
-                  </div> */}
+                  </div>
                 </motion.div>
               )}
             </motion.div>
