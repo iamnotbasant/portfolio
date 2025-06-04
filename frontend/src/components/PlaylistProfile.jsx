@@ -13,6 +13,7 @@ import {
   Folder,
   Trash2,
   Plus,
+  Edit,
 } from "lucide-react";
 import EditPlaylistModal from "./EditPlaylistModal";
 import CreatePlaylistModal from "./CreatePlaylistModal";
@@ -83,7 +84,7 @@ const PlaylistProfile = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="profile-component-card"
+      className="profile-component-card p-8 h-[70vh]"
     >
       {playlists.length === 0 ? (
         <div className="empty-state">
@@ -115,58 +116,49 @@ const PlaylistProfile = () => {
             >
               {/* Playlist Header */}
               <div
-                className="flex justify-between items-center cursor-pointer"
+                className="flex flex-col cursor-pointer"
                 onClick={() => togglePlaylist(playlist.id)}
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-xl font-bold arame text-white">
                       {playlist.name}
                     </h3>
-                    <div className="flex items-center gap-4 mt-1 text-sm text-white/60">
-                      <div className="flex items-center gap-1">
-                        <List size={14} />
-                        <span>{playlist.problems?.length || 0} problems</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock size={14} />
-                        <span>Created {formatDate(playlist.createdAt)}</span>
-                      </div>
-                    </div>
                   </div>
+                  <button className="text-white/70 hover:text-white transition-colors">
+                    {expandedPlaylist === playlist.id ? (
+                      <ChevronUp />
+                    ) : (
+                      <ChevronDown />
+                    )}
+                  </button>
                 </div>
-                <button className="text-white/70 hover:text-white transition-colors">
-                  {expandedPlaylist === playlist.id ? (
-                    <ChevronUp />
-                  ) : (
-                    <ChevronDown />
-                  )}
-                </button>
+
+                {/* Description */}
+                {playlist.description && (
+                  <p className="text-white/60 ">{playlist.description}</p>
+                )}
               </div>
-
-              {/* Description */}
-              {playlist.description && (
-                <p className="text-white/60 mt-3 ml-16">
-                  {playlist.description}
-                </p>
-              )}
-
-              <button
-                onClick={() => handleEdit(playlist)}
-                className="profile-btn flex items-center gap-1 bg-red-900/20 border border-red-500/30 text-red-400 hover:bg-red-900/40"
-              >
-                Edit Playlist
-              </button>
 
               {/* Expanded Problems List */}
               {expandedPlaylist === playlist.id && (
                 <motion.div
-                  className="mt-4 pt-4 border-t border-white/10 ml-16"
+                  className="mt-4 pt-4 border-t border-white/10"
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "auto" }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h4 className="text-lg font-semibold mb-3 text-white">
+                  <div className="flex items-center gap-4 mt-1 text-sm text-white/60">
+                    <div className="flex items-center gap-1 neue-reg">
+                      <List size={14} />
+                      <span>{playlist.problems?.length || 0} problems</span>
+                    </div>
+                    <div className="flex items-center gap-1 neue-reg">
+                      <Clock size={14} />
+                      <span>Created {formatDate(playlist.createdAt)}</span>
+                    </div>
+                  </div>
+                  <h4 className="text-lg mb-3 text-white neue-med">
                     Problems in this playlist
                   </h4>
 
@@ -223,7 +215,14 @@ const PlaylistProfile = () => {
                     </div>
                   )}
 
-                  <div className="flex justify-end mt-4">
+                  <div className="flex justify-end mt-4 gap-4">
+                    <button
+                      onClick={() => handleEdit(playlist)}
+                      className="profile-btn flex items-center gap-1 bg-blue-900/20 border border-blue-500/30 text-blue-400 hover:bg-blue-900/40"
+                    >
+                      <Edit size={14} />
+                      Edit Playlist
+                    </button>
                     <button
                       onClick={() => handleDelete(playlist.id)}
                       className="profile-btn flex items-center gap-1 bg-red-900/20 border border-red-500/30 text-red-400 hover:bg-red-900/40"

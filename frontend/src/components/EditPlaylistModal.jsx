@@ -63,7 +63,7 @@ const EditPlaylistModal = ({ isOpen, onClose, onSuccess, playlist }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 bg-black/20 backdrop-blur-md flex items-center justify-center z-50 brightness-125"
+          className="fixed inset-0 bg-black/20 backdrop-blur-md flex items-center justify-center z-100 brightness-125"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
