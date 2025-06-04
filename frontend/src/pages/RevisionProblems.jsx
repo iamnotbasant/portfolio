@@ -7,6 +7,7 @@ import { Navbar } from "../components/Navbar";
 import { Sidebar } from "../components/Sidebar";
 import {
   BookmarkCheck,
+  
   ArrowLeft,
   ExternalLink,
   Search,
@@ -27,6 +28,7 @@ const RevisionProblems = () => {
   const [filters, setFilters] = useState({
     search: "",
     tags: "",
+    companyTags: "",
     difficulty: "",
   });
 
@@ -57,6 +59,10 @@ const RevisionProblems = () => {
           .toLowerCase()
           .includes(filters.search.toLowerCase());
 
+      const matchesCompanyTags =
+        filters.companyTags === "" ||
+        item.problemDetails.companyTags?.includes(filters.companyTags);
+
       const matchesTags =
         filters.tags === "" ||
         (item.problemDetails.tags &&
@@ -66,7 +72,9 @@ const RevisionProblems = () => {
         filters.difficulty === "" ||
         item.problemDetails.difficulty === filters.difficulty;
 
-      return matchesSearch && matchesTags && matchesDifficulty;
+      return (
+        matchesSearch && matchesTags && matchesDifficulty && matchesCompanyTags
+      );
     });
   }, [revisionProblemsWithDetails, filters]);
 
@@ -87,6 +95,16 @@ const RevisionProblems = () => {
     });
 
     return Array.from(tagsSet);
+  }, [revisionProblemsWithDetails]);
+
+  const allCompanyTags = useMemo(() => {
+    if (!Array.isArray(problems)) return [];
+
+    const companyTagsSet = new Set();
+    revisionProblemsWithDetails.forEach((problem) => {
+      problem.companyTags?.forEach((tag) => companyTagsSet.add(tag));
+    });
+    return Array.from(companyTagsSet);
   }, [revisionProblemsWithDetails]);
 
   const getDifficultyClass = (difficulty) => {
@@ -128,10 +146,18 @@ const RevisionProblems = () => {
           exit={{ opacity: 0 }}
           className="flex justify-end h-8 mr-[0.5em]"
         >
-          {filters.search || filters.tags || filters.difficulty ? (
+          {filters.search ||
+          filters.tags ||
+          filters.difficulty ||
+          filters.companyTags ? (
             <button
               onClick={() =>
-                setFilters({ search: "", tags: "", difficulty: "" })
+                setFilters({
+                  search: "",
+                  tags: "",
+                  difficulty: "",
+                  companyTags: "",
+                })
               }
               className="px-3 py-1 text-sm bg-transparent hover:bg-gray-700/20 text-white/80 hover:text-white rounded border border-red-700 transition-all duration-200 flex items-center gap-2 neue-reg"
             >
@@ -149,7 +175,7 @@ const RevisionProblems = () => {
             transition={{ duration: 0.8, ease: "backInOut" }}
             className="dash-card mb-4"
           >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="relative">
                 <Search
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50"
@@ -203,6 +229,23 @@ const RevisionProblems = () => {
                   Hard
                 </option>
               </select>
+
+              <select
+                className="px-4 py-2 text-white filter-input"
+                value={filters.companyTags}
+                onChange={(e) =>
+                  setFilters({ ...filters, companyTags: e.target.value })
+                }
+              >
+                <option className="bg-black/90" value="">
+                  All Companies
+                </option>
+                {allCompanyTags.map((tag) => (
+                  <option className="bg-black/90" key={tag} value={tag}>
+                    {tag}
+                  </option>
+                ))}
+              </select>
             </div>
           </motion.div>
         )}
@@ -212,39 +255,28 @@ const RevisionProblems = () => {
             <Loader />
           </div>
         ) : revisionProblemsWithDetails.length === 0 ? (
-          <div className="bg-black/20 p-8 rounded-lg border border-white/10 text-center">
-            <BookmarkCheck className="w-12 h-12 text-purple-400 mx-auto mb-4 opacity-50" />
-            <h3 className="text-xl font-medium text-white mb-2">
+          <div className="bg-black/20 p-8 rounded-xl border border-white/10 text-center">
+            <BookmarkCheck className="w-12 h-12 text-white/80 mx-auto mb-4 opacity-50" />
+            <h3 className="text-xl font-medium text-white mb-2 neue-med">
               No problems saved for revision
             </h3>
-            <p className="text-white/60 mb-6">
+            <p className="text-white/60 mb-6 neue-reg">
               When you find problems you want to revise later, save them for
               quick access.
             </p>
-            <Link
-              to="/dashboard"
-              className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors"
-            >
+            <Link to="/dashboard" className="px-4 py-2 ai-btn">
               Browse Problems
             </Link>
           </div>
         ) : filteredProblems.length === 0 ? (
           <div className="bg-black/20 p-8 rounded-lg border border-white/10 text-center">
-            <Filter className="w-12 h-12 text-purple-400 mx-auto mb-4 opacity-50" />
-            <h3 className="text-xl font-medium text-white mb-2">
+            <Filter className="w-12 h-12 text-white/80 mx-auto mb-4 opacity-50" />
+            <h3 className="text-xl font-medium text-white mb-2 neue-med">
               No matching problems found
             </h3>
-            <p className="text-white/60 mb-6">
+            <p className="text-white/60 mb-6 neue-reg">
               Try adjusting your filter criteria to find more problems.
             </p>
-            <button
-              onClick={() =>
-                setFilters({ search: "", tags: "", difficulty: "" })
-              }
-              className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors"
-            >
-              Clear Filters
-            </button>
           </div>
         ) : (
           <motion.div
@@ -258,6 +290,7 @@ const RevisionProblems = () => {
                   <th className="text-left py-2 text-white/80">Problem</th>
                   <th className="text-left py-2 text-white/80">Difficulty</th>
                   <th className="text-left py-2 text-white/80">Tags</th>
+                  <th className="text-left py-2 text-white/80">Company</th>
                   <th className="text-right py-2 text-white/80">Actions</th>
                 </tr>
               </thead>
@@ -299,6 +332,28 @@ const RevisionProblems = () => {
                         </span>
                       ))}
                     </td>
+                    <td>
+                      <div className="flex flex-wrap gap-1">
+                        {item.companyTags && item.companyTags.length > 0 ? (
+                          item.companyTags.map((company, index) => (
+                            <div
+                              key={index}
+                              className="profile-pill pill-primary flex items-center gap-1"
+                            >
+                              {company ? (
+                                <span className="text-xs">{company}</span>
+                              ) : (
+                                <span className="text-xs">N/A</span>
+                              )}
+                            </div>
+                          ))
+                        ) : (
+                          <div className="profile-pill pill-primary flex items-center gap-1">
+                            <span className="text-xs">N/A</span>
+                          </div>
+                        )}
+                      </div>
+                    </td>
                     <td className="py-4 text-right">
                       <div className="flex justify-end items-center gap-2">
                         <button
@@ -310,7 +365,7 @@ const RevisionProblems = () => {
                         >
                           <BookmarkCheck
                             size={16}
-                            className="text-emerald-400"
+                            className="text-white"
                           />
                         </button>
                         <Link
@@ -319,7 +374,7 @@ const RevisionProblems = () => {
                           title="View problem"
                           onClick={(e) => e.stopPropagation()}
                         >
-                          <ExternalLink size={16} className="text-blue-400" />
+                          <ExternalLink size={16} className="text-blue-500" />
                         </Link>
                       </div>
                     </td>

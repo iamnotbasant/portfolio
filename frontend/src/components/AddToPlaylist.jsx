@@ -12,7 +12,6 @@ const AddToPlaylistModal = ({ isOpen, onClose, problemId }) => {
     if (isOpen) {
       getAllPlaylists();
     }
-    console.log("Playlists fetched:", playlists);
   }, [isOpen]);
 
   useEffect(() => {

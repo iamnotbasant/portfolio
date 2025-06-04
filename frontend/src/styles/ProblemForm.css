@@ -268,3 +268,22 @@
   background-color: rgba(10, 10, 10, 0.9);
   color: white;
 }
+
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(56, 56, 56, 0.8);
+  border-radius: 4px;
+  font-family: neue-med, sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+  background-color: rgba(56, 56, 56, 0.3);
+}

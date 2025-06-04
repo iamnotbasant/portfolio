@@ -254,7 +254,8 @@ td {
 .sidebar-item {
   display: flex;
   align-items: center;
-  padding: 0.2em 0.5em;
+  padding: 0.3em 0.5em;
+  font-family: arame;
   color: white;
   border-radius: 2px;
   transition: all 0.2s ease;
@@ -271,8 +272,8 @@ td {
 }
 
 .sidebar-text {
-  font-family: neue-reg;
-  font-size: 0.9em;
+  font-family: neue-med;
+  /* font-size: 0.9em; */
 }
 
 .sidebar-footer {
