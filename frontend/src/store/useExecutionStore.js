@@ -29,6 +29,7 @@ export const useExecutionStore = create((set, get) => ({
         problemId,
         saveSubmission,
       });
+      console.log("Execution response:", res.data);
 
       set({ submission: res.data.submission });
 

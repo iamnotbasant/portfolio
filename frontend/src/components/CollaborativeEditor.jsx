@@ -26,12 +26,12 @@ const CollaborativeEditor = ({
   // Get Yjs provider for the room
   const provider = room ? getYjsProviderForRoom(room) : null;
 
-  useEffect(() => {
-    console.log("Room:", room);
-    console.log("Provider:", provider);
-    console.log("Editor:", editorRef);
-    console.log("Others:", others);
-  }, [room, provider, editorRef, others]);
+  // useEffect(() => {
+  //   console.log("Room:", room);
+  //   console.log("Provider:", provider);
+  //   console.log("Editor:", editorRef);
+  //   console.log("Others:", others);
+  // }, [room, provider, editorRef, others]);
 
   // Set up Liveblocks Yjs provider and attach Monaco editor
   useEffect(() => {

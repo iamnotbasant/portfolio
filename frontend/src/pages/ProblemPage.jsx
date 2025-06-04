@@ -60,22 +60,22 @@ export const ProblemPage = () => {
   } = useSubmissionStore();
 
   useEffect(() => {
-    console.log("Full URL:", window.location.href);
-    console.log("Location search:", location.search);
+    // console.log("Full URL:", window.location.href);
+    // console.log("Location search:", location.search);
 
     // Force re-parse URL parameters
     const currentURL = new URL(window.location.href);
     const session = currentURL.searchParams.get("session");
 
-    console.log("Session from current URL:", session);
+    // console.log("Session from current URL:", session);
 
     if (session) {
-      console.log("Setting collaborative mode with session:", session);
+      // console.log("Setting collaborative mode with session:", session);
       setIsCollaborative(true);
       setSessionId(session);
       setCollaborationUrl(window.location.href);
     } else {
-      console.log("No session found, setting normal mode");
+      // console.log("No session found, setting normal mode");
       // Only reset if we're not in the middle of creating a session
       if (!sessionId && !isCollaborative) {
         setIsCollaborative(false);
@@ -186,7 +186,7 @@ export const ProblemPage = () => {
                           <div className="text-emerald-300 mb-2 text-base font-semibold">
                             Explanation:
                           </div>
-                          <p className="text-base-content/70 text-lg font-sem">
+                          <p className=" text-lg font-sem">
                             {example.explanation}
                           </p>
                         </div>
@@ -217,11 +217,7 @@ export const ProblemPage = () => {
           />
         );
       case "discussion":
-        return (
-          <div className="p-4 text-center text-base-content/70">
-            No discussions yet
-          </div>
-        );
+        return <div className="p-4 text-center ">No discussions yet</div>;
       case "hints":
         return (
           <div className="p-4">
@@ -232,9 +228,7 @@ export const ProblemPage = () => {
                 </span>
               </div>
             ) : (
-              <div className="text-center text-base-content/70">
-                No hints available
-              </div>
+              <div className="text-center ">No hints available</div>
             )}
           </div>
         );
@@ -581,26 +575,60 @@ export const ProblemPage = () => {
           ) : (
             <>
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold">Test Cases</h3>
+                <h3 className="text-xl font-bold flex items-center gap-2">
+                  <Terminal className="w-5 h-5" />
+                  Test Cases
+                </h3>
+                <div className=" badge-primary">
+                  {problem?.testcases?.length || 0} cases
+                </div>
               </div>
-              <div className="overflow-x-auto">
-                <table className="table table-zebra w-full">
-                  <thead>
-                    <tr>
-                      <th>Input</th>
-                      <th>Expected Output</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {testcases.map((testcase, index) => (
-                      <tr key={index}>
-                        <td className="font-monoo">{testcase?.input}</td>
-                        <td className="font-monoo">{testcase?.output}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+
+              {problem?.testcases && problem.testcases.length > 0 ? (
+                <div className="space-y-4">
+                  {problem.testcases.map((testcase, index) => (
+                    <div key={index} className=" bg-base-200">
+                      <div className="card-body p-4">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className=" badge-secondary">
+                            Test Case {index + 1}
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <h4 className="text-sm font-medium  mb-2">
+                              Input:
+                            </h4>
+                            <div className="bg-base-300 p-3 rounded-lg font-mono text-sm overflow-x-auto">
+                              {testcase?.input || "No input"}
+                            </div>
+                          </div>
+
+                          <div>
+                            <h4 className="text-sm font-medium  mb-2">
+                              Expected Output:
+                            </h4>
+                            <div className="bg-base-300 p-3 rounded-lg font-mono text-sm overflow-x-auto">
+                              {testcase?.output || "No output"}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12 ">
+                  <Terminal className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                  <h4 className="text-lg font-medium mb-2">
+                    No Test Cases Available
+                  </h4>
+                  <p className="text-sm">
+                    Test cases will appear here when the problem is loaded.
+                  </p>
+                </div>
+              )}
             </>
           )}
         </div>
