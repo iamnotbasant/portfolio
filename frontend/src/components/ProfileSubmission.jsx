@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useSubmissionStore } from "../store/useSubmissionStore";
 import { motion } from "framer-motion";
 import Editor from "@monaco-editor/react";
@@ -8,7 +8,6 @@ import {
   Clock,
   HardDrive,
   Check,
-  X,
   ChevronDown,
   ChevronUp,
   Filter,
@@ -24,145 +23,229 @@ const ProfileSubmission = () => {
     getAllSubmissions();
   }, [getAllSubmissions]);
 
-  const getStatusClass = (status) => {
-    switch (status) {
-      case "Accepted":
-      case "ACCEPTED":
-        return "pill-success";
-      case "Wrong Answer":
-        return "pill-danger";
-      case "Time Limit Exceeded":
-        return "pill-warning";
-      default:
-        return "pill-primary";
-    }
-  };
+  // Memoized helper functions
+  const helpers = useMemo(
+    () => ({
+      getStatusClass: (status) => {
+        const statusMap = {
+          Accepted: "pill-success",
+          ACCEPTED: "pill-success",
+          "Wrong Answer": "pill-danger",
+          "Time Limit Exceeded": "pill-warning",
+        };
+        return statusMap[status] || "pill-primary";
+      },
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-    }).format(date);
-  };
+      formatDate: (dateString) => {
+        return new Intl.DateTimeFormat("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        }).format(new Date(dateString));
+      },
 
-  // Enhanced safe render function that handles ALL data types
-  const safeRender = (value, defaultValue = "N/A") => {
-    if (value === null || value === undefined) return defaultValue;
+      // Consolidated safe value renderer
+      safeValue: (value, defaultValue = "N/A") => {
+        if (value == null) return defaultValue;
 
-    // If it's already a string, return it
-    if (typeof value === "string") return value;
+        if (typeof value === "object") {
+          // Handle specific object structures
+          if (value.code) return value.code;
+          if (value.value !== undefined) return String(value.value);
 
-    // If it's a number or boolean, convert to string
-    if (typeof value === "number" || typeof value === "boolean") {
-      return String(value);
-    }
+          try {
+            return JSON.stringify(value, null, 2);
+          } catch {
+            return `[Object: ${Object.prototype.toString.call(value)}]`;
+          }
+        }
 
-    // If it's an object or array, stringify it
-    if (typeof value === "object") {
-      try {
-        return JSON.stringify(value, null, 2);
-      } catch (error) {
-        return `[Object: ${Object.prototype.toString.call(value)}]`;
-      }
-    }
+        return String(value);
+      },
 
-    // Fallback: convert to string
-    return String(value);
-  };
+      // Simplified JSON parser
+      parseJsonValue: (value, defaultValue = "N/A") => {
+        if (!value) return defaultValue;
 
-  // Helper function to safely parse JSON and extract values
-  const safeJsonParse = (value, defaultValue = "N/A") => {
-    if (!value) return defaultValue;
+        try {
+          const parsed = JSON.parse(value);
+          return helpers.safeValue(Array.isArray(parsed) ? parsed[0] : parsed);
+        } catch {
+          return helpers.safeValue(value, defaultValue);
+        }
+      },
 
-    try {
-      const parsed = JSON.parse(value);
+      // Language mapping
+      getEditorLanguage: (language) => {
+        const langMap = {
+          JAVASCRIPT: "javascript",
+          PYTHON: "python",
+          JAVA: "java",
+        };
+        return langMap[language?.toUpperCase()] || "javascript";
+      },
+    }),
+    []
+  );
 
-      if (Array.isArray(parsed)) {
-        const firstElement = parsed.length > 0 ? parsed[0] : defaultValue;
-        return safeRender(firstElement);
-      }
+  // Memoized computed values
+  const computedValues = useMemo(() => {
+    const filteredSubmissions = submissions.filter(
+      (submission) => filter === "all" || submission.status === filter
+    );
 
-      return safeRender(parsed);
-    } catch (error) {
-      return safeRender(value, defaultValue);
-    }
-  };
+    const acceptedCount = submissions.filter((s) =>
+      ["Accepted", "ACCEPTED"].includes(s.status)
+    ).length;
 
-  // Helper function to format output data
-  const formatOutput = (stdout) => {
-    if (!stdout) return "No output";
-
-    try {
-      const parsed = JSON.parse(stdout);
-
-      if (Array.isArray(parsed)) {
-        // Convert all array elements to strings before joining
-        const stringElements = parsed.map((item) => safeRender(item));
-        return stringElements.join("\n");
-      }
-
-      return safeRender(parsed);
-    } catch (error) {
-      return safeRender(stdout);
-    }
-  };
-
-  const extractSourceCode = (sourceCode) => {
-    if (!sourceCode) return "No code available";
-
-    // If it's an object with code property
-    if (typeof sourceCode === "object" && sourceCode.code) {
-      return sourceCode.code;
-    }
-
-    // If it's already a string
-    if (typeof sourceCode === "string") {
-      return sourceCode;
-    }
-
-    // Try to parse if it's JSON string
-    try {
-      const parsed = JSON.parse(sourceCode);
-      if (parsed.code) return parsed.code;
-      return String(parsed);
-    } catch (error) {
-      return String(sourceCode);
-    }
-  };
-
-  // Helper function to get language for Monaco Editor
-  const getLanguageForEditor = (language) => {
-    const languageMap = {
-      JAVASCRIPT: "javascript",
-      PYTHON: "python",
-      JAVA: "java",
-      javascript: "javascript",
-      python: "python",
-      java: "java",
-    };
-    return languageMap[language?.toUpperCase()] || "javascript";
-  };
+    return { filteredSubmissions, acceptedCount };
+  }, [submissions, filter]);
 
   const toggleExpand = (id) => {
-    if (expandedSubmission === id) {
-      setExpandedSubmission(null);
-    } else {
-      setExpandedSubmission(id);
-    }
+    setExpandedSubmission((prev) => (prev === id ? null : id));
   };
 
-  const filteredSubmissions = submissions.filter((submission) => {
-    if (filter === "all") return true;
-    return submission.status === filter;
-  });
+  // Extracted components for better organization
+  const SubmissionHeader = ({ submission }) => (
+    <div
+      className="flex justify-between cursor-pointer"
+      onClick={() => toggleExpand(submission.id)}
+    >
+      <div className="flex flex-col md:flex-row gap-3 md:items-center w-full">
+        <div
+          className={`profile-pill ${helpers.getStatusClass(
+            submission.status
+          )} flex items-center gap-1`}
+        >
+          {submission.status === "Accepted" && <Check size={12} />}
+          {helpers.safeValue(submission.status)}
+        </div>
 
-  const acceptedSubmissionsCount = submissions.filter(
-    (s) => s.status === "Accepted" || s.status === "ACCEPTED"
-  ).length;
+        <div className="flex items-center gap-2 text-white/50 text-sm">
+          <Clock size={14} />
+          <span>{helpers.formatDate(submission.createdAt)}</span>
+        </div>
+      </div>
+
+      <div>
+        {expandedSubmission === submission.id ? (
+          <ChevronUp className="text-white/70" />
+        ) : (
+          <ChevronDown className="text-white/70" />
+        )}
+      </div>
+    </div>
+  );
+
+  const SubmissionDetails = ({ submission }) => (
+    <motion.div
+      className="mt-4 pt-4 border-t border-white/10"
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      transition={{ duration: 0.3 }}
+    >
+      {/* Code Section */}
+      <div className="mb-4">
+        <h3 className="text-lg font-medium text-white mb-2 flex items-center gap-2">
+          <Code size={16} />
+          Solution Code ({submission.language})
+        </h3>
+        <div className="border border-white/5 rounded-lg overflow-hidden">
+          <Editor
+            height="400px"
+            language={helpers.getEditorLanguage(submission.language)}
+            theme="vs-dark"
+            value={helpers.safeValue(
+              submission.sourceCode,
+              "No code available"
+            )}
+            options={{
+              readOnly: true,
+              minimap: { enabled: false },
+              fontSize: 14,
+              lineNumbers: "on",
+              automaticLayout: true,
+              scrollBeyondLastLine: false,
+              wordWrap: "on",
+              folding: true,
+              renderLineHighlight: "none",
+              selectionHighlight: false,
+              contextmenu: false,
+              padding: { top: 16, bottom: 16 },
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Input/Output Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        {[
+          {
+            title: "Input",
+            value: submission.stdin,
+            default: "No input provided",
+          },
+          { title: "Output", value: submission.stdout, default: "No output" },
+        ].map(({ title, value, default: defaultVal }) => (
+          <div key={title}>
+            <h3 className="text-md font-medium text-white/70 mb-2 flex items-center gap-2">
+              <Terminal size={14} />
+              {title}
+            </h3>
+            <pre className="bg-black/30 text-white/70 p-3 rounded-lg overflow-x-auto border border-white/5 text-xs h-24">
+              <code>{helpers.parseJsonValue(value, defaultVal)}</code>
+            </pre>
+          </div>
+        ))}
+      </div>
+
+      {/* Performance Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {[
+          {
+            icon: Clock,
+            color: "text-blue-400",
+            title: "Execution Time",
+            value: submission.time,
+          },
+          {
+            icon: HardDrive,
+            color: "text-purple-400",
+            title: "Memory Used",
+            value: submission.memory,
+          },
+        ].map(({ icon: Icon, color, title, value }) => (
+          <div
+            key={title}
+            className="flex items-center gap-4 bg-black/20 p-3 rounded-lg border border-white/5"
+          >
+            <Icon className={`${color} w-10 h-10`} />
+            <div>
+              <div className="text-white/60 text-xs">{title}</div>
+              <div className="text-white text-lg">
+                {helpers.parseJsonValue(value)}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+
+  const EmptyState = () => (
+    <div className="empty-state">
+      <div className="empty-state-icon">📝</div>
+      <h3 className="text-xl font-medium text-white mb-2">
+        No submissions found
+      </h3>
+      <p className="text-white/70">
+        You haven't submitted any solutions yet, or none match your current
+        filter.
+      </p>
+    </div>
+  );
 
   return (
     <motion.div
@@ -171,12 +254,14 @@ const ProfileSubmission = () => {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="profile-component-card p-6"
     >
+      {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <h2 className="profile-component-header flex items-center gap-2">
           <FileCode className="w-5 h-5 text-red-500" /> Submission History
         </h2>
 
         <div className="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0">
+          {/* Filter Dropdown */}
           <div className="relative">
             <select
               value={filter}
@@ -193,37 +278,38 @@ const ProfileSubmission = () => {
             </div>
           </div>
 
+          {/* Stats Cards */}
           <div className="grid grid-cols-2 gap-2">
-            <div className="stat-card bg-black/20 border border-white/10 rounded-md p-3 text-center">
-              <div className="text-xs text-white/60">Total</div>
-              <div className="text-xl font-medium text-white">
-                {submissions.length}
+            {[
+              {
+                label: "Total",
+                value: submissions.length,
+                color: "text-white",
+              },
+              {
+                label: "Accepted",
+                value: computedValues.acceptedCount,
+                color: "text-emerald-500",
+              },
+            ].map(({ label, value, color }) => (
+              <div
+                key={label}
+                className="stat-card bg-black/20 border border-white/10 rounded-md p-3 text-center"
+              >
+                <div className="text-xs text-white/60">{label}</div>
+                <div className={`text-xl font-medium ${color}`}>{value}</div>
               </div>
-            </div>
-            <div className="stat-card bg-black/20 border border-white/10 rounded-md p-3 text-center">
-              <div className="text-xs text-white/60">Accepted</div>
-              <div className="text-xl font-medium text-emerald-500">
-                {acceptedSubmissionsCount}
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {filteredSubmissions.length === 0 ? (
-        <div className="empty-state">
-          <div className="empty-state-icon">📝</div>
-          <h3 className="text-xl font-medium text-white mb-2">
-            No submissions found
-          </h3>
-          <p className="text-white/70">
-            You haven't submitted any solutions yet, or none match your current
-            filter.
-          </p>
-        </div>
+      {/* Content */}
+      {computedValues.filteredSubmissions.length === 0 ? (
+        <EmptyState />
       ) : (
         <div className="space-y-4">
-          {filteredSubmissions.map((submission) => (
+          {computedValues.filteredSubmissions.map((submission) => (
             <motion.div
               key={submission.id}
               className="playlist-card overflow-hidden"
@@ -231,132 +317,9 @@ const ProfileSubmission = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <div
-                className="flex justify-between cursor-pointer"
-                onClick={() => toggleExpand(submission.id)}
-              >
-                <div className="flex flex-col md:flex-row gap-3 md:items-center w-full">
-                  <div
-                    className={`profile-pill ${getStatusClass(
-                      submission.status
-                    )} flex items-center gap-1`}
-                  >
-                    {submission.status === "Accepted" ? (
-                      <Check size={12} />
-                    ) : null}
-                    {safeRender(submission.status)}
-                  </div>
-
-                  <div className="flex items-center gap-2 text-white/70">
-                    {/* <Code size={14} />
-                    <span className="font-medium text-white">
-                      {safeRender(submission.language)}
-                    </span> */}
-                  </div>
-
-                  <div className="flex items-center gap-2 text-white/50 text-sm">
-                    <Clock size={14} />
-                    <span>{formatDate(submission.createdAt)}</span>
-                  </div>
-                </div>
-
-                <div>
-                  {expandedSubmission === submission.id ? (
-                    <ChevronUp className="text-white/70" />
-                  ) : (
-                    <ChevronDown className="text-white/70" />
-                  )}
-                </div>
-              </div>
-
-              {/* Expanded Content */}
+              <SubmissionHeader submission={submission} />
               {expandedSubmission === submission.id && (
-                <motion.div
-                  className="mt-4 pt-4 border-t border-white/10"
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Code Section */}
-                  <div className="mb-4">
-                    <h3 className="text-lg font-medium text-white mb-2 flex items-center gap-2">
-                      <Code size={16} />
-                      Solution Code
-                    </h3>
-                    <div className="border border-white/5 rounded-lg overflow-hidden">
-                      <Editor
-                        height="400px"
-                        language={getLanguageForEditor(submission.language)}
-                        theme="vs-dark"
-                        value={extractSourceCode(submission.sourceCode)}
-                        options={{
-                          readOnly: true,
-                          minimap: { enabled: false },
-                          fontSize: 14,
-                          lineNumbers: "on",
-                          automaticLayout: true,
-                          scrollBeyondLastLine: false,
-                          wordWrap: "on",
-                          folding: true,
-                          renderLineHighlight: "none",
-                          selectionHighlight: false,
-                          contextmenu: false,
-                          padding: { top: 16, bottom: 16 },
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Input/Output Section */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <h3 className="text-md font-medium text-white/70 mb-2 flex items-center gap-2">
-                        <Terminal size={14} />
-                        Input
-                      </h3>
-                      <pre className="bg-black/30 text-white/70 p-3 rounded-lg overflow-x-auto border border-white/5 text-xs h-24">
-                        <code>
-                          {safeRender(submission.stdin, "No input provided")}
-                        </code>
-                      </pre>
-                    </div>
-
-                    <div>
-                      <h3 className="text-md font-medium text-white/70 mb-2 flex items-center gap-2">
-                        <Terminal size={14} />
-                        Output
-                      </h3>
-                      <pre className="bg-black/30 text-white/70 p-3 rounded-lg overflow-x-auto border border-white/5 text-xs h-24">
-                        <code>{formatOutput(submission.stdout)}</code>
-                      </pre>
-                    </div>
-                  </div>
-
-                  {/* Performance Stats */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="flex items-center gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
-                      <Clock className="text-blue-400 w-10 h-10" />
-                      <div>
-                        <div className="text-white/60 text-xs">
-                          Execution Time
-                        </div>
-                        <div className="text-white text-lg">
-                          {safeJsonParse(submission.time)}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 bg-black/20 p-3 rounded-lg border border-white/5">
-                      <HardDrive className="text-purple-400 w-10 h-10" />
-                      <div>
-                        <div className="text-white/60 text-xs">Memory Used</div>
-                        <div className="text-white text-lg">
-                          {safeJsonParse(submission.memory)}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
+                <SubmissionDetails submission={submission} />
               )}
             </motion.div>
           ))}
