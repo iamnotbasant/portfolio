@@ -15,12 +15,16 @@ import {
   Plus,
 } from "lucide-react";
 import EditPlaylistModal from "./EditPlaylistModal";
+import CreatePlaylistModal from "./CreatePlaylistModal";
 
 const PlaylistProfile = () => {
-  const { getAllPlaylists, playlists, deletePlaylist } = usePlaylistStore();
+  const { getAllPlaylists, createPlaylist, playlists, deletePlaylist } =
+    usePlaylistStore();
   const [expandedPlaylist, setExpandedPlaylist] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
+  const [isCreatePlaylistModalOpen, setIsCreatePlaylistModalOpen] =
+    useState(false);
   const handlePlaylistUpdated = () => {
     setIsEditModalOpen(false);
     getAllPlaylists();
@@ -46,6 +50,10 @@ const PlaylistProfile = () => {
   const handleEdit = (playlist) => {
     setSelectedPlaylist(playlist);
     setIsEditModalOpen(true);
+  };
+
+  const handleCreatePlaylist = async (playlistData) => {
+    const result = await createPlaylist(playlistData);
   };
 
   const getDifficultyBadge = (difficulty) => {
@@ -75,25 +83,24 @@ const PlaylistProfile = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="profile-component-card p-6"
+      className="profile-component-card"
     >
-      <div className="flex justify-between items-center mb-6">
-        <button className="profile-btn profile-btn-primary flex items-center gap-2">
-          <Plus size={16} /> Create Playlist
-        </button>
-      </div>
-
       {playlists.length === 0 ? (
         <div className="empty-state">
           <div className="empty-state-icon">📚</div>
-          <h3 className="text-xl font-medium text-white mb-2">
+          <h3 className="text-xl font-medium text-white mb-2 neue-med">
             No playlists found
           </h3>
-          <p className="text-white/70 mb-4">
+          <p className="text-white/70 mb-4 neue-reg">
             Create your first playlist to organize problems!
           </p>
-          <button className="profile-btn profile-btn-primary flex items-center gap-2 mx-auto">
-            <Plus size={16} /> Create Playlist
+          <button
+            onClick={() => {
+              setIsCreatePlaylistModalOpen(true);
+            }}
+            className="ai-btn"
+          >
+            <Plus size={16} className="mr-1 cp-svg" /> Create Playlist
           </button>
         </div>
       ) : (
@@ -240,6 +247,14 @@ const PlaylistProfile = () => {
         onSuccess={handlePlaylistUpdated}
         playlist={selectedPlaylist}
       />
+
+      <div className="box-shadow">
+        <CreatePlaylistModal
+          isOpen={isCreatePlaylistModalOpen}
+          onClose={() => setIsCreatePlaylistModalOpen(false)}
+          onSubmit={handleCreatePlaylist}
+        />
+      </div>
     </motion.div>
   );
 };

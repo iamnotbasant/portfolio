@@ -7,7 +7,6 @@ import { Navbar } from "../components/Navbar";
 import { Sidebar } from "../components/Sidebar";
 import {
   BookmarkCheck,
-  
   ArrowLeft,
   ExternalLink,
   Search,
@@ -144,7 +143,7 @@ const RevisionProblems = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
           exit={{ opacity: 0 }}
-          className="flex justify-end h-8 mr-[0.5em]"
+          className="flex justify-end h-8 mr-[0.5em] "
         >
           {filters.search ||
           filters.tags ||
@@ -173,7 +172,7 @@ const RevisionProblems = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: "backInOut" }}
-            className="dash-card mb-4"
+            className="dash-card mb-4 "
           >
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="relative">
@@ -255,7 +254,7 @@ const RevisionProblems = () => {
             <Loader />
           </div>
         ) : revisionProblemsWithDetails.length === 0 ? (
-          <div className="bg-black/20 p-8 rounded-xl border border-white/10 text-center">
+          <div className="bg-black/20 p-8 rounded-xl border border-white/10 text-center profile-component-card">
             <BookmarkCheck className="w-12 h-12 text-white/80 mx-auto mb-4 opacity-50" />
             <h3 className="text-xl font-medium text-white mb-2 neue-med">
               No problems saved for revision
@@ -363,10 +362,7 @@ const RevisionProblems = () => {
                           className="p-1.5 hover:bg-emerald-900/30 rounded-full transition-colors"
                           title="Remove from revision"
                         >
-                          <BookmarkCheck
-                            size={16}
-                            className="text-white"
-                          />
+                          <BookmarkCheck size={16} className="text-white" />
                         </button>
                         <Link
                           to={`/problem/${item.problemId}`}

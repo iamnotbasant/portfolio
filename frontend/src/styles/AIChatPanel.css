@@ -185,3 +185,7 @@
 .empty-state svg {
   color: rgba(129, 230, 168, 0.4);
 }
+
+.cp-svg {
+  color: white !important;
+}
