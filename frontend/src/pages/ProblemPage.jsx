@@ -7,7 +7,7 @@ import {
   MessageSquare,
   Lightbulb,
   Bookmark,
-  Share2,
+  BookmarkCheck,
   Clock,
   ChevronRight,
   Terminal,
@@ -19,10 +19,12 @@ import {
   UserPlus,
   Copy,
 } from "lucide-react";
+import { Navbar } from "../components/Navbar";
 
 import { useProblemStore } from "../store/useProblemStore";
 import { useExecutionStore } from "../store/useExecutionStore";
 import { useSubmissionStore } from "../store/useSubmissionStore";
+import { useRevisionStore } from "../store/useRevisionStore.js"; // Add this import
 import { getLanguageId } from "../libs/utils.js";
 import "../styles/ProblemPage.css";
 import Submission from "../components/Submission";
@@ -58,6 +60,30 @@ export const ProblemPage = () => {
     getSubmissionForProblem,
     getSubmissionCountForProblem,
   } = useSubmissionStore();
+
+  // Add revision store
+  const {
+    addToRevision,
+    removeFromRevision,
+    isInRevision,
+    isLoading: isRevisionLoading,
+  } = useRevisionStore();
+
+  // Handle revision toggle
+  const handleRevisionToggle = async () => {
+    if (!id) return;
+
+    try {
+      if (isInRevision(id)) {
+        await removeFromRevision(id);
+      } else {
+        await addToRevision(id);
+      }
+    } catch (error) {}
+  };
+
+  // Check if current problem is in revision
+  const isMarkedForRevision = isInRevision(id);
 
   useEffect(() => {
     // console.log("Full URL:", window.location.href);
@@ -373,18 +399,31 @@ export const ProblemPage = () => {
                   ? `${successRate}% Success Rate`
                   : "No attempts yet"}
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-4 items-center">
+                {/* Save to Revision Button */}
                 <button
+                  onClick={handleRevisionToggle}
+                  disabled={isRevisionLoading}
                   className={`btn btn-ghost btn-circle ${
-                    isBookmarked ? "text-primary" : ""
-                  }`}
-                  onClick={() => setIsBookmarked(!isBookmarked)}
+                    isMarkedForRevision
+                      ? "text-primary"
+                      : "text-base-content/70"
+                  } hover:text-primary transition-colors`}
+                  title={
+                    isMarkedForRevision
+                      ? "Remove from revision"
+                      : "Save for revision"
+                  }
                 >
-                  <Bookmark className="w-5 h-5" />
+                  {isRevisionLoading ? (
+                    <span className="loading loading-spinner loading-sm"></span>
+                  ) : isMarkedForRevision ? (
+                    <BookmarkCheck className="w-5 h-5" />
+                  ) : (
+                    <Bookmark className="w-5 h-5" />
+                  )}
                 </button>
-                <button className="btn btn-ghost btn-circle">
-                  <Share2 className="w-5 h-5" />
-                </button>
+
                 <select
                   className="select select-bordered select-primary w-40"
                   value={selectedLanguage}
@@ -538,7 +577,7 @@ export const ProblemPage = () => {
               <div className="p-4 border-t border-base-300 bg-base-200">
                 <div className="flex justify-between items-center">
                   <button
-                    className={`btn btn-primary gap-2`}
+                    className="btn btn-primary gap-2"
                     onClick={handleRunCode}
                     disabled={isExecuting || isSubmitting}
                   >
@@ -568,7 +607,7 @@ export const ProblemPage = () => {
         </div>
       </div>
 
-      <div className="bg-base-100 shadow-xl mt-6">
+      <div className=" shadow-xl mt-6">
         <div className="card-body">
           {submission ? (
             <Submission submission={submission} />
