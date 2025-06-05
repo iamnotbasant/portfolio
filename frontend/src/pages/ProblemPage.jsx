@@ -20,6 +20,7 @@ import {
   Copy,
 } from "lucide-react";
 import logo from "../assets/images/logo2.png";
+import aiorb from "../assets/images/ai-orb2.webp";
 
 import { useProblemStore } from "../store/useProblemStore";
 import { useExecutionStore } from "../store/useExecutionStore";
@@ -165,12 +166,12 @@ export const ProblemPage = () => {
       case "description":
         return (
           <div className="prose max-w-none">
-            <p className="text-lg mb-6">{problem?.description}</p>
+            <p className="text-lg">{problem?.description}</p>
 
             {problem?.examples && (
               <>
                 {problem?.companyTags && problem.companyTags.length > 0 && (
-                  <div className="mt-4">
+                  <div className="mt-2">
                     <h3 className="text-lg font-medium mb-2">Companies:</h3>
                     <div className="flex flex-wrap gap-2">
                       {problem.companyTags.map((company, idx) => (
@@ -189,17 +190,17 @@ export const ProblemPage = () => {
                   ([lang, example], idx) => (
                     <div
                       key={lang}
-                      className="bg-base-200 p-6 rounded-xl mb-6 font-mono"
+                      className="bg-base-200 p-3 px-6 rounded-xl mb-6 font-mono "
                     >
-                      <div className="mb-4">
-                        <div className="text-indigo-300 mb-2 text-base font-semibold">
+                      <div className="mb-2">
+                        <div className="text-indigo-300 mb-2 text-sm font-semibold">
                           Input:
                         </div>
-                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-sm">
                           {example.input}
                         </span>
                       </div>
-                      <div className="mb-4">
+                      <div className="mb-2">
                         <div className="text-indigo-300 mb-2 text-base font-semibold">
                           Output:
                         </div>
@@ -226,8 +227,8 @@ export const ProblemPage = () => {
             {problem?.constraints && (
               <>
                 <h3 className="text-xl font-bold mb-4">Constraints:</h3>
-                <div className="bg-base-200 p-6 rounded-xl mb-6">
-                  <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
+                <div className="bg-base-200 p-3 px-6 rounded-xl mb-6">
+                  <span className="bg-black/90 py-1 rounded-lg font-semibold text-white text-lg">
                     {problem?.constraints}
                   </span>
                 </div>
@@ -370,19 +371,21 @@ export const ProblemPage = () => {
     <div className="min-h-screen problem-page-container">
       <nav className="problem-page-navbar bg-[#e4e4e4] px-4">
         <div className="flex-1 gap-2">
-          <Link
-            to={"/dashboard"}
-            className="flex items-center gap-2 text-primary"
-          >
-            <div className="logo w-[50px] h-auto z-50 hover:brightness-200 hover:contrast-150 transition-all duration-400 ease-in-out">
-              <img src={logo} alt="logo" />
-            </div>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
-          <div className="mt-2 flex flex-col">
-            <h1 className="text-xl font-bold">{problem?.title}</h1>
+          <div className="flex items-center gap-2">
+            <Link
+              to={"/dashboard"}
+              className="flex items-center gap-2 text-primary mb-2"
+            >
+              <div className="logo w-[50px] h-auto z-50 hover:brightness-200 hover:contrast-150 transition-all duration-400 ease-in-out">
+                <img src={logo} alt="logo" />
+              </div>
+              <ChevronRight className="w-4 h-4" />
+            </Link>
+            <h1 className="text-xl neue-med">{problem?.title}</h1>
+          </div>
+          <div className="flex flex-col">
             <div className="flex justify-between">
-              <div className="flex items-center gap-2 text-sm  mt-5">
+              <div className="flex items-center gap-2 text-sm">
                 <Clock className="w-4 h-4" />
                 <span>
                   Updated{" "}
@@ -403,11 +406,30 @@ export const ProblemPage = () => {
               </div>
               <div className="flex gap-4 items-center">
                 <button
-                  className={`ai-btn ${showAiChat ? "active-ai-btn" : ""}`}
+                  className={`ai-btn relative ${
+                    showAiChat ? "active-ai-btn" : ""
+                  }`}
                   onClick={() => setShowAiChat(!showAiChat)}
                 >
-                  <Bot className="w-4 h-4" />
-                  AI Assistant
+                  <img
+                    src={aiorb}
+                    className="w-10 absolute left-0 brightness-125 ai-logo"
+                    alt=""
+                  />
+                  <span className="ml-8">AI Assistant</span>
+                </button>
+
+                {/* Collaboration toggle button */}
+                <button
+                  className={`ai-btn gap-2 ${
+                    isCollaborative ? "text-primary active-ai-btn" : ""
+                  }`}
+                  onClick={toggleCollaborativeMode}
+                >
+                  <UserPlus className="w-4 h-4" />
+                  {isCollaborative
+                    ? "Collaborating [Experimental]"
+                    : "Collaborate [Experimental]"}
                 </button>
                 {/* Save to Revision Button */}
                 <button
@@ -456,8 +478,8 @@ export const ProblemPage = () => {
         </div>
       </nav>
 
-      <div className="mx-auto p-4 ">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="mx-auto p-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           <div className="bg-base-100 shadow-xl">
             <div className="card-body p-0">
               <div className="tabs tabs-bordered">
@@ -499,7 +521,7 @@ export const ProblemPage = () => {
                 </button>
               </div>
 
-              <div className="p-6">{renderTabContent()}</div>
+              <div className="p-4">{renderTabContent()}</div>
             </div>
           </div>
 
@@ -509,17 +531,6 @@ export const ProblemPage = () => {
                 <button className="tab tab-active gap-2">
                   <Terminal className="w-4 h-4" />
                   Code Editor
-                </button>
-
-                {/* Collaboration toggle button */}
-                <button
-                  className={`tab gap-2 ${
-                    isCollaborative ? "text-primary" : ""
-                  }`}
-                  onClick={toggleCollaborativeMode}
-                >
-                  <UserPlus className="w-4 h-4" />
-                  {isCollaborative ? "Collaborating" : "Collaborate"}
                 </button>
               </div>
 
@@ -538,7 +549,7 @@ export const ProblemPage = () => {
                 </div>
               )}
 
-              <div className="h-[600px] w-full">
+              <div className="h-[450px] w-full">
                 {isCollaborative ? (
                   <RoomProvider
                     id={sessionId}
@@ -577,7 +588,7 @@ export const ProblemPage = () => {
                 )}
               </div>
 
-              <div className="p-4 border-t border-base-300 bg-base-200">
+              <div className="p-2 border-t border-base-300 bg-base-200 mt-2">
                 <div className="flex justify-between items-center">
                   <button
                     className="btn btn-primary gap-2"
@@ -610,7 +621,7 @@ export const ProblemPage = () => {
         </div>
       </div>
 
-      <div className=" shadow-xl mt-6">
+      <div className="shadow-xl mt-6">
         <div className="card-body">
           {submission ? (
             <Submission submission={submission} />
@@ -627,28 +638,26 @@ export const ProblemPage = () => {
               </div>
 
               {problem?.testcases && problem.testcases.length > 0 ? (
-                <div className="space-y-4">
+                <div className="space-y-4 pb-4">
                   {problem.testcases.map((testcase, index) => (
                     <div key={index} className=" bg-base-200">
                       <div className="card-body p-4">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className=" badge-secondary">
+                        <div className="flex items-center gap-2 mb-3 py-2">
+                          <div className="badge-secondary">
                             Test Case {index + 1}
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                           <div>
-                            <h4 className="text-sm font-medium  mb-2">
-                              Input:
-                            </h4>
+                            <h4 className="text-sm font-medium mb-2">Input:</h4>
                             <div className="bg-base-300 p-3 rounded-lg font-mono text-sm overflow-x-auto">
                               {testcase?.input || "No input"}
                             </div>
                           </div>
 
                           <div>
-                            <h4 className="text-sm font-medium  mb-2">
+                            <h4 className="text-sm font-medium mb-2">
                               Expected Output:
                             </h4>
                             <div className="bg-base-300 p-3 rounded-lg font-mono text-sm overflow-x-auto">
@@ -661,7 +670,7 @@ export const ProblemPage = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12 ">
+                <div className="text-center py-12">
                   <Terminal className="w-16 h-16 mx-auto mb-4 opacity-50" />
                   <h4 className="text-lg font-medium mb-2">
                     No Test Cases Available

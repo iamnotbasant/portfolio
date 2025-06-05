@@ -6,9 +6,8 @@
 
 .problem-page-navbar {
   background-color: rgba(0, 0, 0, 0.3);
-  border-bottom: 1px solid rgba(215, 8, 1, 0.5);
-  padding: 1rem 2rem;
-  backdrop-filter: blur(5px);
+  border-bottom: 1px solid rgba(215, 8, 1, 0.9);
+  padding: 1em 1em;
 }
 
 .problem-page-navbar h1 {
@@ -41,7 +40,7 @@
 }
 
 .card-body {
-  padding: 1.5rem;
+  padding: 0em 1em;
 }
 
 /* Tabs styling */
@@ -50,9 +49,11 @@
 }
 
 .tab {
-  font-family: "neue-med", sans-serif;
+  font-family: neue-reg;
   color: rgba(255, 255, 255, 0.7);
   padding: 1rem 1.5rem;
+  font-size: 0.9em;
+  cursor: pointer;
   transition: all 0.3s ease;
   border-bottom: 2px solid transparent;
 }
@@ -65,19 +66,18 @@
 .tab-active {
   color: white;
   border-bottom: 2px solid rgb(205, 0, 0);
-  text-shadow: 0 0 10px rgba(215, 8, 1, 0.5);
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
 }
 
 /* Content area styling */
 .prose {
   color: rgba(255, 255, 255, 0.9);
-  line-height: 1.6;
 }
 
 .prose h3 {
   color: white;
   font-family: "neue-med", sans-serif;
-  margin-top: 2rem;
+  margin-top: 1em;
 }
 
 .prose p {

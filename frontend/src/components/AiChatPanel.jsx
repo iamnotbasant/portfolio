@@ -121,7 +121,7 @@ const AIChatPanel = ({ problem, code, language }) => {
         <motion.div className="flex items-center justify-center gap-2">
           <motion.img
             src={aiorb}
-            className="w-10"
+            className="w-8"
             alt="Alfred AI"
             variants={orbVariants}
             animate={getOrbAnimation()}
