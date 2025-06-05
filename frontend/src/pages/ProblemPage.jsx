@@ -402,6 +402,13 @@ export const ProblemPage = () => {
                   : "No attempts yet"}
               </div>
               <div className="flex gap-4 items-center">
+                <button
+                  className={`ai-btn ${showAiChat ? "active-ai-btn" : ""}`}
+                  onClick={() => setShowAiChat(!showAiChat)}
+                >
+                  <Bot className="w-4 h-4" />
+                  AI Assistant
+                </button>
                 {/* Save to Revision Button */}
                 <button
                   onClick={handleRevisionToggle}
@@ -503,13 +510,7 @@ export const ProblemPage = () => {
                   <Terminal className="w-4 h-4" />
                   Code Editor
                 </button>
-                <button
-                  className="tab gap-2 ml-auto"
-                  onClick={() => setShowAiChat(!showAiChat)}
-                >
-                  <Bot className="w-4 h-4" />
-                  AI Assistant
-                </button>
+
                 {/* Collaboration toggle button */}
                 <button
                   className={`tab gap-2 ${

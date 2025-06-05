@@ -7,17 +7,20 @@ import {
   Code,
   X,
   Maximize2,
+  Trash2,
   Minimize2,
 } from "lucide-react";
 import { useAIAssistantStore } from "../store/useAIAssistantStore";
 import ReactMarkdown from "react-markdown";
 import { motion, AnimatePresence } from "framer-motion";
 import "../styles/AIChatPanel.css";
+import aiorb from "../assets/images/ai-bat.png";
 
 const AIChatPanel = ({ problem, code, language }) => {
   const [prompt, setPrompt] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
   const [minimized, setMinimized] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const { isLoading, getAIHelp, history, clearChat } = useAIAssistantStore();
   const messagesEndRef = useRef(null);
 
@@ -27,6 +30,17 @@ const AIChatPanel = ({ problem, code, language }) => {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [history]);
+
+  // Handle typing animation
+  useEffect(() => {
+    if (isLoading) {
+      setIsTyping(true);
+    } else {
+      // Delay hiding typing indicator for smooth transition
+      const timer = setTimeout(() => setIsTyping(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +52,54 @@ const AIChatPanel = ({ problem, code, language }) => {
 
   const handleQuickPrompt = async (quickPrompt) => {
     await getAIHelp(quickPrompt, problem?.id, code, language);
+  };
+
+  const orbVariants = {
+    idle: {
+      scale: 1,
+      rotate: 0,
+      filter: "brightness(1) drop-shadow(0 0 8px rgba(65, 20, 220, 0.3))",
+    },
+    active: {
+      scale: 1.1,
+      rotate: 360,
+      filter: "brightness(1.2) drop-shadow(0 0 15px rgba(65, 20, 220, 0.6))",
+    },
+    thinking: {
+      scale: [1, 1.05, 1],
+      rotate: [0, 10, -10, 0],
+      filter: "brightness(1.3) drop-shadow(0 0 20px rgba(65, 20, 220, 0.8))",
+    },
+  };
+
+  const quickPromptVariants = {
+    hidden: { opacity: 0, y: 10, scale: 0.9 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        delay: i * 0.1,
+        type: "spring",
+        stiffness: 400,
+        damping: 25,
+      },
+    }),
+    hover: {
+      scale: 1.05,
+      boxShadow: "0 0 15px rgba(65, 20, 220, 0.4)",
+      transition: { duration: 0.2 },
+    },
+    tap: {
+      scale: 0.95,
+      transition: { duration: 0.1 },
+    },
+  };
+
+  const getOrbAnimation = () => {
+    if (isLoading) return "thinking";
+    if (history.length > 0) return "active";
+    return "idle";
   };
 
   return (
@@ -55,14 +117,25 @@ const AIChatPanel = ({ problem, code, language }) => {
       transition={{ duration: 0.3 }}
     >
       {/* Header */}
-      <div className="ai-chat-header">
-        <div className="flex items-center gap-2">
-          <Bot size={18} className="text-emerald-400" />
+      <motion.div className="ai-chat-header">
+        <motion.div className="flex items-center justify-center gap-2">
+          <motion.img
+            src={aiorb}
+            className="w-10"
+            alt="Alfred AI"
+            variants={orbVariants}
+            animate={getOrbAnimation()}
+            transition={{
+              duration: isLoading ? 2 : 0.5,
+              repeat: isLoading ? Infinity : 0,
+              ease: "easeInOut",
+            }}
+          />
           <span className="text-white font-semibold">Alfred AI</span>
           {isLoading && (
             <RefreshCw size={14} className="animate-spin text-white/50" />
           )}
-        </div>
+        </motion.div>
 
         <div className="flex gap-2">
           {!minimized && (
@@ -77,10 +150,10 @@ const AIChatPanel = ({ problem, code, language }) => {
             onClick={() => setMinimized(!minimized)}
             className="text-white/60 hover:text-white"
           >
-            {minimized ? <Maximize2 size={16} /> : <Minimize2 size={16} />}
+            {minimized ? <Maximize2 size={16} /> : <X size={16} />}
           </button>
         </div>
-      </div>
+      </motion.div>
 
       {!minimized && (
         <>
@@ -114,7 +187,7 @@ const AIChatPanel = ({ problem, code, language }) => {
           <div className="ai-chat-messages">
             {history.length === 0 ? (
               <div className="empty-state">
-                <Bot size={32} />
+                <img src={aiorb} className="w-14 opacity-50" alt="" />
                 <p>Ask me anything about this problem or your code!</p>
               </div>
             ) : (
@@ -166,7 +239,7 @@ const AIChatPanel = ({ problem, code, language }) => {
                 className="clear-button"
                 title="Clear chat"
               >
-                <X size={14} />
+                <Trash2 size={14} />
               </button>
             )}
           </form>

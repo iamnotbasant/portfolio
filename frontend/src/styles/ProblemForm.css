@@ -242,6 +242,10 @@
     drop-shadow(-5px 0px 3px rgba(46, 0, 210, 0.733));
 }
 
+.active-ai-btn {
+  box-shadow: 3px 3px 5px rgba(46, 0, 210);
+}
+
 .generate-btn {
   box-shadow: inset 0 0 10px rgb(129, 140, 248);
   transition: all 0.2s ease-out;

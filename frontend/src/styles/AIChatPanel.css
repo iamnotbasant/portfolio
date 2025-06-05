@@ -3,13 +3,14 @@
   bottom: 20px;
   right: 20px;
   width: 380px;
+  max-height: calc(100vh - 40px);
   background-color: rgba(0, 0, 0, 0.85);
-  border: 1px solid rgba(129, 230, 168, 0.2);
+  border: 1px solid rgba(46, 0, 210, 0.3);
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(129, 230, 168, 0.15);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(46, 0, 210, 0.2);
   backdrop-filter: blur(8px);
   z-index: 1000;
 }
@@ -30,7 +31,7 @@
   align-items: center;
   padding: 12px 16px;
   background-color: rgba(0, 0, 0, 0.6);
-  border-bottom: 1px solid rgba(129, 230, 168, 0.1);
+  border-bottom: 1px solid rgba(46, 0, 210, 0.2);
 }
 
 .ai-chat-messages {
@@ -47,7 +48,7 @@
 }
 
 .ai-chat-messages::-webkit-scrollbar-thumb {
-  background-color: rgba(129, 230, 168, 0.3);
+  background-color: rgba(46, 0, 210, 0.4);
   border-radius: 10px;
 }
 
@@ -60,15 +61,16 @@
 
 .chat-message.user {
   align-self: flex-end;
-  background-color: rgba(129, 230, 168, 0.1);
+  background-color: rgba(46, 0, 210, 0.15);
   color: white;
+  border: 1px solid rgba(65, 20, 220, 0.2);
 }
 
 .chat-message.assistant {
   align-self: flex-start;
   background-color: rgba(0, 0, 0, 0.3);
   color: white;
-  border-left: 3px solid rgba(129, 230, 168, 0.5);
+  border-left: 3px solid rgba(65, 20, 220, 0.6);
 }
 
 .markdown-content pre {
@@ -77,6 +79,7 @@
   border-radius: 4px;
   overflow-x: auto;
   margin: 10px 0;
+  border: 1px solid rgba(46, 0, 210, 0.2);
 }
 
 .markdown-content code {
@@ -88,7 +91,7 @@
 .ai-chat-input {
   display: flex;
   padding: 12px;
-  border-top: 1px solid rgba(129, 230, 168, 0.1);
+  border-top: 1px solid rgba(46, 0, 210, 0.2);
   background-color: rgba(0, 0, 0, 0.3);
   position: relative;
 }
@@ -96,7 +99,7 @@
 .ai-chat-input input {
   flex: 1;
   background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(129, 230, 168, 0.2);
+  border: 1px solid rgba(46, 0, 210, 0.3);
   border-radius: 6px;
   padding: 10px 40px 10px 16px;
   color: white;
@@ -104,7 +107,8 @@
 }
 
 .ai-chat-input input:focus {
-  border-color: rgba(129, 230, 168, 0.5);
+  border-color: rgba(65, 20, 220, 0.6);
+  box-shadow: 0 0 10px rgba(65, 20, 220, 0.3);
 }
 
 .send-button {
@@ -114,17 +118,19 @@
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: rgba(129, 230, 168, 0.7);
+  color: rgba(65, 20, 220, 0.7);
   cursor: pointer;
   padding: 8px;
+  transition: all 0.2s ease;
 }
 
 .send-button:hover {
-  color: rgba(129, 230, 168, 1);
+  color: rgba(85, 40, 230, 1);
+  text-shadow: 0 0 8px rgba(85, 40, 230, 0.5);
 }
 
 .send-button.disabled {
-  color: rgba(129, 230, 168, 0.3);
+  color: rgba(46, 0, 210, 0.3);
   cursor: not-allowed;
 }
 
@@ -138,10 +144,12 @@
   color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
   padding: 8px;
+  transition: all 0.2s ease;
 }
 
 .clear-button:hover {
   color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
 .quick-prompts {
@@ -149,7 +157,7 @@
   flex-wrap: wrap;
   gap: 8px;
   padding: 12px;
-  border-bottom: 1px solid rgba(129, 230, 168, 0.1);
+  border-bottom: 1px solid rgba(46, 0, 210, 0.2);
 }
 
 .quick-prompts button {
@@ -157,17 +165,19 @@
   align-items: center;
   gap: 6px;
   background-color: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(129, 230, 168, 0.2);
+  border: 1px solid rgba(46, 0, 210, 0.3);
   color: white;
   padding: 6px 12px;
   border-radius: 16px;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
 }
 
 .quick-prompts button:hover {
-  background-color: rgba(129, 230, 168, 0.15);
+  background-color: rgba(46, 0, 210, 0.2);
+  border-color: rgba(65, 20, 220, 0.5);
+  box-shadow: 0 0 8px rgba(65, 20, 220, 0.2);
 }
 
 .empty-state {
@@ -183,9 +193,51 @@
 }
 
 .empty-state svg {
-  color: rgba(129, 230, 168, 0.4);
+  color: rgba(65, 20, 220, 0.5);
 }
 
 .cp-svg {
   color: white !important;
+}
+
+/* Additional neon glow effects */
+.ai-chat-panel:hover {
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 0 0 25px rgba(46, 0, 210, 0.3);
+}
+
+.chat-message.user:hover {
+  box-shadow: 0 0 10px rgba(65, 20, 220, 0.2);
+}
+
+.chat-message.assistant:hover {
+  border-left-color: rgba(85, 40, 230, 0.8);
+}
+
+/* Additional enhanced glow effects */
+.ai-chat-input input:focus {
+  border-color: rgba(65, 20, 220, 0.6);
+  box-shadow: 0 0 10px rgba(65, 20, 220, 0.3),
+    inset 0 0 5px rgba(46, 0, 210, 0.1);
+}
+
+.quick-prompts button:active {
+  background-color: rgba(46, 0, 210, 0.3);
+  transform: scale(0.95);
+}
+
+/* Loading animation for AI response */
+.typing-indicator {
+  background-color: rgba(46, 0, 210, 0.1);
+  border-left: 3px solid rgba(65, 20, 220, 0.6);
+  animation: pulse-blue 1.5s infinite;
+}
+
+@keyframes pulse-blue {
+  0%,
+  100% {
+    border-left-color: rgba(65, 20, 220, 0.6);
+  }
+  50% {
+    border-left-color: rgba(85, 40, 230, 1);
+  }
 }
