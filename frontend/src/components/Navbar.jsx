@@ -3,11 +3,15 @@ import { useAuthStore } from "../store/useAuthStore";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import logo from "../assets/images/logo2.png";
+import { useStreak } from "../store/useStreak";
+import { useSubmissionStore } from "../store/useSubmissionStore";
 
 export const Navbar = () => {
   const { authUser, logout } = useAuthStore();
   const isAdmin = authUser?.role === "ADMIN";
   const navigate = useNavigate();
+  const { submissions, getAllSubmissions } = useSubmissionStore();
+  const { currentStreak } = useStreak(submissions);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -48,9 +52,7 @@ export const Navbar = () => {
         <div className="flex items-center gap-4">
           <p className="text-sm text-white/80 neue-reg">
             {!isAdmin && (
-              <span className="neue-reg">
-                {authUser?.streak || 0} day streak 🔥
-              </span>
+              <span className="neue-reg">{currentStreak} day streak 🔥</span>
             )}
           </p>
           {isAdmin && (

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useProblemStore } from "../store/useProblemStore";
 import { useSubmissionStore } from "../store/useSubmissionStore";
+import { useStreak } from "../store/useStreak";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -12,7 +13,6 @@ import {
   Award,
   BarChart4,
   Flame,
-  Calendar,
   Clock,
   Trophy,
 } from "lucide-react";
@@ -20,97 +20,22 @@ import {
 const ProblemSolvedByUser = () => {
   const { getSolvedProblemByUser, solvedProblems } = useProblemStore();
   const { submissions, getAllSubmissions } = useSubmissionStore();
+  const { currentStreak, longestStreak } = useStreak(submissions);
 
   useEffect(() => {
     getSolvedProblemByUser();
     getAllSubmissions();
   }, [getSolvedProblemByUser, getAllSubmissions]);
 
-  // Calculate streaks and activity metrics
-  const streakStats = useMemo(() => {
-    if (!submissions.length)
-      return {
-        currentStreak: 0,
-        longestStreak: 0,
-        lastActive: null,
-        activeDaysMap: {},
-      };
+  // Calculate last active date only (removed redundant streak calculations)
+  const lastActive = useMemo(() => {
+    if (!submissions.length) return null;
 
-    // Parse all submission dates and sort them
     const submissionDates = submissions
-      .map((s) => {
-        const date = new Date(s.createdAt);
-        return new Date(
-          date.getFullYear(),
-          date.getMonth(),
-          date.getDate()
-        ).getTime();
-      })
-      .sort();
+      .map((s) => new Date(s.createdAt))
+      .sort((a, b) => b - a); // Sort descending to get latest first
 
-    // Create a map of active days
-    const activeDaysMap = {};
-    submissionDates.forEach((timestamp) => {
-      activeDaysMap[timestamp] = true;
-    });
-
-    // Get unique days
-    const uniqueDays = [...new Set(submissionDates)].sort();
-
-    // Calculate current streak (consecutive days from today/yesterday going backward)
-    let currentStreak = 0;
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const todayTimestamp = today.getTime();
-    const yesterdayTimestamp = todayTimestamp - 86400000;
-
-    // Check if user submitted today or yesterday to start the streak
-    let checkDate;
-    if (activeDaysMap[todayTimestamp]) {
-      currentStreak = 1;
-      checkDate = todayTimestamp;
-    } else if (activeDaysMap[yesterdayTimestamp]) {
-      currentStreak = 1;
-      checkDate = yesterdayTimestamp;
-    } else {
-      checkDate = null;
-    }
-
-    // Continue counting backward for consecutive days
-    if (checkDate) {
-      let prevDay = checkDate;
-      while (true) {
-        prevDay = prevDay - 86400000;
-        if (activeDaysMap[prevDay]) {
-          currentStreak++;
-        } else {
-          break;
-        }
-      }
-    }
-
-    // Calculate longest streak
-    let longestStreak = 0;
-    let currentRun = 0;
-    for (let i = 1; i < uniqueDays.length; i++) {
-      if (uniqueDays[i] - uniqueDays[i - 1] === 86400000) {
-        // This is the next consecutive day
-        currentRun++;
-      } else {
-        // Break in the streak
-        longestStreak = Math.max(longestStreak, currentRun + 1);
-        currentRun = 0;
-      }
-    }
-    // Check the last run of the array
-    longestStreak = Math.max(longestStreak, currentRun + 1);
-
-    // Last active day
-    const lastActive = uniqueDays.length
-      ? new Date(uniqueDays[uniqueDays.length - 1])
-      : null;
-
-    return { currentStreak, longestStreak, lastActive, activeDaysMap };
+    return submissionDates[0];
   }, [submissions]);
 
   // Format date in a readable way
@@ -125,42 +50,37 @@ const ProblemSolvedByUser = () => {
 
   // Function to get difficulty badge styling
   const getDifficultyBadge = (difficulty) => {
-    switch (difficulty) {
-      case "EASY":
-        return (
-          <div className="profile-pill pill-success flex items-center gap-1">
-            <CheckCircle size={12} />
-            Easy
-          </div>
-        );
-      case "MEDIUM":
-        return (
-          <div className="profile-pill pill-warning flex items-center gap-1">
-            <Circle size={12} />
-            Medium
-          </div>
-        );
-      case "HARD":
-        return (
-          <div className="profile-pill pill-danger flex items-center gap-1">
-            <AlertTriangle size={12} />
-            Hard
-          </div>
-        );
-      default:
-        return <div className="profile-pill">Unknown</div>;
-    }
+    const badges = {
+      EASY: (
+        <div className="profile-pill pill-success flex items-center gap-1">
+          <CheckCircle size={12} />
+          Easy
+        </div>
+      ),
+      MEDIUM: (
+        <div className="profile-pill pill-warning flex items-center gap-1">
+          <Circle size={12} />
+          Medium
+        </div>
+      ),
+      HARD: (
+        <div className="profile-pill pill-danger flex items-center gap-1">
+          <AlertTriangle size={12} />
+          Hard
+        </div>
+      ),
+    };
+    return badges[difficulty] || <div className="profile-pill">Unknown</div>;
   };
 
-  const easyCount = solvedProblems.filter(
-    (p) => p.difficulty === "EASY"
-  ).length;
-  const mediumCount = solvedProblems.filter(
-    (p) => p.difficulty === "MEDIUM"
-  ).length;
-  const hardCount = solvedProblems.filter(
-    (p) => p.difficulty === "HARD"
-  ).length;
+  // Memoized difficulty counts
+  const difficultyCounts = useMemo(() => {
+    return {
+      easy: solvedProblems.filter((p) => p.difficulty === "EASY").length,
+      medium: solvedProblems.filter((p) => p.difficulty === "MEDIUM").length,
+      hard: solvedProblems.filter((p) => p.difficulty === "HARD").length,
+    };
+  }, [solvedProblems]);
 
   return (
     <motion.div
@@ -181,7 +101,7 @@ const ProblemSolvedByUser = () => {
         </Link>
       </div>
 
-      {/* Streak Card - New component */}
+      {/* Streak Card */}
       <div className="bg-black/30 border border-red-500/20 rounded-xl p-4 mb-6">
         <div className="flex items-center gap-2 mb-4">
           <Flame className="text-orange-500 w-5 h-5" />
@@ -199,7 +119,7 @@ const ProblemSolvedByUser = () => {
                 CURRENT STREAK
               </div>
               <div className="text-3xl font-bold text-white flex items-center gap-1">
-                {streakStats.currentStreak}{" "}
+                {currentStreak}
                 <span className="text-xs font-normal text-white/50">days</span>
               </div>
             </div>
@@ -215,7 +135,7 @@ const ProblemSolvedByUser = () => {
                 LONGEST STREAK
               </div>
               <div className="text-3xl font-bold text-white flex items-center gap-1">
-                {streakStats.longestStreak}{" "}
+                {longestStreak}
                 <span className="text-xs font-normal text-white/50">days</span>
               </div>
             </div>
@@ -231,22 +151,22 @@ const ProblemSolvedByUser = () => {
                 LAST ACTIVITY
               </div>
               <div className="text-lg font-medium text-white">
-                {formatDate(streakStats.lastActive)}
+                {formatDate(lastActive)}
               </div>
             </div>
           </div>
         </div>
 
         {/* Streak Tips */}
-        {streakStats.currentStreak > 0 ? (
+        {currentStreak > 0 ? (
           <div className="mt-4 bg-green-500/10 border border-green-500/20 rounded-lg p-3 text-sm">
             <div className="flex items-start gap-2">
               <div className="pt-0.5">
                 <CheckCircle className="w-4 h-4 text-green-400" />
               </div>
               <p className="text-green-300">
-                You're on a {streakStats.currentStreak}-day streak! Keep solving
-                problems daily to maintain your momentum!
+                You're on a {currentStreak}-day streak! Keep solving problems
+                daily to maintain your momentum!
               </p>
             </div>
           </div>
@@ -265,41 +185,43 @@ const ProblemSolvedByUser = () => {
         )}
       </div>
 
-      {/* Stats Grid - Always visible */}
+      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="stat-card bg-black/20 border border-white/10 rounded-md p-4 flex items-center justify-between">
-          <div>
-            <div className="text-sm text-white/60">Easy</div>
-            <div className="text-3xl font-medium text-emerald-500">
-              {easyCount}
+        {[
+          {
+            label: "Easy",
+            count: difficultyCounts.easy,
+            color: "emerald",
+            icon: CheckCircle,
+          },
+          {
+            label: "Medium",
+            count: difficultyCounts.medium,
+            color: "amber",
+            icon: Circle,
+          },
+          {
+            label: "Hard",
+            count: difficultyCounts.hard,
+            color: "red",
+            icon: AlertTriangle,
+          },
+        ].map(({ label, count, color, icon: Icon }) => (
+          <div
+            key={label}
+            className="stat-card bg-black/20 border border-white/10 rounded-md p-4 flex items-center justify-between"
+          >
+            <div>
+              <div className="text-sm text-white/60">{label}</div>
+              <div className={`text-3xl font-medium text-${color}-500`}>
+                {count}
+              </div>
+            </div>
+            <div className={`rounded-full bg-${color}-500/20 p-3`}>
+              <Icon className={`w-6 h-6 text-${color}-500`} />
             </div>
           </div>
-          <div className="rounded-full bg-emerald-500/20 p-3">
-            <CheckCircle className="w-6 h-6 text-emerald-500" />
-          </div>
-        </div>
-
-        <div className="stat-card bg-black/20 border border-white/10 rounded-md p-4 flex items-center justify-between">
-          <div>
-            <div className="text-sm text-white/60">Medium</div>
-            <div className="text-3xl font-medium text-amber-500">
-              {mediumCount}
-            </div>
-          </div>
-          <div className="rounded-full bg-amber-500/20 p-3">
-            <Circle className="w-6 h-6 text-amber-500" />
-          </div>
-        </div>
-
-        <div className="stat-card bg-black/20 border border-white/10 rounded-md p-4 flex items-center justify-between">
-          <div>
-            <div className="text-sm text-white/60">Hard</div>
-            <div className="text-3xl font-medium text-red-500">{hardCount}</div>
-          </div>
-          <div className="rounded-full bg-red-500/20 p-3">
-            <AlertTriangle className="w-6 h-6 text-red-500" />
-          </div>
-        </div>
+        ))}
       </div>
 
       {solvedProblems.length === 0 ? (
@@ -337,30 +259,25 @@ const ProblemSolvedByUser = () => {
                   <td>{getDifficultyBadge(problem.difficulty)}</td>
                   <td>
                     <div className="flex flex-wrap gap-1">
-                      {problem.tags &&
-                        problem.tags.map((tag, index) => (
-                          <div
-                            key={index}
-                            className="profile-pill pill-primary flex items-center gap-1"
-                          >
-                            <Tag size={10} /> {tag}
-                          </div>
-                        ))}
+                      {problem.tags?.map((tag, index) => (
+                        <div
+                          key={index}
+                          className="profile-pill pill-primary flex items-center gap-1"
+                        >
+                          <Tag size={10} /> {tag}
+                        </div>
+                      ))}
                     </div>
                   </td>
                   <td>
                     <div className="flex flex-wrap gap-1">
-                      {problem.companyTags && problem.companyTags.length > 0 ? (
+                      {problem.companyTags?.length > 0 ? (
                         problem.companyTags.map((company, index) => (
                           <div
                             key={index}
                             className="profile-pill pill-primary flex items-center gap-1"
                           >
-                            {company ? (
-                              <span className="text-xs">{company}</span>
-                            ) : (
-                              <span className="text-xs">N/A</span>
-                            )}
+                            <span className="text-xs">{company || "N/A"}</span>
                           </div>
                         ))
                       ) : (
