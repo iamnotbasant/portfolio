@@ -3,8 +3,8 @@ import { motion, useInView } from "framer-motion";
 import bg from "../assets/images/arkham3.png";
 import batrang from "../assets/images/batrang.png";
 import swords from "../assets/images/swords.svg";
-import bargraph from "../assets/images/bar-graph.svg";
 import "../styles/SecondPage.css";
+import reports from "../assets/images/reports.svg";
 
 export const Features = () => {
   const sectionRef = useRef(null);
@@ -76,7 +76,7 @@ export const Features = () => {
           </motion.p>
 
           {/* cards with animation */}
-          <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:px-24">
+          <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8 sm:px-28">
             <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
@@ -88,10 +88,10 @@ export const Features = () => {
                 whileHover="hover"
                 src={swords}
                 alt="Card 1"
-                className="card-image w-16"
+                className="card-image w-12"
               />
               <motion.h2 className="card-title neue-med">
-                Curated Challenges, Always One Step Ahead
+                Arsenal of Algorithms
               </motion.h2>
               <motion.p className="card-description">
                 Alfred wouldn't send you into the field without preparation and
@@ -100,10 +100,9 @@ export const Features = () => {
                 <motion.span className="bright-text">
                   sequenced to push your limits.
                 </motion.span>{" "}
-                We tailor your journey to gradually build precision, speed, and
-                confidence. No endless scrolling. No tutorial hell.{" "}
+                Each problem is a{" "}
                 <motion.span className="bright-text">
-                  Just a sharp climb to mastery.
+                  weapon in your coding arsenal.
                 </motion.span>
               </motion.p>
             </motion.div>
@@ -119,20 +118,19 @@ export const Features = () => {
                 whileHover="hover"
                 src={batrang}
                 alt="Card 2"
-                className="card-image w-24 rounded-full"
+                className="card-image w-20"
               />
               <h2 className="card-title neue-med">
-                Train Like League of Shadows
+                Wayne Enterprises Technology
               </h2>
-              <p className="card-description">
-                Greatness is forged away from the spotlight. <br /> Practice in{" "}
-                <span className="bright-text">real-world conditions</span> with
-                timed challenges, limited hints, and dark-themed sessions built
-                to mimic interview pressure. With every session, you'll be one
-                step closer to walking into your interview like it's{" "}
+              <p className="card-description ">
+                Every hero needs a trusted advisor and elite training. <br />{" "}
+                Meet <span className="bright-text">Alfred AI, your mentor</span>{" "}
+                who provides intelligent hints, code reviews, and strategic
+                guidance. Train with fellow vigilantes through{" "}
                 <span className="bright-text">
-                  Gotham and you own the night.
-                </span>
+                  real-time collaborative coding
+                </span>{" "}
               </p>
             </motion.div>
 
@@ -145,22 +143,21 @@ export const Features = () => {
               <motion.img
                 variants={iconVariants}
                 whileHover="hover"
-                src={bargraph}
+                src={reports}
                 alt="Card 3"
-                className="card-image w-16"
+                className="card-image w-12"
               />
               <h2 className="card-title neue-med">
-                Track Progress with Precision
+                Commissioner Commissioner's Reports
               </h2>
               <p className="card-description">
-                Even Batman checks in with Alfred. <br /> Our tracking system
-                gives you <span className="bright-text">detailed insights</span>{" "}
-                into your strengths, weaknesses, and historical performance.{" "}
+                Even Batman checks in with Commissioner Commissioner. <br /> Our
+                tracking system gives you{" "}
+                <span className="bright-text">detailed insights</span> into your
+                strengths, weaknesses, and historical performance.{" "}
                 <span className="bright-text">
                   Watch your problem-solving improve week by week.
                 </span>{" "}
-                No guesswork — just clear metrics and intelligent suggestions on
-                what to do next.
               </p>
             </motion.div>
           </motion.div>

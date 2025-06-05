@@ -19,7 +19,7 @@ import {
   UserPlus,
   Copy,
 } from "lucide-react";
-import { Navbar } from "../components/Navbar";
+import logo from "../assets/images/logo2.png";
 
 import { useProblemStore } from "../store/useProblemStore";
 import { useExecutionStore } from "../store/useExecutionStore";
@@ -374,7 +374,9 @@ export const ProblemPage = () => {
             to={"/dashboard"}
             className="flex items-center gap-2 text-primary"
           >
-            <Home className="w-6 h-6" />
+            <div className="logo w-[50px] h-auto z-50 hover:brightness-200 hover:contrast-150 transition-all duration-400 ease-in-out">
+              <img src={logo} alt="logo" />
+            </div>
             <ChevronRight className="w-4 h-4" />
           </Link>
           <div className="mt-2 flex flex-col">
