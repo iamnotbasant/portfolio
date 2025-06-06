@@ -56,7 +56,7 @@ const Profile = () => {
           <Link to="/dashboard" className="bg-opacity-20 backdrop-blur-sm">
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <h1 className="text-3xl font-bold">Profile</h1>
+          <h1 className="text-2xl font-bold neue-med">Profile</h1>
         </div>
       </motion.div>
 
@@ -87,7 +87,7 @@ const Profile = () => {
 
               {/* Name and Role Badge */}
               <div className="text-center md:text-left">
-                <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400 neue-med">
+                <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-600 dark:from-white dark:to-gray-400 neue-med">
                   {authUser.name}
                 </h2>
                 <div>{authUser.role}</div>
@@ -136,7 +136,7 @@ const Profile = () => {
             </div>
 
             {/* Action Buttons */}
-            <motion.div
+            {/* <motion.div
               className="flex justify-between mt-6 gap-3"
               variants={itemVariants}
             >
@@ -146,7 +146,7 @@ const Profile = () => {
               <button className="profile-btn profile-btn-primary flex items-center gap-2">
                 <Key size={16} /> Change Password
               </button>
-            </motion.div>
+            </motion.div> */}
           </div>
         </motion.div>
 

@@ -49,7 +49,7 @@ const SubmissionHeatmap = () => {
         <Calendar className="w-5 h-5 text-red-500" /> Submission Activity
       </h2>
       {submissions && submissions.length > 0 ? (
-        <div className="submission-heatmap bg-black/20 p-4 rounded-lg border border-white/10">
+        <div className="submission-heatmap dark:bg-black/20 bg-white/20 p-4 rounded-lg border dark:border-white/10 border-black/10">
           <CalendarHeatmap
             startDate={startDate}
             endDate={endDate}

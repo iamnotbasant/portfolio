@@ -102,55 +102,61 @@ const ProblemSolvedByUser = () => {
       </div>
 
       {/* Streak Card */}
-      <div className="bg-black/30 border border-red-500/20 rounded-xl p-4 mb-6">
+      <div className="dark:bg-black/30 bg-white/30 border border-red-500/20 rounded-xl p-4 mb-6">
         <div className="flex items-center gap-2 mb-4">
           <Flame className="text-orange-500 w-5 h-5" />
-          <h3 className="text-xl font-medium text-white">Your Coding Streak</h3>
+          <h3 className="text-xl font-medium dark:text-white text-black">
+            Your Coding Streak
+          </h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Current Streak */}
-          <div className="flex items-center gap-4 bg-gradient-to-r from-black/30 to-transparent p-4 rounded-lg border border-white/5">
+          <div className="flex items-center gap-4 bg-gradient-to-r dark:from-black/30 from-white/30 to-transparent p-4 rounded-lg border border-white/5">
             <div className="p-3 rounded-full bg-orange-500/20">
               <Flame className="w-7 h-7 text-orange-500" />
             </div>
             <div>
-              <div className="text-white/60 text-xs font-medium">
+              <div className="dark:text-white/60 text-black/60 text-xs font-medium">
                 CURRENT STREAK
               </div>
-              <div className="text-3xl font-bold text-white flex items-center gap-1">
+              <div className="text-3xl font-bold dark:text-white text-black flex items-center gap-1">
                 {currentStreak}
-                <span className="text-xs font-normal text-white/50">days</span>
+                <span className="text-xs font-normal dark:text-white/50 text-black/50">
+                  days
+                </span>
               </div>
             </div>
           </div>
 
           {/* Longest Streak */}
-          <div className="flex items-center gap-4 bg-gradient-to-r from-black/30 to-transparent p-4 rounded-lg border border-white/5">
+          <div className="flex items-center gap-4 bg-gradient-to-r dark:from-black/30 from-white/30 to-transparent p-4 rounded-lg border border-white/5">
             <div className="p-3 rounded-full bg-purple-500/20">
               <Trophy className="w-7 h-7 text-purple-500" />
             </div>
             <div>
-              <div className="text-white/60 text-xs font-medium">
+              <div className="dark:text-white/60 text-black/50 text-xs font-medium">
                 LONGEST STREAK
               </div>
-              <div className="text-3xl font-bold text-white flex items-center gap-1">
+              <div className="text-3xl font-bold dark:text-white text-black flex items-center gap-1">
                 {longestStreak}
-                <span className="text-xs font-normal text-white/50">days</span>
+                <span className="text-xs font-normal dakr:text-white/50 text-black/50">
+                  days
+                </span>
               </div>
             </div>
           </div>
 
           {/* Last Activity */}
-          <div className="flex items-center gap-4 bg-gradient-to-r from-black/30 to-transparent p-4 rounded-lg border border-white/5">
+          <div className="flex items-center gap-4 bg-gradient-to-r dark:from-black/30 from-white/30 to-transparent p-4 rounded-lg border border-white/5">
             <div className="p-3 rounded-full bg-blue-500/20">
               <Clock className="w-7 h-7 text-blue-500" />
             </div>
             <div>
-              <div className="text-white/60 text-xs font-medium">
+              <div className="dark:text-white/60 text-black/60 text-xs font-medium">
                 LAST ACTIVITY
               </div>
-              <div className="text-lg font-medium text-white">
+              <div className="text-lg font-medium dark:text-white text-black">
                 {formatDate(lastActive)}
               </div>
             </div>
@@ -212,7 +218,9 @@ const ProblemSolvedByUser = () => {
             className="stat-card bg-black/20 border border-white/10 rounded-md p-4 flex items-center justify-between"
           >
             <div>
-              <div className="text-sm text-white/60">{label}</div>
+              <div className="text-sm dark:text-white/60 text-black/60">
+                {label}
+              </div>
               <div className={`text-3xl font-medium text-${color}-500`}>
                 {count}
               </div>
@@ -227,10 +235,10 @@ const ProblemSolvedByUser = () => {
       {solvedProblems.length === 0 ? (
         <div className="empty-state">
           <div className="empty-state-icon">🏆</div>
-          <h3 className="text-xl font-medium text-white mb-2">
+          <h3 className="text-xl font-medium dark:text-white text-black mb-2">
             No problems solved yet
           </h3>
-          <p className="text-white/70 mb-4">
+          <p className="dark:text-white/70 text-black/70 mb-4">
             Start solving problems to see them listed here!
           </p>
           <Link
@@ -255,7 +263,9 @@ const ProblemSolvedByUser = () => {
             <tbody>
               {solvedProblems.map((problem) => (
                 <tr key={problem.id}>
-                  <td className="font-medium text-white">{problem.title}</td>
+                  <td className="font-medium dark:text-white text-black">
+                    {problem.title}
+                  </td>
                   <td>{getDifficultyBadge(problem.difficulty)}</td>
                   <td>
                     <div className="flex flex-wrap gap-1">
@@ -302,7 +312,7 @@ const ProblemSolvedByUser = () => {
 
           {solvedProblems.length > 5 && (
             <div className="flex justify-center p-3 border-t border-white/10">
-              <button className="profile-btn flex items-center gap-2 bg-black/30 text-white/70 hover:text-white border border-white/10">
+              <button className="profile-btn flex items-center gap-2 dark:bg-black/30 bg-white/30 dark:text-white/70 text-black hover:text-white border border-white/10">
                 <BarChart4 size={16} /> View All {solvedProblems.length} Solved
                 Problems
               </button>

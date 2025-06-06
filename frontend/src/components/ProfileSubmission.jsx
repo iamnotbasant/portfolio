@@ -13,6 +13,7 @@ import {
   Filter,
   FileCode,
 } from "lucide-react";
+import { formatSubmissionStatus } from "../libs/utils";
 
 const ProfileSubmission = () => {
   const { submissions, getAllSubmissions } = useSubmissionStore();
@@ -120,10 +121,10 @@ const ProfileSubmission = () => {
           )} flex items-center gap-1`}
         >
           {submission.status === "Accepted" && <Check size={12} />}
-          {helpers.safeValue(submission.status)}
+          {formatSubmissionStatus(submission.status)}
         </div>
 
-        <div className="flex items-center gap-2 text-white/50 text-sm">
+        <div className="flex items-center gap-2 text-black/50 dark:text-white/50 text-sm">
           <Clock size={14} />
           <span>{helpers.formatDate(submission.createdAt)}</span>
         </div>
@@ -131,9 +132,9 @@ const ProfileSubmission = () => {
 
       <div>
         {expandedSubmission === submission.id ? (
-          <ChevronUp className="text-white/70" />
+          <ChevronUp className="dark:text-white/70 text-black/70" />
         ) : (
-          <ChevronDown className="text-white/70" />
+          <ChevronDown className="dark:text-white/70 text-black/70" />
         )}
       </div>
     </div>
@@ -141,18 +142,18 @@ const ProfileSubmission = () => {
 
   const SubmissionDetails = ({ submission }) => (
     <motion.div
-      className="mt-4 pt-4 border-t border-white/10"
+      className="mt-4 pt-4 border-t dark:border-white/10 border-black/10"
       initial={{ opacity: 0, height: 0 }}
       animate={{ opacity: 1, height: "auto" }}
       transition={{ duration: 0.3 }}
     >
       {/* Code Section */}
       <div className="mb-4">
-        <h3 className="text-lg font-medium text-white mb-2 flex items-center gap-2">
+        <h3 className="text-lg font-medium dark:text-white text-black mb-2 flex items-center gap-2">
           <Code size={16} />
           Solution Code ({submission.language})
         </h3>
-        <div className="border border-white/5 rounded-lg overflow-hidden">
+        <div className="border dark:border-white/5 border-black/5 rounded-lg overflow-hidden">
           <Editor
             height="400px"
             language={helpers.getEditorLanguage(submission.language)}
@@ -194,7 +195,7 @@ const ProfileSubmission = () => {
               <Terminal size={14} />
               {title}
             </h3>
-            <pre className="bg-black/30 text-white/70 p-3 rounded-lg overflow-x-auto border border-white/5 text-xs h-24">
+            <pre className="dark:bg-black/30 bg-white/30 dark:text-white/70 text-black/70 p-3 rounded-lg overflow-x-auto border border-white/5 text-xs h-24">
               <code>{helpers.parseJsonValue(value, defaultVal)}</code>
             </pre>
           </div>
@@ -237,7 +238,7 @@ const ProfileSubmission = () => {
   const EmptyState = () => (
     <div className="empty-state">
       <div className="empty-state-icon">📝</div>
-      <h3 className="text-xl font-medium text-white mb-2">
+      <h3 className="text-xl font-medium dark:text-white text-black mb-2">
         No submissions found
       </h3>
       <p className="text-white/70">
@@ -266,16 +267,13 @@ const ProfileSubmission = () => {
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="bg-black/20 text-white border border-white/10 rounded-md py-1 px-3 pr-8 appearance-none focus:outline-none focus:border-red-500/50 w-full"
+              className="dark:bg-black/20 bg-white/20 dark:text-white text-black border dark:border-white/10 border-black/10 rounded-md py-1 px-3 pr-8 appearance-none focus:outline-none focus:border-red-500/50 w-full"
             >
               <option value="all">All Submissions</option>
-              <option value="Accepted">Accepted</option>
-              <option value="Wrong Answer">Wrong Answer</option>
-              <option value="Time Limit Exceeded">Time Limit Exceeded</option>
+              <option value="ACCEPTED">Accepted</option>
+              <option value="WRONG_ANSWER">Wrong Answer</option>
             </select>
-            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-white/50">
-              <Filter size={14} />
-            </div>
+            <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-white/50"></div>
           </div>
 
           {/* Stats Cards */}
@@ -284,7 +282,7 @@ const ProfileSubmission = () => {
               {
                 label: "Total",
                 value: submissions.length,
-                color: "text-white",
+                color: "dark:text-white text-black",
               },
               {
                 label: "Accepted",
@@ -294,9 +292,11 @@ const ProfileSubmission = () => {
             ].map(({ label, value, color }) => (
               <div
                 key={label}
-                className="stat-card bg-black/20 border border-white/10 rounded-md p-3 text-center"
+                className="stat-card dark:bg-black/20 bg-white/20 border border-white/10 rounded-md p-3 text-center"
               >
-                <div className="text-xs text-white/60">{label}</div>
+                <div className="text-xs dark:text-white/60 text-black/60">
+                  {label}
+                </div>
                 <div className={`text-xl font-medium ${color}`}>{value}</div>
               </div>
             ))}

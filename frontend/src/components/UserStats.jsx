@@ -71,20 +71,20 @@ const UserStats = () => {
       className="dash-card"
     >
       <div className="flex flex-col">
-        <h3 className="text-2xl text-white neue-med mb-4 flex items-center gap-2">
+        <h3 className="text-2xl dark:text-white text-black neue-med mb-4 flex items-center gap-2">
           <Activity className="w-5 h-5" /> Your Statistics
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="stat-card">
             <div className="flex justify-between items-center mb-2">
-              <h4 className="text-lg text-white/80 neue-med">
+              <h4 className="text-lg dark:text-white/80 text-black/80 neue-med">
                 Problems Solved
               </h4>
               <CheckCircle className="w-4 h-4 text-emerald-500" />
             </div>
             <div className="flex justify-between items-end">
-              <span className="text-3xl text-white neue-med">
+              <span className="text-3xl dark:text-white text-black neue-med">
                 {totalProblems}
               </span>
               <div className="flex gap-2 items-center">
@@ -103,13 +103,13 @@ const UserStats = () => {
 
           <div className="stat-card">
             <div className="flex justify-between items-center mb-2">
-              <h4 className="text-lg text-white/80 neue-med">
+              <h4 className="text-lg dark:text-white/80 text-black/80 neue-med">
                 Submission Success
               </h4>
               <Target className="w-4 h-4 text-blue-500" />
             </div>
             <div className="flex justify-between items-end">
-              <span className="text-3xl text-white neue-med">
+              <span className="text-3xl dark:text-white text-black neue-med">
                 {submissionRate}%
               </span>
               <div className="flex gap-2 items-center">
@@ -122,7 +122,9 @@ const UserStats = () => {
 
           <div className="stat-card">
             <div className="flex justify-between items-center mb-2">
-              <h4 className="text-lg text-white/80 neue-med">Expertise</h4>
+              <h4 className="text-lg dark:text-white/80 text-black/80 neue-med">
+                Expertise
+              </h4>
               <Star className="w-4 h-4 text-yellow-500" />
             </div>
             <div className="flex justify-between items-end">
