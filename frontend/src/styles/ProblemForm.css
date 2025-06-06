@@ -6,13 +6,13 @@
 }
 
 .prob-form-card {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: var(--navbar-bg);
   border: 1px solid rgb(205, 0, 0);
   border-radius: 8px;
   padding: 1.5rem;
   backdrop-filter: blur(5px);
   filter: brightness(1.2) contrast(1.2);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 10px 30px var(--pfp-gradient);
 }
 
 .prob-form-header {
@@ -26,7 +26,7 @@
 
 .prob-form-title {
   font-family: neue-med, sans-serif;
-  color: white;
+  color: var(--color-text-primary);
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -34,7 +34,7 @@
 }
 
 .prob-section-card {
-  background-color: rgba(15, 15, 15, 0.8);
+  background-color: var(--pfp-gradient);
   border: 1px solid rgba(56, 56, 56, 0.5);
   border-radius: 8px;
   padding: 1em;
@@ -50,7 +50,7 @@
 
 .prob-section-title {
   font-family: neue-med;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--color-text-primary);
   font-size: 1.2rem;
   margin-bottom: 1rem;
   display: flex;
@@ -61,16 +61,16 @@
 .prob-input-label {
   display: block;
   margin-bottom: 0.5rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-primary);
   font-family: neue-reg, sans-serif;
   font-size: 0.95em;
 }
 
 .prob-input {
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
-  color: white;
-  border: 1px solid rgba(56, 56, 56, 0);
+  background-color: var(--navbar-bg);
+  color: var(--color-text-primary);
+  border: 1px solid var(--prob-input-border);
   border-radius: 4px;
   padding: 0.75rem 1rem;
   font-family: neue-reg, sans-serif;
@@ -79,7 +79,7 @@
 }
 
 .prob-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--prob-input-placeholder);
 }
 
 .prob-input:focus {
@@ -95,8 +95,8 @@
 }
 
 .prob-select option {
-  background-color: rgba(10, 10, 10, 0.9);
-  color: white;
+  background-color: var(--pfp-gradient);
+  color: var(--color-text-primary);
 }
 
 .prob-textarea {
@@ -117,7 +117,7 @@
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   background-color: transparent;
-  color: white;
+  color: var(--color-text-primary);
   border: 1px solid rgba(56, 56, 56, 0.8);
   border-radius: 4px;
   font-family: neue-med, sans-serif;
@@ -201,7 +201,7 @@
   display: inline-block;
   padding: 0.25rem 0.75rem;
   background-color: rgba(215, 8, 1, 0.2);
-  color: white;
+  color: var(--color-text-primary);
   border-radius: 99px;
   font-size: 0.85rem;
   margin-right: 0.5rem;
@@ -224,7 +224,7 @@
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   background-color: transparent;
-  color: white;
+  color: var(--color-text-primary);
   border: 1px solid rgba(56, 56, 56, 0.9);
   border-radius: 4px;
   font-family: neue-med, sans-serif;
@@ -259,7 +259,7 @@
 
 .ai-select {
   background-color: rgba(0, 0, 0, 0.2);
-  color: white;
+  color: var(--color-text-primary);
   border-radius: 4px;
 }
 
@@ -270,7 +270,7 @@
 
 .ai-select option {
   background-color: rgba(10, 10, 10, 0.9);
-  color: white;
+  color: var(--color-text-primary);
 }
 
 .filter-btn {
@@ -280,7 +280,7 @@
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   background-color: transparent;
-  color: white;
+  color: var(--color-text-primary);
   border: 1px solid rgba(56, 56, 56, 0.8);
   border-radius: 4px;
   font-family: neue-med, sans-serif;

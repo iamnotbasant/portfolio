@@ -8,6 +8,7 @@ import { axiosInstance } from "../libs/axios";
 import { Toast } from "../store/useToastStore";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "../components/Loader";
+import { useThemeStore } from "../store/useThemeStore";
 import { Bot, Sparkles } from "lucide-react";
 import AIProblemGeneratorModal from "./AIProblemGeneratorModal";
 import {
@@ -523,6 +524,7 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const { theme } = useThemeStore();
 
   // Initialize form with problem data if in edit mode
   const defaultValues = useMemo(() => {
@@ -600,6 +602,10 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
       },
     },
   });
+
+  const getEditorTheme = () => {
+    return theme === "light" ? "vs-light" : "vs-dark";
+  };
 
   useEffect(() => {
     if (isEditing && problemData) {
@@ -788,7 +794,7 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
                 <Download size={16} /> Load Sample
               </button>
             </div>
-            <button
+            {/* <button
               type="button"
               className=" relative ai-btn"
               onClick={() => setIsAIModalOpen(true)}
@@ -799,7 +805,7 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
                 alt=""
               />
               <span className="ml-8">AI [Experimental]</span>
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -811,7 +817,7 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
                 <label className="prob-input-label">Title</label>
                 <input
                   type="text"
-                  className="prob-input"
+                  className="prob-input border-2 border-gray-300"
                   {...register("title")}
                   placeholder="Enter problem title"
                 />
@@ -1008,7 +1014,7 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
                       <Editor
                         height="300px"
                         language={language.toLowerCase()}
-                        theme="vs-dark"
+                        theme={getEditorTheme()}
                         value={field.value}
                         onChange={field.onChange}
                         options={{
@@ -1044,7 +1050,7 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
                       <Editor
                         height="300px"
                         language={language.toLowerCase()}
-                        theme="vs-dark"
+                        theme={getEditorTheme()}
                         value={field.value}
                         onChange={field.onChange}
                         options={{
@@ -1144,10 +1150,8 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
               </div>
             </div>
           </div>
-
-          <div className="prob-form-footer prob-flex prob-flex-end">
+          <div className="w-full flex justify-end">
             <button type="submit" className="prob-btn prob-btn-primary">
-              <CheckCircle2 size={20} />{" "}
               {isEditing ? "Update Problem" : "Create Problem"}
             </button>
           </div>

@@ -26,7 +26,7 @@
   --color-bg-secondary: #f3f4f6;
   --color-bg-tertiary: #e5e7eb;
   --color-bg-quaternary: #f9fafb;
-  --color-text-primary: #111827;
+  --color-text-primary: #000000;
   --color-text-secondary: #4b5563;
   --color-accent: #dc2626;
   --color-accent-hover: #b91c1c;
@@ -38,6 +38,12 @@
   --pfp-text: #ff4c4c;
   --modal-bg: #f4f4f4;
   --sidebar-bg: rgba(255, 255, 255, 0.6);
+  --prob-input-placeholder: rgba(0, 0, 0, 0.8);
+  --prob-input-border: rgba(0, 0, 0, 0.5);
+  --tab-color: rgba(0, 0, 0, 0.7);
+  --bg-02: rgba(255, 255, 255, 0.2);
+  --bg-03: rgba(255, 255, 255, 0.3);
+  --bg-09: rgba(255, 255, 255, 0.9);
 
   --gradient-1: linear-gradient(
     180deg,
@@ -68,6 +74,12 @@
   --pfp-text: #ff8e8e;
   --modal-bg: #0e0e0e;
   --sidebar-bg: rgba(0, 0, 0, 0.6);
+  --prob-input-placeholder: rgba(255, 255, 255, 0.5);
+  --prob-input-border: rgba(56, 56, 56, 0);
+  --tab-color: rgba(255, 255, 255, 0.7);
+  --bg-02: rgba(0, 0, 0, 0.2);
+  --bg-03: rgba(0, 0, 0, 0.3);
+  --bg-09: rgba(0, 0, 0, 0.9);
 
   --gradient-1: linear-gradient(
     180deg,
