@@ -1,5 +1,5 @@
 import React from "react";
-import { Moon, Sun, Monitor } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useThemeStore } from "../store/useThemeStore";
 
 const ThemeToggle = ({ className = "" }) => {
@@ -8,7 +8,6 @@ const ThemeToggle = ({ className = "" }) => {
   const themes = [
     { name: "light", icon: Sun, label: "Light" },
     { name: "dark", icon: Moon, label: "Dark" },
-    { name: "night", icon: Monitor, label: "Night" },
   ];
 
   return (
@@ -16,7 +15,6 @@ const ThemeToggle = ({ className = "" }) => {
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
         {theme === "light" && <Sun className="w-5 h-5" />}
         {theme === "dark" && <Moon className="w-5 h-5" />}
-        {theme === "night" && <Monitor className="w-5 h-5" />}
       </div>
       <ul
         tabIndex={0}

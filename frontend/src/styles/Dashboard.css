@@ -1,11 +1,5 @@
 .dashboard-container {
-  background: linear-gradient(
-    180deg,
-    #000000 0%,
-    #150a0a 40%,
-    #1d1010 80%,
-    #291818 100%
-  );
+  background: var(--gradient-1);
   padding: 0.5em 1em;
 }
 .dashboard-container::after {
@@ -25,7 +19,7 @@
 }
 
 .navbar {
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: var(--navbar-bg);
   border-radius: 8px;
   box-shadow: inset 0rem 0rem 2em rgba(255, 0, 0, 0.1);
   backdrop-filter: blur(5px);
@@ -33,7 +27,7 @@
   height: auto;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgb(56, 56, 56);
+  border: 1px solid var(--color-card-border);
   transition: all 0.5s ease-in-out;
   z-index: 10;
 }
@@ -69,7 +63,7 @@
 }
 
 .dash-card {
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: var(--navbar-bg);
   border-radius: 8px;
   box-shadow: inset 0rem 0rem 1em rgba(215, 8, 1, 0.2);
   padding: 0.5em;
@@ -103,11 +97,9 @@
     rgba(255, 255, 255, 0.1),
     rgba(215, 8, 1, 0.1)
   );
-  color: #ff8e8e;
+  color: var(--pfp-text);
   border: 1px solid rgb(205, 0, 0);
 }
-
-/* black gradeint from bottom on pfp */
 
 .pfp::after {
   content: "";
@@ -119,7 +111,7 @@
   background: linear-gradient(
     to bottom,
     rgba(255, 255, 255, 0) 0%,
-    rgba(0, 0, 0, 0.8) 100%
+    var(--pfp-gradient) 100%
   );
 }
 
@@ -134,18 +126,18 @@
 }
 
 .filter-input {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--color-text-secondary);
   border: 1px solid rgba(56, 56, 56, 0);
   border-radius: 4px;
   box-shadow: inset 0rem 0rem 1.2em rgba(215, 8, 1, 0.4);
   font-family: neue-reg;
   transition: all 0.3s ease;
   font-size: 0.9em;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--navbar-bg);
 }
 
 .filter-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--color-text-secondary);
 }
 
 .filter-input:hover {
@@ -159,7 +151,7 @@
 }
 
 .table-card {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: var(--navbar-bg);
   border: 1px solid rgb(205, 0, 0);
   border-radius: 8px;
   padding: 0em 0.5em;

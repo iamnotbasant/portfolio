@@ -137,7 +137,7 @@ export const Dashboard = () => {
           transition={{ duration: 0.6, ease: "backInOut" }}
           className="dash-card mt-2 w-full flex items-start gap-4 justify-start"
         >
-          <div className="sm:w-36 sm:h-36 relative overflow-hidden w-0 h-0 rounded-lg bg-[#0001] pfp transition-all duration-300 ease-in-out">
+          <div className="sm:w-36 sm:h-36 relative overflow-hidden w-0 h-0 rounded-lg dark:bg-[#0001] bg-[#fff1] pfp transition-all duration-300 ease-in-out">
             <span className="absolute -bottom-6 right-0 text-9xl">
               {authUser?.name
                 ? authUser.name
@@ -148,18 +148,20 @@ export const Dashboard = () => {
             </span>
           </div>
           <div className="flex flex-col gap-1">
-            <h3 className="text-3xl text-white neue-med">
+            <h3 className="text-3xl text-black dark:text-white neue-med">
               Welcome Back, {authUser?.name} ✨
             </h3>
-            <p className="text-base text-white neue-reg">{currentDateTime}</p>
-            <p className="text-sm text-white/80 neue-reg mb-2">
+            <p className="text-base text-black dark:text-white neue-reg">
+              {currentDateTime}
+            </p>
+            <p className="text-sm text-black/80 dark:text-white/80 neue-reg mb-2">
               {authUser?.email} <br />
             </p>
             <button
               onClick={() => {
                 setIsCreatePlaylistModalOpen(true);
               }}
-              className="text-sm text-white/80 bg-[#ffffff2a] font-mono tracking-tighter uppercase hover:text-red-500 hover:bg-[#0e0e0e5e] duration-200 ease-out cursor-pointer w-fit"
+              className="text-sm text-black/80 dark:text-white/80 dark:bg-[#ffffff2a] bg-[#0000002a] font-mono tracking-tighter uppercase hover:text-red-700 dark:hover:text-red-500 hover:bg-[#ffffff5e] dark:hover:bg-[#0e0e0e5e] duration-200 ease-out cursor-pointer w-fit"
             >
               <span>[C]</span> Create Playlist
             </button>

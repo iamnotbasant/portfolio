@@ -45,12 +45,12 @@ export const Navbar = () => {
             <div className="logo w-[50px] h-auto z-50">
               <img src={logo} alt="logo" />
             </div>
-            <h1 className="text-lg text-white/90 nulshock">Arkham Labs</h1>
+            <h1 className="text-lg  nulshock">Arkham Labs</h1>
           </div>
         </Link>
 
         <div className="flex items-center gap-4">
-          <p className="text-sm text-white/80 neue-reg">
+          <p className="text-sm  neue-reg">
             {!isAdmin && (
               <span className="neue-reg">{currentStreak} day streak 🔥</span>
             )}
@@ -58,14 +58,14 @@ export const Navbar = () => {
           {isAdmin && (
             <Link
               to="/add-problem"
-              className="add-btn text-white/90  px-4 py-2 neue-med rounded-md transition duration-300 ease-in-out text-sm"
+              className="add-btn  px-4 py-2 neue-med rounded-md transition duration-300 ease-in-out text-sm"
             >
               [Alt+A] &nbsp; Add Problem
             </Link>
           )}
           <button
             onClick={handleLogout}
-            className="px-4 py-2  rounded-lg neue-med hover:bg-red-500/50 transition-all text-white text-sm"
+            className="px-4 py-2 rounded-lg neue-med hover:bg-red-500/50 transition-all  text-sm"
           >
             Logout
           </button>

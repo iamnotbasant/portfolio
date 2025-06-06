@@ -143,11 +143,15 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
             value={filters.tags}
             onChange={(e) => setFilters({ ...filters, tags: e.target.value })}
           >
-            <option className="bg-black/90" value="">
+            <option className="dark:bg-black/90 bg-white/90" value="">
               All Tags
             </option>
             {allTags.map((tag) => (
-              <option className="bg-black/90" key={tag} value={tag}>
+              <option
+                className="dark:bg-black/90 bg-white/90"
+                key={tag}
+                value={tag}
+              >
                 {tag}
               </option>
             ))}
@@ -159,11 +163,15 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
               setFilters({ ...filters, difficulty: e.target.value })
             }
           >
-            <option className="bg-black/90" value="">
+            <option className="dark:bg-black/90 bg-white/90" value="">
               All Difficulties
             </option>
             {difficultyOptions.map((option) => (
-              <option className="bg-black/90" key={option} value={option}>
+              <option
+                className="dark:bg-black/90 bg-white/90"
+                key={option}
+                value={option}
+              >
                 {option.charAt(0).toUpperCase() + option.slice(1).toLowerCase()}
               </option>
             ))}
@@ -175,11 +183,15 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
               setFilters({ ...filters, companyTags: e.target.value })
             }
           >
-            <option className="bg-black/90" value="">
+            <option className="dark:bg-black/90 bg-white/90" value="">
               All Companies
             </option>
             {allCompanyTags.map((tag) => (
-              <option className="bg-black/90" key={tag} value={tag}>
+              <option
+                className="dark:bg-black/90 bg-white/90"
+                key={tag}
+                value={tag}
+              >
                 {tag}
               </option>
             ))}
@@ -197,14 +209,24 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
         <table className="w-full">
           <thead>
             <tr className="border-b border-white/30">
-              <th className="text-left py-2 text-white/80 neue-med">Status</th>
-              <th className="text-left py-2 text-white/80 neue-med">Title</th>
-              <th className="text-left py-2 text-white/80 neue-med">Tags</th>
-              <th className="text-left py-2 text-white/80 neue-med">Company</th>
-              <th className="text-left py-2 text-white/80 neue-med">
+              <th className="text-left py-2 text-black/80 dark:text-white/80 neue-med">
+                Status
+              </th>
+              <th className="text-left py-2 text-black/80 dark:text-white/80 neue-med">
+                Title
+              </th>
+              <th className="text-left py-2 text-black/80 dark:text-white/80 neue-med">
+                Tags
+              </th>
+              <th className="text-left py-2 text-black/80 dark:text-white/80 neue-med">
+                Company
+              </th>
+              <th className="text-left py-2 text-black/80 dark:text-white/80 neue-med">
                 Difficulty
               </th>
-              <th className="text-left py-2 text-white/80 neue-med">Actions</th>
+              <th className="text-left py-2 text-black/80 dark:text-white/80 neue-med">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -228,14 +250,14 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                       </span>
                     )}
                   </td>
-                  <td className="py-2 text-white hover:underline">
+                  <td className="py-2 text-black dark:text-white hover:underline">
                     <Link to={`/problem/${problem.id}`}>{problem.title}</Link>
                   </td>
                   <td className="py-2">
                     {problem.tags?.map((tag) => (
                       <span
                         key={tag}
-                        className="bg-white/10 px-2 py-1 rounded-full text-sm text-white mr-2"
+                        className="bg-white/10 px-2 py-1 rounded-full text-sm text-black dark:text-white  mr-2"
                       >
                         {tag}
                       </span>
@@ -267,10 +289,10 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                     <span
                       className={`  px-2 py-1 rounded-full ${
                         problem.difficulty === "EASY"
-                          ? "bg-emerald-900/60 text-emerald-400 border border-emerald-700"
+                          ? "dark:bg-emerald-900/60 dark:text-emerald-400 border dark:border-emerald-700 bg-emerald-200/60 text-emerald-700 border-emerald-700"
                           : problem.difficulty === "MEDIUM"
-                          ? "bg-amber-900/60 text-amber-400 border border-amber-700"
-                          : "bg-red-900/60 text-red-300 border border-red-700"
+                          ? "dark:bg-amber-900/60 dark:text-amber-400 border dark:border-amber-700 bg-amber-200/60 text-amber-500 border-amber-500"
+                          : "dark:bg-red-900/60 dark:text-red-300 border dark:border-red-700 bg-red-200/60 text-red-500 border-red-500"
                       }`}
                     >
                       {problem.difficulty.charAt(0).toUpperCase() +
@@ -343,22 +365,22 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
         <button
           className={`neue-med transition-colors duration-200 ease-in-out ${
             currentPage === 1
-              ? "text-white/40 cursor-not-allowed"
-              : "text-white/80 hover:text-white"
+              ? "dark:text-white/40 text-black/40 cursor-not-allowed"
+              : "dark:text-white/80 text-black/80 hover:text-white"
           }`}
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((prev) => prev - 1)}
         >
           Prev
         </button>
-        <span className="text-white/80 neue-med">
+        <span className="dark:text-white/80 text-black/80 neue-med">
           {currentPage} / {totalPages}
         </span>
         <button
           className={`neue-med transition-colors duration-200 ease-in-out ${
             currentPage === totalPages
-              ? "text-white/40 cursor-not-allowed"
-              : "text-white/80 hover:text-white"
+              ? "dark:text-white/40 text-black/40 cursor-not-allowed"
+              : "dark:text-white/80 text-black/80 hover:text-white"
           }`}
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((prev) => prev + 1)}
