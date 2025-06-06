@@ -135,8 +135,8 @@
 }
 
 .select {
-  background-color: rgba(0, 0, 0, 0.2);
-  color: white;
+  background-color: var(--navbar-bg);
+  color: var(--color-text-primary);
   border: 1px solid rgba(56, 56, 56, 0.5);
   border-radius: 4px;
   padding: 0.5rem 1rem;

@@ -13,13 +13,10 @@ const ThemeToggle = ({ className = "" }) => {
   return (
     <div className={`dropdown dropdown-end ${className}`}>
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-        {theme === "light" && <Sun className="w-5 h-5" />}
+        {theme === "light" && <Sun className="w-5 h-5 text-black" />}
         {theme === "dark" && <Moon className="w-5 h-5" />}
       </div>
-      <ul
-        tabIndex={0}
-        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-32"
-      >
+      <ul tabIndex={0} className="cursor-pointer">
         {themes.map((themeOption) => {
           const IconComponent = themeOption.icon;
           return (

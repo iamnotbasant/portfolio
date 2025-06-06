@@ -38,14 +38,14 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 bg-black/20 backdrop-blur-md flex items-center justify-center z-50 brightness-125"
+          className="fixed inset-0 dark:bg-black/20 bg-white/20 backdrop-blur-md flex items-center justify-center z-50 brightness-125"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           <motion.div
-            className="modal-card w-full max-w-3xl relative p-3"
+            className="modal-card w-full max-w-3xl relative p-3 border border-[#000] dark:border-none"
             initial={{ opacity: 0, y: 0, scale: 1 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 0, scale: 0.9 }}
@@ -66,12 +66,12 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
             ></div>
 
             <div className="flex justify-between items-center mb-4 px-2">
-              <h3 className="text-base text-white/90 arame">
+              <h3 className="text-base text-black/90 dark:text-white/90 arame">
                 {authUser?.name} / New Playlist
               </h3>
               <button
                 onClick={onClose}
-                className="text-white hover:text-red-500 transition-colors arame cursor-pointer"
+                className="dark:text-white text-black hover:text-red-500 transition-colors arame cursor-pointer"
               >
                 X [ESC]
               </button>
@@ -118,13 +118,13 @@ const CreatePlaylistModal = ({ isOpen, onClose, onSubmit }) => {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2 rounded-md text-white/80 border border-[#383838] hover:text-white hover:border-[#525252] transition-colors neue-reg text-sm cursor-pointer"
+                  className="px-4 py-2 rounded-md text-black/80 dark:text-white/80 border border-[#1e1e1e] dark:border-[#383838] hover:text-black dark:hover:text-white hover:border-[#525252] transition-colors neue-reg text-sm cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="add-btn px-6 py-2 rounded-md text-white transition-all flex items-center gap-2 neue-reg text-sm cursor-pointer"
+                  className="add-btn px-6 py-2 rounded-md dark:text-white text-black transition-all flex items-center gap-2 neue-reg text-sm cursor-pointer"
                 >
                   <Plus size={18} />
                   Create Playlist

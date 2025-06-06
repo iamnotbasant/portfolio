@@ -21,7 +21,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message }) => {
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+    <div className="fixed inset-0 z-50 flex items-center justify-center dark:bg-black/60 bg-white/60">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -30,12 +30,12 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm, title, message }) => {
         className="bg-[#0e0e0e] rounded-lg shadow-xl p-5 max-w-xl w-full mx-4 contrast-[1.2]"
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl text-white arame">
+          <h2 className="text-xl dark:text-white text-black arame">
             {title || "Confirm Action"}
           </h2>
           <button
             onClick={onClose}
-            className="text-white/70 hover:text-white transition-colors arame cursor-pointer"
+            className="text-black/70 hover:text-black dark:text-white/70 dark:hover:text-white transition-colors arame cursor-pointer"
           >
             X [ESC]
           </button>

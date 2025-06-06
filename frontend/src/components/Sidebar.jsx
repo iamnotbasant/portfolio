@@ -22,7 +22,9 @@ export const Sidebar = () => {
         onMouseLeave={() => setSidebarOpen(false)}
       >
         <div className="sidebar-header">
-          <h3 className="text-xl text-white neue-med">Quick Access</h3>
+          <h3 className="text-xl dark:text-white text-black neue-med">
+            Quick Access
+          </h3>
         </div>
         <div className="sidebar-content">
           <Link to="/dashboard">
@@ -54,7 +56,7 @@ export const Sidebar = () => {
         </div>
 
         <div className="sidebar-footer">
-          <ThemeToggle className="sidebar-theme-toggle" />
+          <ThemeToggle />
           <button onClick={handleLogout} className="sidebar-logout">
             <span className="sidebar-icon">🚪</span>
             <span className="sidebar-text">Logout</span>

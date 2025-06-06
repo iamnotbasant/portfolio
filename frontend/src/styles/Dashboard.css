@@ -177,7 +177,7 @@ td {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--color-text-primary);
   cursor: pointer;
   z-index: 99;
   transition: all 0.3s ease;
@@ -200,7 +200,7 @@ td {
   width: 250px;
   height: 90vh;
   border-radius: 0px 8px 8px 0px;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--sidebar-bg);
   backdrop-filter: blur(12px);
   /* padding: 0em; */
   z-index: 90;
@@ -248,7 +248,7 @@ td {
   align-items: center;
   padding: 0.3em 0.5em;
   font-family: arame;
-  color: white;
+  color: var(--color-text-primary);
   border-radius: 2px;
   transition: all 0.2s ease;
   cursor: pointer;
@@ -277,7 +277,7 @@ td {
   display: flex;
   align-items: center;
   padding: 0.5em;
-  color: #ff9999;
+  color: var(--color-accent-hover);
   width: 100%;
   transition: all 0.2s ease;
   cursor: pointer;

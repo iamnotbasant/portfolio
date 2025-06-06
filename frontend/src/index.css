@@ -36,13 +36,15 @@
   --navbar-bg: rgba(255, 255, 255, 0.35);
   --pfp-gradient: rgba(255, 255, 255, 0.8);
   --pfp-text: #ff4c4c;
+  --modal-bg: #f4f4f4;
+  --sidebar-bg: rgba(255, 255, 255, 0.6);
 
   --gradient-1: linear-gradient(
     180deg,
     #ffffff 0%,
-    #f3f4f6 40%,
-    #ffd2d2 80%,
-    #ffa5a5 100%
+    #f6f3f3 40%,
+    #fff5f5 80%,
+    #ffdcdc 100%
   );
 
   color-scheme: light;
@@ -64,6 +66,8 @@
   --navbar-bg: rgba(0, 0, 0, 0.35);
   --pfp-gradient: rgba(0, 0, 0, 0.8);
   --pfp-text: #ff8e8e;
+  --modal-bg: #0e0e0e;
+  --sidebar-bg: rgba(0, 0, 0, 0.6);
 
   --gradient-1: linear-gradient(
     180deg,
