@@ -246,7 +246,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\kapil\\OneDrive\\Desktop\\Code\\Projects\\Arkham Labs\\backend\\src\\generated\\prisma",
+      "value": "/home/kapil/Arkham-Labs/backend/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -255,12 +255,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\kapil\\OneDrive\\Desktop\\Code\\Projects\\Arkham Labs\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/kapil/Arkham-Labs/backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -274,11 +274,12 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "postgresql://kapil:kapil@localhost:5433/db"
+        "value": null
       }
     }
   },

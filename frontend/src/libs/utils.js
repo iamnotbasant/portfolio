@@ -17,3 +17,14 @@ export function getLanguageId(language) {
   };
   return languageMap[language.toUpperCase()];
 }
+
+export const formatSubmissionStatus = (status) => {
+  switch (status) {
+    case "ACCEPTED":
+      return "Accepted";
+    case "WRONG_ANSWER":
+      return "Wrong Answer";
+    default:
+      return status;
+  }
+};

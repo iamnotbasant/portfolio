@@ -23,11 +23,18 @@ import EditProblem from "./pages/EditProblem";
 import { ProblemPage } from "./pages/ProblemPage";
 import { Loader } from "./components/Loader";
 import RevisionProblems from "./pages/RevisionProblems";
+import { useThemeStore } from "./store/useThemeStore";
 
 // Separate component to handle location and auth state
 function AppRoutes() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
   const location = useLocation();
+  const { initializeTheme } = useThemeStore();
+
+  // Initialize theme on first render
+  useEffect(() => {
+    initializeTheme();
+  }, [initializeTheme]);
 
   useEffect(() => {
     checkAuth();

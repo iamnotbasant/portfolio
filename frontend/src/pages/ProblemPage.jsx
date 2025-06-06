@@ -31,10 +31,12 @@ import "../styles/ProblemPage.css";
 import Submission from "../components/Submission";
 import SubmissionsList from "../components/SubmissionList";
 import AIChatPanel from "../components/AiChatPanel.jsx";
+import { Loader } from "../components/Loader.jsx";
 import { RoomProvider } from "../libs/liveblocks.js";
 import CollaborativeEditor from "../components/CollaborativeEditor";
 import { Toast } from "../store/useToastStore";
 import { useAuthStore } from "../store/useAuthStore.js";
+import { formatSubmissionStatus } from "../libs/utils";
 
 export const ProblemPage = () => {
   const { id } = useParams();
@@ -478,6 +480,9 @@ export const ProblemPage = () => {
         </div>
       </nav>
 
+      {isExecuting ? <Loader /> : <div></div>}
+      {isSubmitting ? <Loader /> : <div></div>}
+
       <div className="mx-auto p-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
           <div className="bg-base-100 shadow-xl">
@@ -595,11 +600,7 @@ export const ProblemPage = () => {
                     onClick={handleRunCode}
                     disabled={isExecuting || isSubmitting}
                   >
-                    {isExecuting ? (
-                      <span className="loading loading-spinner loading-sm"></span>
-                    ) : (
-                      <Play className="w-4 h-4" />
-                    )}
+                    <Play className="w-4 h-4" />
                     Run Code
                   </button>
                   <button
@@ -607,11 +608,7 @@ export const ProblemPage = () => {
                     onClick={handleSubmitSolution}
                     disabled={isExecuting || isSubmitting}
                   >
-                    {isSubmitting ? (
-                      <span className="loading loading-spinner loading-sm"></span>
-                    ) : (
-                      <Code2 className="w-4 h-4" />
-                    )}
+                    <Code2 className="w-4 h-4" />
                     Submit Solution
                   </button>
                 </div>
