@@ -109,18 +109,18 @@ const RevisionProblems = () => {
   const getDifficultyClass = (difficulty) => {
     switch (difficulty) {
       case "EASY":
-        return "bg-emerald-900/60 text-emerald-400 border border-emerald-700";
+        return "dark:bg-emerald-900/60 bg-emerald-200/60 dark:text-emerald-400 text-emerald-600 border border-emerald-700";
       case "MEDIUM":
-        return "bg-amber-900/60 text-amber-400 border border-amber-700";
+        return "dark:bg-amber-900/60 bg-amber-200/60 dark:text-amber-400 text-amber-600 border border-amber-700";
       case "HARD":
-        return "bg-red-900/60 text-red-300 border border-red-700";
+        return "dark:bg-red-900/60 bg-red-200/60 dark: text-red-200 border border-red-700";
       default:
         return "bg-gray-900/60 text-gray-300 border border-gray-700";
     }
   };
 
   return (
-    <div className="bg-[#101010] dashboard-container min-h-screen mx-auto">
+    <div className="dashboard-container min-h-screen mx-auto">
       <div className="max-w-[1200px] mx-auto">
         <Navbar />
         <Sidebar />
@@ -128,12 +128,12 @@ const RevisionProblems = () => {
         <div className="my-4">
           <Link
             to="/dashboard"
-            className="text-white/80 hover:text-white transition-all duration-300 ease-in-out flex items-center gap-2 mb-4 neue-reg"
+            className="dark:text-white/80 dark:hover:text-white text-black/80 hover:text-black transition-all duration-300 ease-in-out flex items-center gap-2 mb-4 neue-reg"
           >
             <ArrowLeft size={18} />
             <span>Back to Dashboard</span>
           </Link>
-          <h1 className="text-white text-4xl neue-med text-center">
+          <h1 className="dark:text-white text-black text-4xl neue-med text-center">
             Saved Problems for Revision
           </h1>
         </div>
@@ -158,7 +158,7 @@ const RevisionProblems = () => {
                   companyTags: "",
                 })
               }
-              className="px-3 py-1 text-sm bg-transparent hover:bg-gray-700/20 text-white/80 hover:text-white rounded border border-red-700 transition-all duration-200 flex items-center gap-2 neue-reg"
+              className="px-3 py-1 text-sm bg-transparent hover:bg-gray-700/20 dark:text-white/80 dark:hover:text-white text-black/80 hover:text-black rounded border border-red-700 transition-all duration-200 flex items-center gap-2 neue-reg"
             >
               Clear Filters
             </button>
@@ -177,13 +177,13 @@ const RevisionProblems = () => {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="relative">
                 <Search
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 dark:text-white/50 text-black/50"
                   size={16}
                 />
                 <input
                   type="text"
                   placeholder="Search problems..."
-                  className="pl-10 px-4 py-2 text-white filter-input w-full"
+                  className="pl-10 px-4 py-2 dark:text-white text-black filter-input w-full"
                   value={filters.search}
                   onChange={(e) =>
                     setFilters({ ...filters, search: e.target.value })
@@ -192,17 +192,21 @@ const RevisionProblems = () => {
               </div>
 
               <select
-                className="px-4 py-2 text-white filter-input"
+                className="px-4 py-2 dark:text-white text-black filter-input"
                 value={filters.tags}
                 onChange={(e) =>
                   setFilters({ ...filters, tags: e.target.value })
                 }
               >
-                <option className="bg-black/90" value="">
+                <option className="dark:bg-black/90 bg-white/90" value="">
                   All Tags
                 </option>
                 {allTags.map((tag) => (
-                  <option className="bg-black/90" key={tag} value={tag}>
+                  <option
+                    className="dark:bg-black/90 bg-white/90"
+                    key={tag}
+                    value={tag}
+                  >
                     {tag}
                   </option>
                 ))}
@@ -215,32 +219,36 @@ const RevisionProblems = () => {
                   setFilters({ ...filters, difficulty: e.target.value })
                 }
               >
-                <option className="bg-black/90" value="">
+                <option className="dark:bg-black/90 bg-white/90" value="">
                   All Difficulties
                 </option>
-                <option className="bg-black/90" value="EASY">
+                <option className="dark:bg-black/90 bg-white/90" value="EASY">
                   Easy
                 </option>
-                <option className="bg-black/90" value="MEDIUM">
+                <option className="dark:bg-black/90 bg-white/90" value="MEDIUM">
                   Medium
                 </option>
-                <option className="bg-black/90" value="HARD">
+                <option className="dark:bg-black/90 bg-white/90" value="HARD">
                   Hard
                 </option>
               </select>
 
               <select
-                className="px-4 py-2 text-white filter-input"
+                className="px-4 py-2 dark:text-white text-black filter-input"
                 value={filters.companyTags}
                 onChange={(e) =>
                   setFilters({ ...filters, companyTags: e.target.value })
                 }
               >
-                <option className="bg-black/90" value="">
+                <option className="dark:bg-black/90 bg-white/90" value="">
                   All Companies
                 </option>
                 {allCompanyTags.map((tag) => (
-                  <option className="bg-black/90" key={tag} value={tag}>
+                  <option
+                    className="dark:bg-black/90 bg-white/90"
+                    key={tag}
+                    value={tag}
+                  >
                     {tag}
                   </option>
                 ))}
@@ -254,12 +262,12 @@ const RevisionProblems = () => {
             <Loader />
           </div>
         ) : revisionProblemsWithDetails.length === 0 ? (
-          <div className="bg-black/20 p-8 rounded-xl border border-white/10 text-center profile-component-card">
-            <BookmarkCheck className="w-12 h-12 text-white/80 mx-auto mb-4 opacity-50" />
-            <h3 className="text-xl font-medium text-white mb-2 neue-med">
+          <div className="dark:bg-black/20 bg-white/20 p-8 rounded-xl border dark:border-white/10 border-black/10 text-center profile-component-card">
+            <BookmarkCheck className="w-12 h-12 dark:text-white/80 text-black/80 mx-auto mb-4 opacity-50" />
+            <h3 className="text-xl font-medium dark:text-white text-black mb-2 neue-med">
               No problems saved for revision
             </h3>
-            <p className="text-white/60 mb-6 neue-reg">
+            <p className="dark:text-white/60 text-black/60 mb-6 neue-reg">
               When you find problems you want to revise later, save them for
               quick access.
             </p>
@@ -268,12 +276,12 @@ const RevisionProblems = () => {
             </Link>
           </div>
         ) : filteredProblems.length === 0 ? (
-          <div className="bg-black/20 p-8 rounded-lg border border-white/10 text-center">
-            <Filter className="w-12 h-12 text-white/80 mx-auto mb-4 opacity-50" />
-            <h3 className="text-xl font-medium text-white mb-2 neue-med">
+          <div className="dark:bg-black/20 bg-white/20  p-8 rounded-lg border dark:border-white/10 border-black/10 text-center">
+            <Filter className="w-12 h-12 dark:text-white/80 text-black/80 mx-auto mb-4 opacity-50" />
+            <h3 className="text-xl font-medium dark:text-white text-black mb-2 neue-med">
               No matching problems found
             </h3>
-            <p className="text-white/60 mb-6 neue-reg">
+            <p className="dark:text-white/60 text-black/60 mb-6 neue-reg">
               Try adjusting your filter criteria to find more problems.
             </p>
           </div>
@@ -284,23 +292,33 @@ const RevisionProblems = () => {
             className="table-card"
           >
             <table className="w-full">
-              <thead>
+              <thead className="neue-med">
                 <tr className="border-b border-white/30">
-                  <th className="text-left py-2 text-white/80">Problem</th>
-                  <th className="text-left py-2 text-white/80">Difficulty</th>
-                  <th className="text-left py-2 text-white/80">Tags</th>
-                  <th className="text-left py-2 text-white/80">Company</th>
-                  <th className="text-right py-2 text-white/80">Actions</th>
+                  <th className="text-left py-2 dark:text-white/80 text-black/80">
+                    Problem
+                  </th>
+                  <th className="text-left py-2 dark:text-white/80 text-black/80">
+                    Difficulty
+                  </th>
+                  <th className="text-left py-2 dark:text-white/80 text-black/80">
+                    Tags
+                  </th>
+                  <th className="text-left py-2 dark:text-white/80 text-black/80">
+                    Company
+                  </th>
+                  <th className="text-right py-2 dark:text-white/80 text-black/80">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {filteredProblems.map((item) => (
                   <tr
                     key={item.id}
-                    className="border-b border-white/30 hover:bg-white/10 cursor-pointer"
+                    className="border-b dark:border-white/30 border-black/30 hover:bg-white/10 dark:hover:bg-white/10 cursor-pointer"
                     onClick={() => navigate(`/problem/${item.problemId}`)}
                   >
-                    <td className="py-4 font-medium text-white">
+                    <td className="py-4 font-medium dark:text-white text-black">
                       {item.problemDetails?.title || "Loading..."}
                     </td>
                     <td className="py-4">
@@ -325,7 +343,7 @@ const RevisionProblems = () => {
                       {item.problemDetails?.tags?.map((tag) => (
                         <span
                           key={tag}
-                          className="bg-white/10 px-2 py-1 rounded-full text-sm text-white mr-2"
+                          className="dark:bg-white/10 bg-black/10 px-2 py-1 rounded-full text-sm dark:text-white text-black mr-2"
                         >
                           {tag}
                         </span>
@@ -362,7 +380,10 @@ const RevisionProblems = () => {
                           className="p-1.5 hover:bg-emerald-900/30 rounded-full transition-colors"
                           title="Remove from revision"
                         >
-                          <BookmarkCheck size={16} className="text-white" />
+                          <BookmarkCheck
+                            size={16}
+                            className="dark:text-white text-black"
+                          />
                         </button>
                         <Link
                           to={`/problem/${item.problemId}`}

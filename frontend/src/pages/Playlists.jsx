@@ -9,14 +9,14 @@ import Sidebar from "../components/Sidebar";
 
 const Playlists = () => {
   return (
-    <div className="bg-[#101010] dashboard-container min-h-screen mx-auto">
+    <div className="dashboard-container min-h-screen mx-auto">
       <div className="max-w-[1200px] mx-auto">
         <Navbar />
         <Sidebar />
         <div className="my-4">
           <Link
             to="/dashboard"
-            className="text-white/80 hover:text-white transition-all duration-300 ease-in-out flex items-center gap-2 mb-4 neue-reg"
+            className="dark:text-white/80 text-black/80 dark:hover:text-white hover:text-black  transition-all duration-300 ease-in-out flex items-center gap-2 mb-4 neue-reg"
           >
             <ArrowLeft size={18} />
             <span>Back to Dashboard</span>

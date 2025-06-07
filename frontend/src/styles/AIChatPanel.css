@@ -197,7 +197,7 @@
 }
 
 .cp-svg {
-  color: white !important;
+  color: var(--color-text-primary) !important;
 }
 
 /* Additional neon glow effects */

@@ -89,10 +89,10 @@ const PlaylistProfile = () => {
       {playlists.length === 0 ? (
         <div className="empty-state">
           <div className="empty-state-icon">📚</div>
-          <h3 className="text-xl font-medium text-white mb-2 neue-med">
+          <h3 className="text-xl font-medium dark:text-white text-black mb-2 neue-med">
             No playlists found
           </h3>
-          <p className="text-white/70 mb-4 neue-reg">
+          <p className="dark:text-white/70 text-black/70 mb-4 neue-reg">
             Create your first playlist to organize problems!
           </p>
           <button
@@ -121,12 +121,12 @@ const PlaylistProfile = () => {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-xl font-bold neue-med text-white">
+                    <h3 className="text-xl font-bold neue-med dark:text-white text-black">
                       {playlist.name}
                     </h3>
                   </div>
                   <motion.button
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="dark:text-white/70 text-black/70 dark:hover:text-white hover:text-black transition-colors"
                     animate={{
                       rotate: expandedPlaylist === playlist.id ? 180 : 0,
                     }}
@@ -138,7 +138,9 @@ const PlaylistProfile = () => {
 
                 {/* Description */}
                 {playlist.description && (
-                  <p className="text-white/60">{playlist.description}</p>
+                  <p className="dark:text-white/60 text-black/60">
+                    {playlist.description}
+                  </p>
                 )}
               </div>
 
@@ -147,7 +149,7 @@ const PlaylistProfile = () => {
                 {expandedPlaylist === playlist.id && (
                   <motion.div
                     key={`playlist-${playlist.id}`} // Important: unique key
-                    className="mt-4 pt-4 border-t border-white/10 overflow-hidden"
+                    className="mt-4 pt-4 border-t dark:border-white/10 border-black/10 overflow-hidden"
                     initial={{
                       opacity: 0,
                       height: 0,
@@ -174,7 +176,7 @@ const PlaylistProfile = () => {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3, delay: 0.1 }}
                     >
-                      <div className="flex items-center gap-4 mt-1 text-sm text-white/60">
+                      <div className="flex items-center gap-4 mt-1 text-sm dark:text-white/60 text-black/60">
                         <div className="flex items-center gap-1 neue-reg">
                           <List size={14} />
                           <span>{playlist.problems?.length || 0} problems</span>
@@ -185,13 +187,13 @@ const PlaylistProfile = () => {
                         </div>
                       </div>
 
-                      <h4 className="text-lg mb-3 text-white neue-med">
+                      <h4 className="text-lg mb-3 dark:text-white text-black neue-med">
                         Problems in this playlist
                       </h4>
 
                       {!playlist.problems || playlist.problems.length === 0 ? (
                         <motion.div
-                          className="p-4 bg-black/20 rounded-lg border border-white/5 text-white/60"
+                          className="p-4 dark:bg-black/20 bg-white/20 rounded-lg border dark:border-white/5 border-black/5 dark:text-white/60 text-black/60"
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{ delay: 0.2 }}
@@ -208,16 +210,16 @@ const PlaylistProfile = () => {
                           <table className="profile-table w-full">
                             <thead>
                               <tr>
-                                <th className="text-left py-2 text-white/80 neue-med">
+                                <th className="text-left py-2 dark:text-white/80 text-black/80 neue-med">
                                   Problem
                                 </th>
-                                <th className="text-left py-2 text-white/80 neue-med">
+                                <th className="text-left py-2 dark:text-white/80 text-black/80 neue-med">
                                   Difficulty
                                 </th>
-                                <th className="text-left py-2 text-white/80 neue-med">
+                                <th className="text-left py-2 dark:text-white/80 text-black/80 neue-med">
                                   Tags
                                 </th>
-                                <th className="text-left py-2 text-white/80 neue-med">
+                                <th className="text-left py-2 dark:text-white/80 text-black/80 neue-med">
                                   Action
                                 </th>
                               </tr>
@@ -230,7 +232,7 @@ const PlaylistProfile = () => {
                                   animate={{ opacity: 1, x: 0 }}
                                   transition={{ delay: 0.3 + index * 0.05 }}
                                 >
-                                  <td className="font-medium text-white">
+                                  <td className="font-medium dark:text-white text-black">
                                     {item.problem.title}
                                   </td>
                                   <td>
