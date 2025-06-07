@@ -126,6 +126,10 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
     navigate(`/problem/edit/${problemId}`);
   };
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
+
   return (
     <div>
       {/* filters  */}
