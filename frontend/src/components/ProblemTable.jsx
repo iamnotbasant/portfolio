@@ -235,7 +235,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
           <tbody>
             {currentItems.map((problem) => {
               const isSolved = problem.solvedBy.some(
-                (user) => user.id === authUser?.id
+                (solvedRecord) => solvedRecord.userId === authUser?.id
               );
 
               const isMarkedForRevision = isInRevision(problem.id);
@@ -274,18 +274,31 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                   <td>
                     <div className="flex flex-wrap gap-1">
                       {problem.companyTags && problem.companyTags.length > 0 ? (
-                        problem.companyTags.map((company, index) => (
-                          <div
-                            key={index}
-                            className="profile-pill pill-primary flex items-center gap-1"
-                          >
-                            {company ? (
-                              <span className="text-xs">{company}</span>
-                            ) : (
-                              <span className="text-xs">N/A</span>
-                            )}
-                          </div>
-                        ))
+                        <>
+                          {problem.companyTags
+                            .slice(0, 2)
+                            .map((company, index) => (
+                              <div
+                                key={index}
+                                className="profile-pill pill-primary flex items-center gap-1 max-w-20 truncate"
+                                title={company}
+                              >
+                                <span className="text-xs truncate">
+                                  {company}
+                                </span>
+                              </div>
+                            ))}
+                          {problem.companyTags.length > 2 && (
+                            <div
+                              className="profile-pill pill-secondary flex items-center gap-1"
+                              title={problem.companyTags.slice(2).join(", ")}
+                            >
+                              <span className="text-xs">
+                                +{problem.companyTags.length - 2}
+                              </span>
+                            </div>
+                          )}
+                        </>
                       ) : (
                         <div className="profile-pill pill-primary flex items-center gap-1">
                           <span className="text-xs">N/A</span>
@@ -374,7 +387,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
           className={`neue-med transition-colors duration-200 ease-in-out ${
             currentPage === 1
               ? "dark:text-white/40 text-black/40 cursor-not-allowed"
-              : "dark:text-white/80 text-black/80 hover:text-white"
+              : "dark:text-white/80 text-black/80 hover:text-white cursor-pointer"
           }`}
           disabled={currentPage === 1}
           onClick={() => setCurrentPage((prev) => prev - 1)}
@@ -388,7 +401,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
           className={`neue-med transition-colors duration-200 ease-in-out ${
             currentPage === totalPages
               ? "dark:text-white/40 text-black/40 cursor-not-allowed"
-              : "dark:text-white/80 text-black/80 hover:text-white"
+              : "dark:text-white/80 text-black/80 hover:text-white cursor-pointer"
           }`}
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage((prev) => prev + 1)}
