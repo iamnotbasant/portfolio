@@ -347,7 +347,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                       {isMarkedForRevision ? (
                         <ion-icon
                           style={{
-                            color: "#fff",
+                            color: "var(--color-text-primary",
                             fontSize: "1.1em",
                           }}
                           name="bookmark"
@@ -355,7 +355,7 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                       ) : (
                         <ion-icon
                           style={{
-                            color: "#fff",
+                            color: "var(--color-text-primary",
                             fontSize: "1.1em",
                           }}
                           name="bookmark-outline"
