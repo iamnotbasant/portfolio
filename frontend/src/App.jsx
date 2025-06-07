@@ -31,7 +31,6 @@ function AppRoutes() {
   const location = useLocation();
   const { initializeTheme } = useThemeStore();
 
-  // Initialize theme on first render
   useEffect(() => {
     initializeTheme();
   }, [initializeTheme]);

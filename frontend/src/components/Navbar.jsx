@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import logo from "../assets/images/logo2.png";
 import { useStreak } from "../store/useStreak";
 import { useSubmissionStore } from "../store/useSubmissionStore";
+import Switch from "./Switch";
 
 export const Navbar = () => {
   const { authUser, logout } = useAuthStore();
@@ -50,6 +51,7 @@ export const Navbar = () => {
         </Link>
 
         <div className="flex items-center gap-4">
+          <Switch />
           <p className="text-sm  neue-reg">
             {!isAdmin && (
               <span className="neue-reg">{currentStreak} day streak 🔥</span>

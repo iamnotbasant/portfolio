@@ -2,7 +2,6 @@ import React from "react";
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import { useNavigate, Link } from "react-router-dom";
-import ThemeToggle from "../components/ThemeToggle";
 
 export const Sidebar = () => {
   const { logout } = useAuthStore();
@@ -56,7 +55,6 @@ export const Sidebar = () => {
         </div>
 
         <div className="sidebar-footer">
-          <ThemeToggle />
           <button onClick={handleLogout} className="sidebar-logout">
             <span className="sidebar-icon">🚪</span>
             <span className="sidebar-text">Logout</span>
