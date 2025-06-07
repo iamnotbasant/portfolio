@@ -55,9 +55,9 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export function getLanguageName(languageId) {
   const languageMap = {
-    71: "Python",
-    63: "JavaScript",
-    62: "Java",
+    71: "PYTHON",
+    63: "JAVASCRIPT",
+    62: "JAVA",
   };
-  return languageMap[languageId] || "Unknown Language";
+  return languageMap[languageId] || "UNKNOWN";
 }

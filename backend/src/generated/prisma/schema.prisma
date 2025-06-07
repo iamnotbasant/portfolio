@@ -80,6 +80,7 @@ model Submission {
   problemId     String
   userId        String
   sourceCode    Json
+  language      String
   stdin         String?
   stdout        String?
   stderr        String?

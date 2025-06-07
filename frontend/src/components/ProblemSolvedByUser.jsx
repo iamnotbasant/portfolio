@@ -299,7 +299,7 @@ const ProblemSolvedByUser = () => {
                   </td>
                   <td className="text-right">
                     <Link
-                      to={`/problems/${problem.id}`}
+                      to={`/problem/${problem.id}`}
                       className="profile-btn profile-btn-outline inline-flex items-center gap-1 py-1 px-2 text-xs"
                     >
                       <ExternalLink size={14} /> View

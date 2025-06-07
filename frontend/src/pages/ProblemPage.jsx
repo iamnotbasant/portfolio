@@ -52,6 +52,7 @@ export const ProblemPage = () => {
   const [isCollaborative, setIsCollaborative] = useState(false);
   const [collaborationUrl, setCollaborationUrl] = useState("");
   const [sessionId, setSessionId] = useState("");
+  const [userSolvedCode, setUserSolvedCode] = useState(null);
   const { authUser } = useAuthStore();
 
   const { isExecuting, executeCode, isSubmitting, submission } =
@@ -147,21 +148,82 @@ export const ProblemPage = () => {
     }
   }, [activeTab, id, getSubmissionForProblem]);
 
+  const getUserAcceptedCode = (submissions, language) => {
+    if (!submissions || !Array.isArray(submissions)) {
+      return null;
+    }
+
+    // Find the most recent accepted submission for the current language
+    const acceptedSubmission = submissions
+      .filter((sub) => {
+        const isAccepted =
+          sub.status === "ACCEPTED" || sub.status === "Accepted";
+        const isCorrectLanguage = sub.language === language;
+        return isAccepted && isCorrectLanguage && sub.sourceCode;
+      })
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+
+    // Extract source code - handle both string and object formats
+    if (acceptedSubmission?.sourceCode) {
+      if (typeof acceptedSubmission.sourceCode === "string") {
+        return acceptedSubmission.sourceCode;
+      } else if (acceptedSubmission.sourceCode.code) {
+        return acceptedSubmission.sourceCode.code;
+      }
+    }
+
+    return null;
+  };
+
   // Load code whenever problem or selected language changes
   useEffect(() => {
     if (problem && problem.codeSnippets) {
-      // Make sure we have a default code snippet when problem loads
-      setCode(problem.codeSnippets[selectedLanguage] || "");
+      // Check if user has solved this problem
+      const userAcceptedCode = getUserAcceptedCode(
+        submissions,
+        selectedLanguage
+      );
+
+      if (userAcceptedCode) {
+        // User has solved this problem, use their code
+        setCode(userAcceptedCode);
+        setUserSolvedCode(userAcceptedCode);
+      } else {
+        // User hasn't solved or no submissions, use default template
+        setCode(problem.codeSnippets[selectedLanguage] || "");
+        setUserSolvedCode(null);
+      }
     }
-  }, [problem, selectedLanguage]);
+  }, [problem, selectedLanguage, submissions]);
 
   const handleLanguageChange = (e) => {
     const lang = e.target.value;
     setSelectedLanguage(lang);
-    if (problem?.codeSnippets?.[lang]) {
+
+    // Check if user has solved this problem in the new language
+    const userAcceptedCode = getUserAcceptedCode(submissions, lang);
+
+    if (userAcceptedCode) {
+      setCode(userAcceptedCode);
+      setUserSolvedCode(userAcceptedCode);
+    } else if (problem?.codeSnippets?.[lang]) {
       setCode(problem.codeSnippets[lang]);
+      setUserSolvedCode(null);
     }
   };
+
+  const resetToTemplate = () => {
+    if (problem?.codeSnippets?.[selectedLanguage]) {
+      setCode(problem.codeSnippets[selectedLanguage]);
+      setUserSolvedCode(null);
+    }
+  };
+
+  const isProblemSolved =
+    submissions &&
+    submissions.some(
+      (sub) => sub.status === "ACCEPTED" || sub.status === "Accepted"
+    );
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -369,6 +431,13 @@ export const ProblemPage = () => {
     return colors[hash % colors.length];
   };
 
+  // Add debug info to see the current state
+  console.log("Current state:", {
+    userSolvedCode: !!userSolvedCode,
+    code: code?.substring(0, 50) + "...",
+    submissions: submissions?.length,
+  });
+
   return (
     <div className="min-h-screen problem-page-container">
       <nav className="problem-page-navbar bg-[#e4e4e4] px-4">
@@ -536,20 +605,47 @@ export const ProblemPage = () => {
                 <button className="tab tab-active gap-2">
                   <Terminal className="w-4 h-4" />
                   Code Editor
+                  {/* {isProblemSolved && (
+                    <span className="badge badge-success badge-sm">Solved</span>
+                  )} */}
                 </button>
               </div>
 
-              {isCollaborative && (
-                <div className="bg-base-200 p-2 rounded-md flex items-center justify-between mb-2">
-                  <span className="text-sm truncate max-w-[60%]">
-                    {new URL(collaborationUrl).searchParams.get("session")}
-                  </span>
+              {/* Show notification when user's previous code is loaded */}
+              {userSolvedCode && (
+                <div className="bg-emerald-300/10 border border-emerald-500/20 py-1 px-2 rounded-md flex items-center justify-between my-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-success text-sm">✓</span>
+                    <span className="text-sm text-success font-medium">
+                      Your previous solution loaded
+                    </span>
+                  </div>
                   <button
-                    className="btn btn-sm btn-primary gap-1"
+                    className="btn btn-xs btn-ghost text-success hover:bg-success/20"
+                    onClick={resetToTemplate}
+                    title="Reset to template code"
+                  >
+                    Reset to Template
+                  </button>
+                </div>
+              )}
+
+              {/* Collaboration banner */}
+              {isCollaborative && (
+                <div className="bg-primary/10 border border-primary/20 p-3 rounded-md flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <UserPlus className="w-4 h-4 text-primary" />
+                    <span className="text-sm text-primary font-medium">
+                      Collaborative Mode Active
+                    </span>
+                  </div>
+                  <button
+                    className="btn btn-xs btn-ghost text-primary hover:bg-primary/20"
                     onClick={copyCollaborationLink}
+                    title="Copy collaboration link"
                   >
                     <Copy className="w-3 h-3" />
-                    Copy Link
+                    Share Link
                   </button>
                 </div>
               )}
@@ -601,7 +697,7 @@ export const ProblemPage = () => {
                     disabled={isExecuting || isSubmitting}
                   >
                     <Play className="w-4 h-4" />
-                    Run Code
+                    {isExecuting ? "Running..." : "Run Code"}
                   </button>
                   <button
                     className="btn btn-success gap-2"
@@ -609,7 +705,7 @@ export const ProblemPage = () => {
                     disabled={isExecuting || isSubmitting}
                   >
                     <Code2 className="w-4 h-4" />
-                    Submit Solution
+                    {isSubmitting ? "Submitting..." : "Submit Solution"}
                   </button>
                 </div>
               </div>

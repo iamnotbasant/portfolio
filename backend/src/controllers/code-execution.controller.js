@@ -92,7 +92,7 @@ export const executeCode = async (req, res) => {
           userId,
           problemId,
           sourceCode: { code: source_code },
-          language: getLanguageName[languageId],
+          language: getLanguageName(languageId),
           stdin: stdin.join("\n"),
           stdout: JSON.stringify(
             detailedResults.map((result) => result.stdout)
