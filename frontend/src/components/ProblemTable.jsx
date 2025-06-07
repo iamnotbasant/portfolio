@@ -210,6 +210,9 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
           <thead>
             <tr className="border-b border-white/30">
               <th className="text-left py-2 text-black/80 dark:text-white/80 neue-med">
+                Sno.
+              </th>
+              <th className="text-left py-2 text-black/80 dark:text-white/80 neue-med">
                 Status
               </th>
               <th className="text-left py-2 text-black/80 dark:text-white/80 neue-med">
@@ -241,6 +244,11 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                   key={problem.id}
                   className="border-b border-white/30 hover:bg-white/10 "
                 >
+                  <td className="py-2">
+                    <span className="text-black/80 dark:text-white/80">
+                      {startIndex + currentItems.indexOf(problem) + 1}
+                    </span>
+                  </td>
                   <td className="py-2">
                     {isSolved ? (
                       <span className="text-green-500">☑️</span>
