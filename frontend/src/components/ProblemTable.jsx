@@ -69,22 +69,28 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
   const filteredProblems = useMemo(() => {
     if (!Array.isArray(problems)) return [];
 
-    return problems.filter((problem) => {
-      const matchesSearch =
-        filters.search === "" ||
-        problem.title.toLowerCase().includes(filters.search.toLowerCase());
-      const matchesTags =
-        filters.tags === "" || problem.tags?.includes(filters.tags);
-      const matchesCompanyTags =
-        filters.companyTags === "" ||
-        problem.companyTags?.includes(filters.companyTags);
-      const matchesDifficulty =
-        filters.difficulty === "" || problem.difficulty === filters.difficulty;
+    return problems
+      .filter((problem) => {
+        const matchesSearch =
+          filters.search === "" ||
+          problem.title.toLowerCase().includes(filters.search.toLowerCase());
+        const matchesTags =
+          filters.tags === "" || problem.tags?.includes(filters.tags);
+        const matchesCompanyTags =
+          filters.companyTags === "" ||
+          problem.companyTags?.includes(filters.companyTags);
+        const matchesDifficulty =
+          filters.difficulty === "" ||
+          problem.difficulty === filters.difficulty;
 
-      return (
-        matchesSearch && matchesTags && matchesDifficulty && matchesCompanyTags
-      );
-    });
+        return (
+          matchesSearch &&
+          matchesTags &&
+          matchesDifficulty &&
+          matchesCompanyTags
+        );
+      })
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   }, [problems, filters]);
 
   const itemsPerPage = 8;
@@ -262,14 +268,17 @@ const ProblemTable = ({ problems, onProblemDeleted }) => {
                     <Link to={`/problem/${problem.id}`}>{problem.title}</Link>
                   </td>
                   <td className="py-2">
-                    {problem.tags?.map((tag) => (
-                      <span
-                        key={tag}
-                        className="bg-white/10 px-2 py-1 rounded-full text-sm text-black dark:text-white  mr-2"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    <div className="flex flex-wrap gap-2">
+                      {problem.tags?.map((tag) => (
+                        <span
+                          key={tag}
+                          className="bg-white/10 px-2 py-1 rounded-full text-sm text-black dark:text-white max-w-20 truncate inline-block"
+                          title={tag}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </td>
                   <td>
                     <div className="flex flex-wrap gap-1">
