@@ -94,7 +94,7 @@ const ProblemSolvedByUser = () => {
           <Award className="w-5 h-5 text-red-500" /> Problems Solved
         </h2>
         <Link
-          to="/problems"
+          to="/dashboard"
           className="profile-btn profile-btn-primary flex items-center gap-1"
         >
           <ExternalLink size={16} /> Browse Problems
@@ -242,7 +242,7 @@ const ProblemSolvedByUser = () => {
             Start solving problems to see them listed here!
           </p>
           <Link
-            to="/problems"
+            to="/dashboard"
             className="profile-btn profile-btn-primary inline-flex items-center gap-2"
           >
             <ExternalLink size={16} /> View Problems
