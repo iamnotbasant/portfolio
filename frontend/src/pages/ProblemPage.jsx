@@ -37,6 +37,7 @@ import CollaborativeEditor from "../components/CollaborativeEditor";
 import { Toast } from "../store/useToastStore";
 import { useAuthStore } from "../store/useAuthStore.js";
 import { formatSubmissionStatus } from "../libs/utils";
+import { useThemeStore } from "../store/useThemeStore.js";
 
 export const ProblemPage = () => {
   const { id } = useParams();
@@ -54,6 +55,7 @@ export const ProblemPage = () => {
   const [sessionId, setSessionId] = useState("");
   const [userSolvedCode, setUserSolvedCode] = useState(null);
   const { authUser } = useAuthStore();
+  const { theme } = useThemeStore();
 
   const { isExecuting, executeCode, isSubmitting, submission } =
     useExecutionStore();
@@ -409,7 +411,9 @@ export const ProblemPage = () => {
       Toast.error("Failed to copy link to clipboard");
     }
   };
-
+  const getEditorTheme = () => {
+    return theme === "light" ? "vs-light" : "vs-dark";
+  };
   // Get random color based on user ID
   const getRandomColor = (id) => {
     const colors = [
@@ -666,7 +670,7 @@ export const ProblemPage = () => {
                     <CollaborativeEditor
                       height="100%"
                       language={selectedLanguage.toLowerCase()}
-                      theme="vs-dark"
+                      theme={getEditorTheme()}
                       value={code}
                       onChange={(value) => setCode(value || "")}
                       roomId={sessionId}
@@ -676,7 +680,7 @@ export const ProblemPage = () => {
                   <Editor
                     height={"100%"}
                     language={selectedLanguage.toLowerCase()}
-                    theme="vs-dark"
+                    theme={getEditorTheme()}
                     value={code}
                     onChange={(value) => setCode(value || "")}
                     options={{

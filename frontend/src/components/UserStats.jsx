@@ -68,7 +68,7 @@ const UserStats = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="dash-card"
+      className="profile-component-card p-4"
     >
       <div className="flex flex-col">
         <h3 className="text-2xl dark:text-white text-black neue-med mb-4 flex items-center gap-2">

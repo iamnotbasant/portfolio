@@ -14,11 +14,13 @@ import {
   FileCode,
 } from "lucide-react";
 import { formatSubmissionStatus } from "../libs/utils";
+import { useThemeStore } from "../store/useThemeStore";
 
 const ProfileSubmission = () => {
   const { submissions, getAllSubmissions } = useSubmissionStore();
   const [expandedSubmission, setExpandedSubmission] = useState(null);
   const [filter, setFilter] = useState("all");
+  const { theme } = useThemeStore();
 
   useEffect(() => {
     getAllSubmissions();
@@ -91,6 +93,10 @@ const ProfileSubmission = () => {
     []
   );
 
+  const getEditorTheme = () => {
+    return theme === "light" ? "vs-light" : "vs-dark";
+  };
+
   // Memoized computed values
   const computedValues = useMemo(() => {
     const filteredSubmissions = submissions.filter(
@@ -157,7 +163,7 @@ const ProfileSubmission = () => {
           <Editor
             height="400px"
             language={helpers.getEditorLanguage(submission.language)}
-            theme="vs-dark"
+            theme={getEditorTheme()}
             value={helpers.safeValue(
               submission.sourceCode,
               "No code available"
@@ -220,12 +226,14 @@ const ProfileSubmission = () => {
         ].map(({ icon: Icon, color, title, value }) => (
           <div
             key={title}
-            className="flex items-center gap-4 bg-black/20 p-3 rounded-lg border border-white/5"
+            className="flex items-center gap-4 dark:bg-black/20 bg-white/20 p-3 rounded-lg border border-white/5"
           >
             <Icon className={`${color} w-10 h-10`} />
             <div>
-              <div className="text-white/60 text-xs">{title}</div>
-              <div className="text-white text-lg">
+              <div className="dark:text-white/60 text-black/60 text-xs">
+                {title}
+              </div>
+              <div className="dark:text-white text-black text-lg">
                 {helpers.parseJsonValue(value)}
               </div>
             </div>
@@ -267,11 +275,20 @@ const ProfileSubmission = () => {
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="dark:bg-black/20 bg-white/20 dark:text-white text-black border dark:border-white/10 border-black/10 rounded-md py-1 px-3 pr-8 appearance-none focus:outline-none focus:border-red-500/50 w-full"
+              className="px-4 py-2 filter-input"
             >
-              <option value="all">All Submissions</option>
-              <option value="ACCEPTED">Accepted</option>
-              <option value="WRONG_ANSWER">Wrong Answer</option>
+              <option className="dark:bg-black/90 bg-white/90" value="all">
+                All Submissions
+              </option>
+              <option className="dark:bg-black/90 bg-white/90" value="ACCEPTED">
+                Accepted
+              </option>
+              <option
+                className="dark:bg-black/90 bg-white/90"
+                value="WRONG_ANSWER"
+              >
+                Wrong Answer
+              </option>
             </select>
             <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-white/50"></div>
           </div>
@@ -292,7 +309,7 @@ const ProfileSubmission = () => {
             ].map(({ label, value, color }) => (
               <div
                 key={label}
-                className="stat-card dark:bg-black/20 bg-white/20 border border-white/10 rounded-md p-3 text-center"
+                className="flex gap-8 items-center justify-between dark:bg-black/20 bg-white/20 border dark:border-white/10 border-black/10 rounded-md px-3 text-center"
               >
                 <div className="text-xs dark:text-white/60 text-black/60">
                   {label}

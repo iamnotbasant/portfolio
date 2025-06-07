@@ -66,11 +66,7 @@ const Profile = () => {
             {/* Profile Header */}
             <div className="flex flex-col md:flex-row items-center gap-8">
               {/* Avatar */}
-              <motion.div
-                className="profile-avatar"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300, damping: 15 }}
-              >
+              <motion.div className="profile-avatar">
                 <div>
                   <div className="sm:w-24 sm:h-24 relative overflow-hidden w-0 h-0 rounded-lg bg-[#0001] pfp transition-all duration-300 ease-in-out">
                     <span className="absolute -bottom-3 right-0 text-7xl">
@@ -90,47 +86,51 @@ const Profile = () => {
                 <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-black to-gray-600 dark:from-white dark:to-gray-400 neue-med">
                   {authUser.name}
                 </h2>
-                <div>{authUser.role}</div>
+                <div className="neue-reg text-sm">{authUser.role}</div>
               </div>
             </div>
 
             <div className="profile-divider"></div>
 
             {/* User Information */}
-            <div className="grid grid-cols-1 gap-6">
+            <div className="grid grid-cols-1 gap-6 min-h-[350px]">
               {/* Email */}
-              <motion.div className="profile-stats p-4" variants={itemVariants}>
+              <motion.div
+                className="profile-stats p-2 px-4"
+                variants={itemVariants}
+              >
                 <div className="stat-figure text-primary">
-                  <Mail className="w-8 h-8" />
+                  {/* <Mail className="w-4 h-4" /> */}
                 </div>
-                <div className="stat-title">Email</div>
-                <div className="stat-value text-lg break-all">
+                <div className="neue-reg text-sm">Email</div>
+                <div className="neue-med text-md break-all">
                   {authUser.email}
                 </div>
               </motion.div>
 
               {/* User ID */}
-              <motion.div className="profile-stats p-4" variants={itemVariants}>
+              <motion.div
+                className="profile-stats p-2 px-4"
+                variants={itemVariants}
+              >
                 <div className="stat-figure text-primary">
-                  <User className="w-8 h-8" />
+                  {/* <User className="w-4 h-4" /> */}
                 </div>
-                <div className="stat-title">User ID</div>
-                <div className="stat-value text-sm break-all">
-                  {authUser.id}
-                </div>
+                <div className="neue-reg text-sm">User ID</div>
+                <div className="neue-med text-md break-all">{authUser.id}</div>
               </motion.div>
 
               {/* Role Status */}
-              <motion.div className="profile-stats p-4" variants={itemVariants}>
+              <motion.div
+                className="profile-stats p-2 px-4"
+                variants={itemVariants}
+              >
                 <div className="stat-figure text-primary">
-                  <Shield className="w-8 h-8" />
+                  {/* <Shield className="w-8 h-8" /> */}
                 </div>
-                <div className="stat-title">Role</div>
-                <div className="stat-value text-lg">{authUser.role}</div>
-                <div className="stat-desc">
-                  {authUser.role === "ADMIN"
-                    ? "Full system access"
-                    : "Limited access"}
+                <div className="neue-reg text-sm">Role</div>
+                <div className="neue-med text-md break-all">
+                  {authUser.role}
                 </div>
               </motion.div>
             </div>
@@ -162,11 +162,10 @@ const Profile = () => {
           <SubmissionHeatmap />
 
           <motion.div variants={itemVariants}>
-            <ProfileSubmission />
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
             <ProblemSolvedByUser />
+          </motion.div>
+          <motion.div variants={itemVariants}>
+            <ProfileSubmission />
           </motion.div>
         </motion.div>
       </motion.div>
