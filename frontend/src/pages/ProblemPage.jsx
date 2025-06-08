@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import logo from "../assets/images/logo2.png";
 import aiorb from "../assets/images/ai-orb2.webp";
+import Switch from "../components/Switch.jsx";
 
 import { useProblemStore } from "../store/useProblemStore";
 import { useExecutionStore } from "../store/useExecutionStore";
@@ -263,7 +264,7 @@ export const ProblemPage = () => {
                         <div className="text-indigo-300 mb-2 text-sm font-semibold">
                           Input:
                         </div>
-                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-sm">
+                        <span className="dark:bg-black/90 bg-white/90 px-4 py-1 rounded-lg font-semibold dark:text-white text-black text-sm">
                           {example.input}
                         </span>
                       </div>
@@ -271,7 +272,7 @@ export const ProblemPage = () => {
                         <div className="text-indigo-300 mb-2 text-base font-semibold">
                           Output:
                         </div>
-                        <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white">
+                        <span className="dark:bg-black/90 bg-white/90 px-4 py-1 rounded-lg font-semibold dark:text-white text-black">
                           {example.output}
                         </span>
                       </div>
@@ -295,7 +296,7 @@ export const ProblemPage = () => {
               <>
                 <h3 className="text-xl font-bold mb-4">Constraints:</h3>
                 <div className="bg-base-200 p-3 px-6 rounded-xl mb-6">
-                  <span className="bg-black/90 py-1 rounded-lg font-semibold text-white text-lg">
+                  <span className="py-1 rounded-lg font-semibold dark:text-white text-black">
                     {problem?.constraints}
                   </span>
                 </div>
@@ -317,7 +318,7 @@ export const ProblemPage = () => {
           <div className="p-4">
             {problem?.hints ? (
               <div className="bg-base-200 p-6 rounded-xl">
-                <span className="bg-black/90 px-4 py-1 rounded-lg font-semibold text-white text-lg">
+                <span className="py-1 rounded-lg font-semibold text-black dark:text-white text-lg">
                   {problem.hints}
                 </span>
               </div>
@@ -447,17 +448,22 @@ export const ProblemPage = () => {
     <div className="min-h-screen problem-page-container">
       <nav className="problem-page-navbar bg-[#e4e4e4] px-4">
         <div className="flex-1 gap-2">
-          <div className="flex items-center gap-2">
-            <Link
-              to={"/dashboard"}
-              className="flex items-center gap-2 text-primary mb-2"
-            >
-              <div className="logo w-[50px] h-auto z-50 hover:brightness-200 hover:contrast-150 transition-all duration-400 ease-in-out">
-                <img src={logo} alt="logo" />
-              </div>
-              <ChevronRight className="w-4 h-4" />
-            </Link>
-            <h1 className="text-xl neue-med">{problem?.title}</h1>
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <Link
+                to={"/dashboard"}
+                className="flex items-center gap-2 text-primary mb-2"
+              >
+                <div className="logo w-[50px] h-auto z-50 hover:brightness-200 hover:contrast-150 transition-all duration-400 ease-in-out">
+                  <img src={logo} alt="logo" />
+                </div>
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+              <h1 className="text-xl neue-med">{problem?.title}</h1>
+            </div>
+            <div className="-mt-4">
+              <Switch />
+            </div>
           </div>
           <div className="flex flex-col">
             <div className="flex justify-between">

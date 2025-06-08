@@ -113,7 +113,7 @@ const RevisionProblems = () => {
       case "MEDIUM":
         return "dark:bg-amber-900/60 bg-amber-200/60 dark:text-amber-400 text-amber-600 border border-amber-700";
       case "HARD":
-        return "dark:bg-red-900/60 bg-red-200/60 dark: text-red-200 border border-red-700";
+        return "dark:bg-red-900/60 bg-red-200/60 dark:text-red-200 text-red-600 border border-red-700";
       default:
         return "bg-gray-900/60 text-gray-300 border border-gray-700";
     }
