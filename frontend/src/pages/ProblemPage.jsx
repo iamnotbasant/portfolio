@@ -38,6 +38,7 @@ import { Toast } from "../store/useToastStore";
 import { useAuthStore } from "../store/useAuthStore.js";
 import { formatSubmissionStatus } from "../libs/utils";
 import { useThemeStore } from "../store/useThemeStore.js";
+import Discussion from "../components/Discussion";
 
 export const ProblemPage = () => {
   const { id } = useParams();
@@ -310,7 +311,7 @@ export const ProblemPage = () => {
           />
         );
       case "discussion":
-        return <div className="p-4 text-center ">No discussions yet</div>;
+        return <Discussion problemId={id} />;
       case "hints":
         return (
           <div className="p-4">
@@ -436,11 +437,11 @@ export const ProblemPage = () => {
   };
 
   // Add debug info to see the current state
-  console.log("Current state:", {
-    userSolvedCode: !!userSolvedCode,
-    code: code?.substring(0, 50) + "...",
-    submissions: submissions?.length,
-  });
+  // console.log("Current state:", {
+  //   userSolvedCode: !!userSolvedCode,
+  //   code: code?.substring(0, 50) + "...",
+  //   submissions: submissions?.length,
+  // });
 
   return (
     <div className="min-h-screen problem-page-container">

@@ -42,6 +42,8 @@ model User {
   submissions    Submission[]
   solvedProblems ProblemSolved[]
   Playlists      Playlist[]
+  discussions     Discussion[]
+  discussionLikes DiscussionLike[]
 
   Revision Revision[]
 }
@@ -71,6 +73,7 @@ model Problem {
   submission       Submission[]
   solvedBy         ProblemSolved[]
   problemsPlaylist ProblemPlaylist[]
+  discussions Discussion[]
 
   Revision Revision[]
 }
@@ -172,4 +175,42 @@ model Revision {
 
   @@unique([userId, problemId])
   @@index([userId])
+}
+
+model Discussion {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  problemId String
+  problem   Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  
+  authorId  String
+  author    User    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  // Optional: Parent discussion for replies
+  parentId String?
+  parent   Discussion? @relation("DiscussionReplies", fields: [parentId], references: [id])
+  replies  Discussion[] @relation("DiscussionReplies")
+  
+  // Optional: Likes/votes
+  likes    DiscussionLike[]
+  
+  @@map("discussions")
+}
+
+model DiscussionLike {
+  id           String     @id @default(cuid())
+  createdAt    DateTime   @default(now())
+  
+  discussionId String
+  discussion   Discussion @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+  
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([discussionId, userId])
+  @@map("discussion_likes")
 }

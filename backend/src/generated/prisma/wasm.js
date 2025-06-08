@@ -219,6 +219,23 @@ exports.Prisma.RevisionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DiscussionScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  problemId: 'problemId',
+  authorId: 'authorId',
+  parentId: 'parentId'
+};
+
+exports.Prisma.DiscussionLikeScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  discussionId: 'discussionId',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -262,7 +279,9 @@ exports.Prisma.ModelName = {
   ProblemSolved: 'ProblemSolved',
   Playlist: 'Playlist',
   ProblemPlaylist: 'ProblemPlaylist',
-  Revision: 'Revision'
+  Revision: 'Revision',
+  Discussion: 'Discussion',
+  DiscussionLike: 'DiscussionLike'
 };
 
 /**
