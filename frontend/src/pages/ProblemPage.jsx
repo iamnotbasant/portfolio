@@ -281,7 +281,7 @@ export const ProblemPage = () => {
                           <div className="text-emerald-300 mb-2 text-base font-semibold">
                             Explanation:
                           </div>
-                          <p className=" text-lg font-sem">
+                          <p className="text-md font-sem">
                             {example.explanation}
                           </p>
                         </div>
@@ -315,10 +315,10 @@ export const ProblemPage = () => {
         return <Discussion problemId={id} />;
       case "hints":
         return (
-          <div className="p-4">
+          <div className="">
             {problem?.hints ? (
-              <div className="bg-base-200 p-6 rounded-xl">
-                <span className="py-1 rounded-lg font-semibold text-black dark:text-white text-lg">
+              <div className="bg-base-200 p-3 rounded-xl">
+                <span className="py-1 rounded-lg font-semibold text-black dark:text-white">
                   {problem.hints}
                 </span>
               </div>
