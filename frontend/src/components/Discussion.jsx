@@ -262,7 +262,7 @@ const Discussion = ({ problemId }) => {
             setSortBy(newSortBy);
             setSortOrder(newOrder);
           }}
-          className="dark:bg-black/30 bg-white/30 border dark:border-white/10 border-black/10 rounded-lg px-3 py-2 dark:text-white text-black"
+          className="dark:bg-black/90 bg-white/90 border dark:border-white/10 border-black/10 rounded-lg px-3 py-2 dark:text-white text-black"
         >
           <option value="createdAt-desc">Newest First</option>
           <option value="createdAt-asc">Oldest First</option>
@@ -285,7 +285,6 @@ const Discussion = ({ problemId }) => {
               className="w-full p-4 dark:bg-black/30 bg-white/30 border dark:border-white/10 border-black/10 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white text-black"
               rows={4}
             />
-            {/* Add character counter */}
             <div className="text-xs text-gray-500 text-right">
               {remainingChars} characters remaining
             </div>
@@ -309,25 +308,27 @@ const Discussion = ({ problemId }) => {
         </div>
       )}
 
-      {/* Discussions List */}
-      <div className="space-y-6">
-        {discussions.length === 0 ? (
-          <div className="text-center py-12">
-            <MessageSquare className="w-16 h-16 mx-auto mb-4 opacity-50 dark:text-white/50 text-black/50" />
-            <h3 className="text-lg font-medium dark:text-white text-black mb-2">
-              No discussions yet
-            </h3>
-            <p className="dark:text-white/60 text-black/60">
-              Be the first to start a discussion about this problem!
-            </p>
-          </div>
-        ) : (
-          <AnimatePresence>
-            {discussions.map((discussion) => (
-              <DiscussionCard key={discussion.id} discussion={discussion} />
-            ))}
-          </AnimatePresence>
-        )}
+      {/* Discussions List with height limit and scroll */}
+      <div className="max-h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+        <div className="space-y-6">
+          {discussions.length === 0 ? (
+            <div className="text-center py-12">
+              <MessageSquare className="w-16 h-16 mx-auto mb-4 opacity-50 dark:text-white/50 text-black/50" />
+              <h3 className="text-lg font-medium dark:text-white text-black mb-2">
+                No discussions yet
+              </h3>
+              <p className="dark:text-white/60 text-black/60">
+                Be the first to start a discussion about this problem!
+              </p>
+            </div>
+          ) : (
+            <AnimatePresence>
+              {discussions.map((discussion) => (
+                <DiscussionCard key={discussion.id} discussion={discussion} />
+              ))}
+            </AnimatePresence>
+          )}
+        </div>
       </div>
 
       {/* Pagination */}
