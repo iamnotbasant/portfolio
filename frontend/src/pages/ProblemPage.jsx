@@ -245,7 +245,7 @@ export const ProblemPage = () => {
                       {problem.companyTags.map((company, idx) => (
                         <span
                           key={idx}
-                          className="bg-indigo-900/50 text-indigo-300 px-3 py-1 rounded-full text-sm border border-indigo-800"
+                          className="dark:bg-indigo-900/50 bg-indigo-100/50 dark:text-indigo-300 text-indigo-500 px-3 py-1 rounded-full text-sm border border-indigo-800"
                         >
                           {company}
                         </span>
