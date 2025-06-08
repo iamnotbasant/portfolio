@@ -234,13 +234,13 @@ const Discussion = ({ problemId }) => {
     );
   };
 
-  if (isLoading && discussions.length === 0) {
-    return (
-      <div className="flex justify-center items-center py-12">
-        <Loader />
-      </div>
-    );
-  }
+  // if (isLoading && discussions.length === 0) {
+  //   return (
+  //     <div>
+  //       <Loader />
+  //     </div>
+  //   );
+  // }
 
   // Add character limit
   const MAX_DISCUSSION_LENGTH = 2500;
