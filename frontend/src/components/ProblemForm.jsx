@@ -794,7 +794,7 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
                 <Download size={16} /> Load Sample
               </button>
             </div>
-            <button
+            {/* <button
               type="button"
               className=" relative ai-btn"
               onClick={() => setIsAIModalOpen(true)}
@@ -805,7 +805,7 @@ const ProblemForm = ({ isEditing = false, problemData = null }) => {
                 alt=""
               />
               <span className="ml-8">AI [Experimental]</span>
-            </button>
+            </button> */}
           </div>
         </div>
 
