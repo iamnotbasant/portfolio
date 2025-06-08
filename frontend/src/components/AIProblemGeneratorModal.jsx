@@ -115,9 +115,12 @@ const AIProblemGeneratorModal = ({ isOpen, onClose, onProblemGenerated }) => {
             <div>
               <p className="pill-primary py-2 px-4 rounded-md border-2 mb-4 text-sm">
                 🧪 This feature is wildly experimental. the problem it spits out
-                is 99.9% guaranteed to be wrong and won’t be created. The model
-                isn’t high-end, and the reference solution usually gets rejected
-                by Judge0 for being invalid. So yeah... proceed with caution.
+                is 100% guaranteed to be wrong and won’t be created (but form
+                should get filled). The model isn’t high-end, and the reference
+                solution usually gets rejected by Judge0 for being invalid. So
+                yeah... proceed with caution. <br />
+                Try using Arrays [Topic], Easy [Difficulty], Arrays [Category]
+                and no additional requirements.
               </p>
             </div>
 
