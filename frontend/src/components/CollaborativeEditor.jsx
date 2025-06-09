@@ -6,6 +6,7 @@ import { getYjsProviderForRoom } from "@liveblocks/yjs";
 import { UserAvatar } from "./UserAvatar";
 import { useAuthStore } from "../store/useAuthStore";
 import { Cursors } from "./Cursors";
+import Toolbar from "./Toolbar";
 
 const CollaborativeEditor = ({
   language = "javascript",
@@ -113,6 +114,7 @@ const CollaborativeEditor = ({
     <div className="collaborative-editor-container relative">
       {/* Live cursors */}
       {provider && <Cursors yProvider={provider} />}
+      {editorRef && <Toolbar editor={editorRef} />}
 
       {/* Editor */}
       <div className="h-full w-full">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, Link, useLocation } from "react-router-dom";
 import Editor from "@monaco-editor/react";
 import {
@@ -22,6 +22,7 @@ import {
 import logo from "../assets/images/logo2.png";
 import aiorb from "../assets/images/ai-orb2.webp";
 import Switch from "../components/Switch.jsx";
+import Toolbar from "../components/Toolbar";
 
 import { useProblemStore } from "../store/useProblemStore";
 import { useExecutionStore } from "../store/useExecutionStore";
@@ -58,6 +59,7 @@ export const ProblemPage = () => {
   const [userSolvedCode, setUserSolvedCode] = useState(null);
   const { authUser } = useAuthStore();
   const { theme } = useThemeStore();
+  const [nonCollabEditorRef, setNonCollabEditorRef] = useState(null);
 
   const { isExecuting, executeCode, isSubmitting, submission } =
     useExecutionStore();
@@ -444,6 +446,11 @@ export const ProblemPage = () => {
   //   submissions: submissions?.length,
   // });
 
+  // Handle non-collaborative editor mount
+  const handleNonCollabEditorMount = useCallback((editor) => {
+    setNonCollabEditorRef(editor);
+  }, []);
+
   return (
     <div className="min-h-screen problem-page-container">
       <nav className="problem-page-navbar bg-[#e4e4e4] px-4">
@@ -616,9 +623,6 @@ export const ProblemPage = () => {
                 <button className="tab tab-active gap-2">
                   <Terminal className="w-4 h-4" />
                   Code Editor
-                  {/* {isProblemSolved && (
-                    <span className="badge badge-success badge-sm">Solved</span>
-                  )} */}
                 </button>
               </div>
 
@@ -661,7 +665,7 @@ export const ProblemPage = () => {
                 </div>
               )}
 
-              <div className="h-[450px] w-full">
+              <div className="h-[450px] w-full flex flex-col">
                 {isCollaborative ? (
                   <RoomProvider
                     id={sessionId}
@@ -684,19 +688,31 @@ export const ProblemPage = () => {
                     />
                   </RoomProvider>
                 ) : (
-                  <Editor
-                    height={"100%"}
-                    language={selectedLanguage.toLowerCase()}
-                    theme={getEditorTheme()}
-                    value={code}
-                    onChange={(value) => setCode(value || "")}
-                    options={{
-                      minimap: { enabled: false },
-                      fontSize: 16,
-                      lineNumbers: "on",
-                      automaticLayout: true,
-                    }}
-                  />
+                  <div className="flex flex-col h-full">
+                    {/* Toolbar for non-collaborative editor
+                    {nonCollabEditorRef && (
+                      <Toolbar editor={nonCollabEditorRef} />
+                    )} */}
+
+                    {/* Editor */}
+                    <div className="flex-1">
+                      <Editor
+                        height="100%"
+                        language={selectedLanguage.toLowerCase()}
+                        theme={getEditorTheme()}
+                        value={code}
+                        onChange={(value) => setCode(value || "")}
+                        onMount={handleNonCollabEditorMount}
+                        options={{
+                          minimap: { enabled: false },
+                          fontSize: 16,
+                          lineNumbers: "on",
+                          automaticLayout: true,
+                          scrollBeyondLastLine: false,
+                        }}
+                      />
+                    </div>
+                  </div>
                 )}
               </div>
 
