@@ -178,7 +178,7 @@ arkham-labs/
 
 ### Real-time Collaboration
 
-Experience pair programming like never before. Multiple users can edit code simultaneously with live cursors, syntax highlighting, and conflict resolution.
+Experience pair programming like never before. Multiple users can edit code simultaneously with live cursors, syntax highlighting.
 
 ### Alfred AI Assistant
 
@@ -194,7 +194,7 @@ Your personal coding mentor powered by Groq's Llama models. Alfred provides:
 - **Multiple Languages**: JavaScript, Python, Java support
 - **Custom Test Cases**: Create comprehensive test suites
 - **Difficulty Scaling**: Easy, Medium, Hard categorization
-- **Tag System**: Organize by algorithms and data structures
+- **Tag System**: Organize by algorithms, data structures and companies where the problem was asked
 
 ### Performance Analytics
 
@@ -203,14 +203,14 @@ Track your coding journey with detailed metrics:
 - Submission success rates
 - Average runtime and memory usage
 - Streak tracking and consistency metrics
-- Comparative performance analysis
 
 ## 🏆 Achievements
 
 - **ChaiCode LeetLab Challenge** - Complete full-stack implementation
 - **Learning Journey** - Mastered NGINX, Docker networking, Liveblocks, and Groq API
-- **Creator Recognition** - Featured in Hitesh Sir's reaction video
-- **Performance** - Built during semester exams (ultimate time management test! 😅)
+- **Creator Recognition** - Featured in Hitesh Sir's Project Demo video as a level 3 project (the highest tier!)
+- **Community Engagement** - Received positive feedback from peers and random strangers on Internet
+- **Performance** - Built during semester exams (ultimate time management test! 😭)
 
 <!-- ## 🤝 Contributing
 
@@ -243,16 +243,15 @@ We welcome contributions from fellow vigilantes! Here's how you can help:
 - Collaborative editing may occasionally desync with high latency
 - Mobile responsiveness improvements in progress
 
-
 ## 🙏 Acknowledgments
 
 - **Hitesh Choudhary** - For the ChaiCode challenge and inspiration
-- **DC Comics** - For the incredible Batman universe that inspired this theme
+- **DC Comics** - For the incredible DC universe that inspired this theme
 - **Open Source Community** - For the amazing tools that made this possible
 - **Judge0** - For providing the code execution infrastructure
 - **Liveblocks** - For real-time collaboration capabilities
 
-##  Contact
+## Contact
 
 **Kapil** - [@Kapilovsky](https://twitter.com/Kapilovsky)
 

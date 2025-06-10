@@ -24,7 +24,7 @@
 }
 
 .modal-input::placeholder {
-  color: var(--color-text-secondary);
+  color: var(--placeholder-text);
   font-weight: bold;
 }
 

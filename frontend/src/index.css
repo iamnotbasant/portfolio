@@ -28,6 +28,7 @@
   --color-bg-quaternary: #f9fafb;
   --color-text-primary: #000000;
   --color-text-secondary: #4b5563;
+  --placeholder-text: rgba(0, 0, 0, 0.5);
   --color-accent: #dc2626;
   --color-accent-hover: #b91c1c;
   --color-card-bg: rgba(255, 255, 255, 0.9);
@@ -66,6 +67,7 @@
   --color-bg-quaternary: #291818;
   --color-text-primary: #ffffff;
   --color-text-secondary: #e0e0e0;
+  --placeholder-text: rgba(255, 255, 255, 0.5);
   --color-accent: #dc2626;
   --color-accent-hover: #ef4444;
   --color-card-bg: rgba(26, 26, 26, 0.8);
