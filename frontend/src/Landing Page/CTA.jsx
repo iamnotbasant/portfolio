@@ -112,7 +112,13 @@ export const CTA = () => {
                 whileHover="hover"
                 whileTap="tap"
               >
-                Watch Demo
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://youtu.be/Rczr7Lizdy0?feature=shared"
+                >
+                  Watch Demo
+                </a>
               </motion.button>
             </motion.div>
 
